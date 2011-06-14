@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="jmxpoller">  
+    <xs:complexType>    
+      <xs:sequence>
+        <xs:element maxOccurs="1" ref="formatter"/> 
+        <xs:element maxOccurs="unbounded" ref="jmxserver"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="formatter">
+    <xs:complexType>
+      <xs:attribute name="className"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="jmxserver">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="mbean"/>
+      </xs:sequence>
+      <xs:attribute name="host"  type="xs:string"/>
+      <xs:attribute name="jmxpass" type="xs:string"/>
+      <xs:attribute name="jmxport" type="xs:integer"/>
+      <xs:attribute name="jmxuser" type="xs:string"/>
+      <xs:attribute name="jvmDescription" type="xs:string"/>
+      <xs:attribute name="pid" type="xs:integer"/>
+      <xs:attribute name="pidFile" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="mbean">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="attribute"/>
+      </xs:sequence>
+      <xs:attribute name="domain" use="required" type="xs:string"/>
+      <xs:attribute name="properties" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="attribute">
+    <xs:complexType>
+      <xs:attribute name="name" use="required" type="xs:string"/>
+      <xs:attribute name="outputname" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

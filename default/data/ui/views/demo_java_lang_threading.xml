@@ -1,0 +1,19 @@
+<dashboard>
+<label>Threading</label>
+
+<row>
+
+<chart>
+<title>Thread Counts</title>
+<searchTemplate>index=jmx mbean="java.lang:type=Threading"| timechart span=1m  max(count) as "Current Threads" ,max(peak) as "Peak Threads",max(daemonCount) as "Daemon Threads" by jvmDescription</searchTemplate>
+<option name="charting.chart">line</option>
+<option name="charting.axisTitleY.text">Threads</option> 
+<option name="charting.axisTitleX.text">Time</option>
+<earliestTime>-60m</earliestTime>
+<latestTime>now</latestTime>
+</chart>
+
+</row>
+
+
+</dashboard>

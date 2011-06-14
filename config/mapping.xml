@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+
+<mapping>
+
+	<class name="com.dtdsoftware.splunk.config.JMXPoller">
+		<map-to xml="jmxpoller" />
+
+		<field name="servers" type="com.dtdsoftware.splunk.config.JMXServer"
+			collection="arraylist">
+			<bind-xml name="jmxserver" />
+		</field>
+		
+		<field name="formatter" type="com.dtdsoftware.splunk.config.Formatter">
+			<bind-xml name="formatter" />
+		</field>
+
+	</class>
+
+	<class name="com.dtdsoftware.splunk.config.JMXServer">
+		<map-to xml="jmxserver" />
+
+
+        <field name="processID" type="integer">
+			<bind-xml name="pid" node="attribute" />
+		</field>
+
+		<field name="pidFile" type="java.lang.String">
+			<bind-xml name="pidFile" node="attribute" />
+		</field>
+
+        <field name="host" type="java.lang.String">
+			<bind-xml name="host" node="attribute" />
+		</field>
+
+		<field name="jvmDescription" type="java.lang.String">
+			<bind-xml name="jvmDescription" node="attribute" />
+		</field>
+
+		<field name="jmxuser" type="java.lang.String">
+			<bind-xml name="jmxuser" node="attribute" />
+		</field>
+
+		<field name="jmxpass" type="java.lang.String">
+			<bind-xml name="jmxpass" node="attribute" />
+		</field>
+
+        <field name="jmxport" type="integer">
+			<bind-xml name="jmxport" node="attribute" />
+		</field>
+
+		<field name="mbeans" type="com.dtdsoftware.splunk.config.MBean"
+			collection="arraylist">
+			<bind-xml name="mbean" />
+		</field>
+
+	</class>
+
+
+    <class name="com.dtdsoftware.splunk.config.MBean">
+		<map-to xml="mbean" />
+
+        <field name="domain" type="java.lang.String">
+			<bind-xml name="domain" node="attribute" />
+		</field>
+
+		<field name="propertiesList" type="java.lang.String">
+			<bind-xml name="properties" node="attribute" />
+		</field>
+
+
+		<field name="attributes" type="com.dtdsoftware.splunk.config.Attribute"
+			collection="arraylist">
+			<bind-xml name="attribute" />
+		</field>
+
+
+	</class>
+
+	<class name="com.dtdsoftware.splunk.config.Attribute">
+		<map-to xml="attribute" />
+
+        <field name="name" type="java.lang.String">
+			<bind-xml name="name" node="attribute" />
+		</field>
+
+		<field name="outputname" type="java.lang.String">
+			<bind-xml name="outputname" node="attribute" />
+		</field>
+
+	</class>
+
+    <class name="com.dtdsoftware.splunk.config.Formatter">
+		<map-to xml="formatter" />
+
+        <field name="className" type="java.lang.String">
+			<bind-xml name="className" node="attribute" />
+		</field>
+
+	</class>
+	
+</mapping>

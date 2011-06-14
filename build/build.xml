@@ -1,0 +1,104 @@
+<project name="SPLUNK4JMX BUILD" default="build_release" basedir="..">
+	<description>
+		SPLUNK4JMX Build Script
+    </description>
+
+	<!-- set global properties for this build -->
+	<property name="src" value="src" />
+	<property name="classes" value="classes" />
+	<property name="release" value="releases" />
+	<property name="lib" value="lib" />
+	<property name="bin" value="bin" />
+	<property name="config" value="config" />
+	<property name="temp_build" value="temp_build" />
+	<property name="main_jar" value="jmxpoller.jar" />
+	<property name="appConf" value="default/app.conf" />
+	<property name="suffix" value=".tar.gz" />
+	<property name="compressionType" value="gzip" />
+
+	<target name="init">
+		<delete dir="${temp_build}" />
+		<mkdir dir="${temp_build}" />
+		
+		<loadproperties srcFile="${appConf}"/>
+	</target>
+
+	<path id="project.class.path">
+
+		<fileset dir="${lib}">
+			<include name="**/*.jar" />
+		</fileset>
+
+	</path>
+
+
+	<target name="compile" depends="init" description="compile the source ">
+		<!-- Compile the java code from ${src} into ${build} -->
+
+		<mkdir dir="${temp_build}/${classes}" />
+
+		<javac srcdir="${src}"  destdir="${temp_build}/${classes}">
+			<classpath refid="project.class.path" />
+		</javac>
+
+	</target>
+
+
+	<target name="build_release" depends="compile" description="generate a distribution">
+		<!-- Create the distribution directory -->
+
+
+		<mkdir dir="${temp_build}/logs" />
+		<mkdir dir="${temp_build}/local" />
+			<mkdir dir="${temp_build}/metadata" />
+		
+		<copy todir="${temp_build}/${bin}/${lib}">
+			<fileset dir="${lib}" />
+			
+		</copy>
+		
+		<copy todir="${temp_build}/${bin}/${config}">
+			<fileset file="${config}/config.xml" />
+			
+				</copy>
+
+		<copy todir="${temp_build}/${bin}">
+			<fileset file="${bin}/linux/poll_jmx.sh" />
+			<fileset file="${bin}/win/poll_jmx.bat" />
+		</copy>
+		
+		<copy todir="${temp_build}/appserver">
+			<fileset dir="appserver" />
+        </copy>
+		<copy todir="${temp_build}/default">
+					<fileset dir="default" />
+		        </copy>
+
+		
+		<copy todir="${temp_build}">					
+		<fileset file="LICENSE" />	
+			<fileset file="README" />
+		</copy>
+
+		
+		<jar jarfile="${temp_build}/${bin}/${lib}/${main_jar}">
+			<fileset dir="${temp_build}/${classes}"
+				includes="com/dtdsoftware/splunk/**"
+			    />
+			<fileset file="${config}/log4j.xml"/>
+			<fileset file="${config}/mapping.xml"/>
+			<fileset file="${config}/config.xsd"/>
+
+		</jar>
+
+		<delete dir="${temp_build}/${classes}" />
+	
+		<tar destfile="${release}/${id}-${version}${suffix}"
+		     compression="${compressionType}">
+			<zipfileset dir="${temp_build}" prefix="${id}" fileMode="744"/></tar>
+
+		<delete dir="${temp_build}" />
+
+	</target>
+
+</project>

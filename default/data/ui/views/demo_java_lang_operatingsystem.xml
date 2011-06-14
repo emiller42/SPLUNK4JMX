@@ -1,0 +1,44 @@
+<dashboard>
+<label>Operating System</label>
+<row>
+
+<chart>
+<title>System Load</title>
+<searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" | timechart span=1m avg(sysLoad) by jvmDescription</searchTemplate>
+<option name="charting.chart">line</option>
+<option name="charting.axisTitleY.text">Load</option> 
+<option name="charting.axisTitleX.text">Time</option>
+<earliestTime>-60m</earliestTime>
+<latestTime>now</latestTime>
+</chart>
+
+</row>
+<row>
+<chart>
+<title>File Descriptors</title>
+<searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" |timechart max(openFD) as "Open File Descriptors" ,max(maxFD) as "Max File Descriptors" by host</searchTemplate>
+<option name="charting.chart">line</option>
+
+<option name="charting.axisTitleY.text">Count</option> 
+<option name="charting.axisTitleX.text">Time</option>
+<earliestTime>-60m</earliestTime>
+<latestTime>now</latestTime>
+</chart>
+
+</row>
+
+<row>
+<chart>
+<title>Physical Memory</title>
+<searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" |timechart max(physMem) as "Total Memory" ,max(freePhysMem) as "Free Memory" by host</searchTemplate>
+<option name="charting.chart">line</option>
+
+<option name="charting.axisTitleY.text">Memory</option> 
+<option name="charting.axisTitleX.text">Time</option>
+<earliestTime>-60m</earliestTime>
+<latestTime>now</latestTime>
+</chart>
+
+</row>
+
+</dashboard>

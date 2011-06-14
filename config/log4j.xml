@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="false">
+
+	<!-- Daily Rolling File Appender -->
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Threshold" value="ERROR" />
+		<param name="File" value="${splunk4jmx.home}/logs/splunk4jmx.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<param name="Append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p [%c] %m%n" />
+		</layout>
+	</appender>
+
+	<root>
+		<level value="ERROR" />
+		<appender-ref ref="FILE" />
+	</root>
+
+
+</log4j:configuration> 

@@ -1,4 +1,4 @@
-Welcome to SPLUNK 4 JMX v1.1.2
+Welcome to SPLUNK 4 JMX v1.2
 by Damien T. Dallimore , SPLUNK Padawan 
 June 2011
 damien@dtdsoftware.com
@@ -12,10 +12,10 @@ This SPLUNK app provides the means to :
 1) connect to any local or remote JVM's JMX server, either via the remote JMX interface or attaching to a local JVM process
 2) query any MBean running on that server
 3) extract any MBean attributes (simple, composite or tabular)
-4) write them out in a convenient key/value format for SPLUNK indexing and searching
+4) write them out in a default key/value format, or a custom format, for SPLUNK indexing and searching
 5) runs on *Nix and Windows
 
-Tested to date against SUN HOTSPOT 1.6+ JVM's.
+Tested to date against Hotspot and JRockit JVM's.
 
 This app is basically a custom scripted input comprising of a bash/bat script and a Java program.  I have bundled it up as an app for convenience  
 and included some demo dashboards that graph up a small selection of MBean attributes from the java.lang domain
@@ -24,9 +24,9 @@ and included some demo dashboards that graph up a small selection of MBean attri
 INSTALLATION
 ------------
 
-1) set the JAVA_HOME environment variable to the location of your JRE install location, version 1.6 +, or ensure that a 1.6+ java executable is on the PATH
+1) set the JAVA_HOME environment variable to the location of your JRE install location(version 1.6 +)
 2) set the SPLUNK_HOME environment variable to the install root of SPLUNK
-3) uncompress SPLUNK4JMX.tar.gz to SPLUNK_HOME/etc/apps
+3) uncompress SPLUNK4JMX-1.2.tar.gz to SPLUNK_HOME/etc/apps
 4) restart SPLUNK
 
 
@@ -40,11 +40,12 @@ INSTALLED COMPONENTS
 
 The only components you really need to know about are in the SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin directory
 
-1) poll_jmx.sh / poll_jmx.bat - this is the script that SPLUNK fires at scheduled intervals, this script invokes a Java program that has the logic for querying the JMX Server(s).
-2) config.xml - this is the config file where you specify JMX server(s), MBeans and MBean attributes to extract.
+1) bin/poll_jmx - this is the script that SPLUNK fires at scheduled intervals, this script invokes a Java program that has the logic for querying the JMX Server(s).
+2) bin/config/config.xml - this is the config file where you specify JMX server(s), MBeans and MBean attributes to extract.
 
 CONFIG.XML
 ----------
+Note : also refer to the XSD , config.xsd, which resides in jmxpoller.jar
 
 Included in the SPLUNK4JMX app distribution is a comprehensive sample config.xml
 This sample file queries various java.lang MBeans and obtains attributes
@@ -52,6 +53,11 @@ You can use this as a basis for creating your own config files for whatever MBea
 To try out this sample config.xml file , just set the values for your environment in the jmxserver element , and you should be good to go.
 
 "jmxpoller" is the root xml element
+
+A custom "formatter" can be specified.Only 1 may be specified for the entire configuration.
+This is a Java implementation of the "com.dtdsoftware.splunk.formatter.Formatter" interface.
+The formatter class must be placed on the java classpath.
+If a formatter declaration is omitted, then the default formatter will be used.
 
 1 or more "jmxserver" elements can be included in this XML defintion ie:  if you need to accesss multiple different jmx sources within the same scheduled execution
 Each "jmxserver" element you declare will be run in parallel.
@@ -79,7 +85,7 @@ At index time the "host" field is extracted and transformed into the SPLUNK inte
 
 "jvmDescription" is just meta data, useful for searching on in SPLUNK where you might have multiple JVM's on the same host
 
-No timestamp is added , instead relying on the SPLUNK index time as the event time.
+By default, no timestamp is added , instead relying on the SPLUNK index time as the event time.
 
 For MBean definitions , standard JMX object name wildcard patterns * and ? are supported for the "domain" and "properties" attributes 
 http://download.oracle.com/javase/1,5.0/docs/api/javax/management/ObjectName.html
@@ -93,9 +99,9 @@ Single, composite and tabluar MBean attributes are supported.
 For attributes that are multi level ie: composite and tabular attributes , then you can use a ":" delimited notation for specifying the attribute name.
 See examples of this in config.xml
 
-Example output line :
+Example output line (default formatter) :
 
-host=127.0.0.1,jvmDescription="My test JVM",mbean="java.lang:type=Threading",started="1830",cpuTimeSupported="true",cpuTimeEnabled="true",count="47",cmSupported="true",cmEnabled="false",synchSupported="true",peak="57",omuSupported="true",daemonCount="18",currentUserTime="1060000000",cpuTimeSupported="true",currentCPUTime="1200000000"
+host=damien-laptop,jvmDescription="My test JVM",mbean="java.lang:type=Threading",started="1830",cpuTimeSupported="true",cpuTimeEnabled="true",count="47",cmSupported="true",cmEnabled="false",synchSupported="true",peak="57",omuSupported="true",daemonCount="18",currentUserTime="1060000000",cpuTimeSupported="true",currentCPUTime="1200000000"
 
 JVM "ATTACH" NATIVE LIBRARYS
 -----------------------------
@@ -106,18 +112,22 @@ Linux : JDK_HOME/jre/lib/i386/libattach.so
 
 NOTE : For some reason the Linux "attach" library is only packaged in the JRE that is part of a JDK install. Weird.
 
-CLONING THE INPUT SCRIPT
--------------------------
-If required, you can easily create more script inputs to run at different schedules by copying "poll_jmx.sh" to "poll_jmx_2.sh" and then manually adding the new script as a 
-data input in the JMX app.
-Then create another "config.xml" file called "config_2.xml" and set the CONFIG_FILE_NAME  variable inside the "poll_jmx_2.sh" script to be "config_2.xml"
-
+CREATING ADDITIONAL CONFIGURATION FILES
+----------------------------------------
+If required, you can easily create more config files to run at different schedules by "cloning"
+the script input in Splunk Manager and specifying the name of the new config file as an argument to the poll_jmx script.
+The config file should reside in SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin/config
 
 JMX SERVERS
 -----------
 To set up a JMX server for remote access via jvm system properties at startup, see this :
 http://download.oracle.com/javase/1.5.0/docs/guide/management/agent.html#remote
 
+LOGGING
+-------
+By default , "error" level log events will be written to SPLUNK_HOME/etc/apps/SPLUNK4JMX/logs
+The log file will roll daily and get timestamped.
+If you need to tweak log settings, then the log4j.xml config file resides in jmxpoller.jar
 
 TROUBLESHOOTING
 ---------------
@@ -127,6 +137,8 @@ TROUBLESHOOTING
 3) check your hostname and port
 4) check your user and pass
 5) check that your JVM remote JMX access is correctly setup
-6) check that the $SPLUNK_HOME and $JAVA_HOME env variables have beed correctly setup and exported
+6) check that the SPLUNK_HOME and JAVA_HOME env variables have beed correctly setup and exported
 7) ensure you have enabled the poll_jmx.sh / poll_jmx.bat script input
 8) check your process ID if trying to attach to a local JVM
+9)  ensure your XML config adheres to the XSD
+10) look for errors in the log files

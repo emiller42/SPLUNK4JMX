@@ -1,0 +1,179 @@
+<!--
+Example config file that obtains several attributes from the java.lang domain of a JMX Server.
+
+You can declare to connect to  either the remote JMX interface or locally by processID
+
+Shows many scenarios of simple attributes, array attributes, composite attributes, tabular attributes, 
+composite attributes nested within tabular attributes etc...
+
+Tested against a Sun Hotspot JVM and JRockit JVM
+
+Multiple jmxserver elements can be included and they will be executed in parallel
+
+A custom formatter can be specified.Only 1 may be specified for the entire configuration.
+This is a Java implementation of the "com.dtdsoftware.splunk.formatter.Formatter" interface.
+The formatter class must be placed on the java classpath.
+If a formatter declaration is omitted, then the default formatter will be used.
+
+Use this file as an example for polling any Mbean attributes you need to SPLUNK
+
+This file is strictly validated against the schema "config.xsd" (located in jmxpoller.jar)
+-->
+
+<jmxpoller>
+
+<formatter className="com.dtdsoftware.splunk.formatter.DefaultFormatter" />
+<!-- <formatter className="com.dtdsoftware.splunk.formatter.YourCustomFormatter" /> -->
+
+<jmxserver pid="1234" jvmDescription="My JVM">
+
+<mbean domain="java.lang" properties="type=Memory">
+
+<!-- composite attributes -->
+<attribute name="NonHeapMemoryUsage:used" outputname="nonHeapUsed"/>
+<attribute name="NonHeapMemoryUsage:max" outputname="nonHeapMax"/>
+
+</mbean>
+
+</jmxserver>
+
+<jmxserver pidFile="/home/myapp/bin/mypidfile.pid" jvmDescription="Another JVM">
+
+<mbean domain="java.lang" properties="type=Memory">
+
+<!-- composite attributes -->
+<attribute name="NonHeapMemoryUsage:used" outputname="nonHeapUsed"/>
+<attribute name="NonHeapMemoryUsage:max" outputname="nonHeapMax"/>
+
+</mbean>
+
+</jmxserver>
+
+<jmxserver host="127.0.0.1" jvmDescription="tomcat" jmxport="1234" jmxuser="fred" jmxpass="secret">
+
+<mbean domain="java.lang" properties="type=Threading">
+
+<!-- simple attributes -->
+<attribute name="TotalStartedThreadCount" outputname="started"/>
+<attribute name="ThreadCpuTimeSupported" outputname="cpuTimeSupported"/>
+<attribute name="ThreadCpuTimeEnabled" outputname="cpuTimeEnabled"/>
+<attribute name="ThreadCount" outputname="count"/>
+<attribute name="ThreadContentionMonitoringSupported" outputname="cmSupported"/>
+<attribute name="ThreadContentionMonitoringEnabled" outputname="cmEnabled"/>
+<attribute name="SynchronizerUsageSupported" outputname="synchSupported"/>
+<attribute name="PeakThreadCount" outputname="peak"/>
+<attribute name="ObjectMonitorUsageSupported" outputname="omuSupported"/>
+<attribute name="DaemonThreadCount" outputname="daemonCount"/>
+<attribute name="CurrentThreadUserTime" outputname="currentUserTime"/>
+<attribute name="CurrentThreadCpuTimeSupported" outputname="cpuTimeSupported"/>
+<attribute name="CurrentThreadCpuTime" outputname="currentCPUTime"/>
+
+</mbean>
+
+
+<mbean domain="java.lang" properties="type=Runtime">
+
+<!-- tabular attributes -->
+<attribute name="SystemProperties:user.timezone" outputname="timezone"/>
+<attribute name="SystemProperties:java.vm.vendor" outputname="jvmVendor"/>
+
+<!-- simple attributes -->
+<attribute name="VmVersion" outputname="jvmVersion"/>
+<attribute name="Uptime" outputname="jvmUptime"/>
+<attribute name="Name" outputname="jvmName"/>
+
+<!-- simple array attribute -->
+<attribute name="InputArguments" outputname="inputArgs"/>
+
+</mbean>
+
+
+<mbean domain="java.lang" properties="type=OperatingSystem">
+
+<!-- simple attributes -->
+<attribute name="Version" outputname="version"/>
+<attribute name="TotalSwapSpaceSize" outputname="swapSpace"/>
+<attribute name="TotalPhysicalMemorySize" outputname="physMem"/>
+<attribute name="SystemLoadAverage" outputname="sysLoad"/>
+<attribute name="ProcessCpuTime" outputname="cpuTime"/>
+<attribute name="OpenFileDescriptorCount" outputname="openFD"/>
+<attribute name="Name" outputname="name"/>
+<attribute name="MaxFileDescriptorCount" outputname="maxFD"/>
+<attribute name="FreeSwapSpaceSize" outputname="freeSwap"/>
+<attribute name="FreePhysicalMemorySize" outputname="freePhysMem"/>
+<attribute name="CommittedVirtualMemorySize" outputname="committed"/>
+<attribute name="AvailableProcessors" outputname="processors"/>
+<attribute name="Arch" outputname="arch"/>
+
+
+</mbean>
+
+<mbean domain="java.lang" properties="type=Compilation">
+
+<!-- simple attributes -->
+<attribute name="TotalCompilationTime" outputname="time"/>
+
+</mbean>
+
+<mbean domain="java.lang" properties="type=ClassLoading">
+
+<!-- simple attributes -->
+<attribute name="TotalLoadedClassCount" outputname="total"/>
+<attribute name="LoadedClassCount" outputname="current"/>
+
+</mbean>
+
+
+<mbean domain="java.lang" properties="type=Memory">
+
+<!-- composite attributes -->
+<attribute name="NonHeapMemoryUsage:used" outputname="nonHeapUsed"/>
+<attribute name="NonHeapMemoryUsage:max" outputname="nonHeapMax"/>
+<attribute name="NonHeapMemoryUsage:init" outputname="nonHeapInit"/>
+<attribute name="NonHeapMemoryUsage:committed" outputname="nonHeapCommitted"/>
+
+<attribute name="HeapMemoryUsage:used" outputname="heapUsed"/>
+<attribute name="HeapMemoryUsage:max" outputname="heapMax"/>
+<attribute name="HeapMemoryUsage:init" outputname="heapInit"/>
+<attribute name="HeapMemoryUsage:committed" outputname="heapCommitted"/>
+
+
+</mbean>
+
+<!-- bean available if your JVM is using the CMS Garbage Collector -->
+<mbean domain="java.lang" properties="type=MemoryPool,name=CMS Old Gen">
+
+<!-- simple attributes -->
+<attribute name="CollectionUsageThresholdCount" outputname="cutc"/>
+
+<!-- composite attributes -->
+<attribute name="Usage:used" outputname="cmsUsed"/>
+<attribute name="Usage:max" outputname="cmsMax"/>
+
+</mbean>
+
+<!--  bean available if your JVM is using the Parallel New Garbage Collector -->
+<mbean domain="java.lang" properties="type=GarbageCollector,name=ParNew">
+
+<!-- simple array attributes -->
+<attribute name="MemoryPoolNames" outputname="parNewMemPools"/>
+
+<!-- simple attributes -->
+<attribute name="CollectionTime" outputname="parNewColTime"/>
+<attribute name="CollectionCount" outputname="parNewColCount"/>
+
+<!-- composite-simple attributes -->
+<attribute name="LastGcInfo:startTime" outputname="parNewGCStart"/>
+
+<!-- composite-tabular-composite-simple attributes -->
+<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:used" outputname="beforeGCUsedPerm"/>
+<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:max" outputname="beforeGCMaxPerm"/>
+<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:init" outputname="beforeGCInitPerm"/>
+<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:committed" outputname="beforeGCCommittedPerm"/>
+
+</mbean>
+
+</jmxserver>
+
+
+</jmxpoller>

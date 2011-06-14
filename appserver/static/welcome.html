@@ -1,0 +1,33 @@
+<style>
+.welcomediv {
+float: left; 
+padding-right: 15px;
+padding-left: 15px; 
+border-right-style: dotted;
+border-right-width: 1px;
+width: 30%;
+}
+
+.intro {
+    font-size: 12px;
+}
+
+</style>
+
+<div>
+
+
+<p class="intro">
+${_('The Splunk for JMX app enables you to connect to any JVMs JMX server, local or remote, query the MBeans running on that server and extract whatever MBean attributes you declare and then index those attributes in Splunk.<br/> <br/>For more information, please read $SPLUNK_HOME/etc/apps/SPLUNK4JMX/README.txt')}
+</p>
+<p>
+<strong>${_('Important - all data in the JMX app is by default in its own index named "jmx".')}</strong>
+
+${_('To search for JMX data be sure to include "index=jmx" in your search. ')}
+</p>
+</div>
+
+
+
+
+

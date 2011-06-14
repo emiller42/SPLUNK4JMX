@@ -1,0 +1,31 @@
+<dashboard>
+<label>Memory</label>
+<row>
+<chart>
+<title>JVM Heap Memory</title>
+<searchTemplate>index=jmx mbean="java.lang:type=Memory" |timechart max(heapMax) as "Heap Maximum" ,max(heapUsed) as "Heap Used" by host</searchTemplate>
+<option name="charting.chart">line</option>
+
+<option name="charting.axisTitleY.text">Memory</option> 
+<option name="charting.axisTitleX.text">Time</option>
+<earliestTime>-60m</earliestTime>
+<latestTime>now</latestTime>
+</chart>
+
+</row>
+
+
+<row>
+<chart>
+<title>Percentage of Heap Memory used</title>
+<searchTemplate>index=jmx mbean="java.lang:type=Memory" | eval memoryPercentUsed=round(((heapUsed/heapMax) * 100),2) | timechart max(memoryPercentUsed) by host</searchTemplate>
+<option name="charting.chart">line</option>
+<option name="charting.axisTitleY.text">Percentage of Heap Used</option> 
+<option name="charting.axisTitleX.text">Time</option>
+<earliestTime>-60m</earliestTime>
+<latestTime>now</latestTime>
+
+</chart>
+</row>
+
+</dashboard>
