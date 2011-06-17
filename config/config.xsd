@@ -3,20 +3,31 @@
   <xs:element name="jmxpoller">  
     <xs:complexType>    
       <xs:sequence>
-        <xs:element maxOccurs="1" ref="formatter"/> 
-        <xs:element maxOccurs="unbounded" ref="jmxserver"/>
+        <xs:element minOccurs="0" maxOccurs="1" ref="formatter"/> 
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="jmxserver"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="cluster"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="formatter">
     <xs:complexType>
-      <xs:attribute name="className"/>
+      <xs:attribute name="className" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cluster">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="mbean"/>
+        <xs:element maxOccurs="unbounded" ref="jmxserver"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string"/>
+      <xs:attribute name="description" type="xs:string"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="jmxserver">
     <xs:complexType>
       <xs:sequence>
-        <xs:element maxOccurs="unbounded" ref="mbean"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="mbean"/>
       </xs:sequence>
       <xs:attribute name="host"  type="xs:string"/>
       <xs:attribute name="jmxpass" type="xs:string"/>

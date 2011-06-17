@@ -12,10 +12,38 @@
 			<bind-xml name="jmxserver" />
 		</field>
 		
+		<field name="clusters" type="com.dtdsoftware.splunk.config.Cluster"
+			collection="arraylist">
+			<bind-xml name="cluster" />
+		</field>
+		
 		<field name="formatter" type="com.dtdsoftware.splunk.config.Formatter">
 			<bind-xml name="formatter" />
 		</field>
 
+	</class>
+	
+	<class name="com.dtdsoftware.splunk.config.Cluster">
+		<map-to xml="cluster" />
+		
+		<field name="name" type="java.lang.String">
+			<bind-xml name="name" node="attribute" />
+		</field>
+		
+		<field name="description" type="java.lang.String">
+			<bind-xml name="description" node="attribute" />
+		</field>
+		
+		<field name="mbeans" type="com.dtdsoftware.splunk.config.MBean"
+			collection="arraylist">
+			<bind-xml name="mbean" />
+		</field>
+		
+		<field name="servers" type="com.dtdsoftware.splunk.config.JMXServer"
+			collection="arraylist">
+			<bind-xml name="jmxserver" />
+		</field>
+		
 	</class>
 
 	<class name="com.dtdsoftware.splunk.config.JMXServer">

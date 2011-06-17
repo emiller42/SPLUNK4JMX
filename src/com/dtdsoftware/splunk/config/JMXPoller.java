@@ -1,5 +1,6 @@
 package com.dtdsoftware.splunk.config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +13,9 @@ public class JMXPoller {
 
 	// the list of JMX Servers to connect to
 	public List<JMXServer> servers;
+	
+	// a list of JMX Server Clusters
+	public List<Cluster> clusters;
 
 	// a custom formatter
 	public Formatter formatter;
@@ -24,7 +28,13 @@ public class JMXPoller {
 	}
 
 	public void setServers(List<JMXServer> servers) {
-		this.servers = servers;
+				
+		if(this.servers != null){
+			this.servers.addAll(servers);
+		}
+		else
+			this.servers = servers;
+		
 	}
 
 	public Formatter getFormatter() {
@@ -34,5 +44,32 @@ public class JMXPoller {
 	public void setFormatter(Formatter formatter) {
 		this.formatter = formatter;
 	}
+
+	public List<Cluster> getClusters() {
+		return clusters;
+	}
+
+	/**
+	 * Set the clusters and resolve the JMXServer objects
+	 * @param clusters
+	 */
+	public void setClusters(List<Cluster> clusters) {
+		this.clusters = clusters;
+		
+		if(this.servers == null){
+			this.servers=new ArrayList<JMXServer>();
+		}
+		for(Cluster cluster:clusters){
+			
+			List <MBean>mbeans = cluster.getMbeans();
+			List <JMXServer>clusterServers = cluster.getServers();
+			for(JMXServer server:clusterServers){
+				server.setMbeans(mbeans);
+				this.servers.add(server);
+			}
+		}
+	}
+	
+	
 
 }

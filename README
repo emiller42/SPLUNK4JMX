@@ -1,4 +1,4 @@
-Welcome to SPLUNK 4 JMX v1.2
+Welcome to SPLUNK 4 JMX v1.2.1
 by Damien T. Dallimore , SPLUNK Padawan 
 June 2011
 damien@dtdsoftware.com
@@ -12,8 +12,9 @@ This SPLUNK app provides the means to :
 1) connect to any local or remote JVM's JMX server, either via the remote JMX interface or attaching to a local JVM process
 2) query any MBean running on that server
 3) extract any MBean attributes (simple, composite or tabular)
-4) write them out in a default key/value format, or a custom format, for SPLUNK indexing and searching
-5) runs on *Nix and Windows
+4) write them out in a default key/value format, or your own custom format, for SPLUNK indexing and searching
+5) declare clusters of JVM's for large scale JVM deployments
+6) runs on *Nix and Windows
 
 Tested to date against Hotspot and JRockit JVM's.
 
@@ -26,7 +27,7 @@ INSTALLATION
 
 1) set the JAVA_HOME environment variable to the location of your JRE install location(version 1.6 +)
 2) set the SPLUNK_HOME environment variable to the install root of SPLUNK
-3) uncompress SPLUNK4JMX-1.2.tar.gz to SPLUNK_HOME/etc/apps
+3) uncompress SPLUNK4JMX-1.2.1.tar.gz to SPLUNK_HOME/etc/apps
 4) restart SPLUNK
 
 
@@ -41,7 +42,8 @@ INSTALLED COMPONENTS
 The only components you really need to know about are in the SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin directory
 
 1) bin/poll_jmx - this is the script that SPLUNK fires at scheduled intervals, this script invokes a Java program that has the logic for querying the JMX Server(s).
-2) bin/config/config.xml - this is the config file where you specify JMX server(s), MBeans and MBean attributes to extract.
+2) bin/config/config.xml - this is the config file where you specify JMX server(s), MBeans and MBean attributes to extract.You can create as many config files 
+,with any name, as you want and set them up as the argument to the poll_jmx script on the SPLUNK Manager Data Inputs page.
 
 CONFIG.XML
 ----------
@@ -56,8 +58,8 @@ To try out this sample config.xml file , just set the values for your environmen
 
 A custom "formatter" can be specified.Only 1 may be specified for the entire configuration.
 This is a Java implementation of the "com.dtdsoftware.splunk.formatter.Formatter" interface.
-The formatter class must be placed on the java classpath.
-If a formatter declaration is omitted, then the default formatter will be used.
+The customer formatter class must be placed on the java classpath.
+If a formatter declaration is omitted, then the default system formatter will be used.
 
 1 or more "jmxserver" elements can be included in this XML defintion ie:  if you need to accesss multiple different jmx sources within the same scheduled execution
 Each "jmxserver" element you declare will be run in parallel.
@@ -65,7 +67,6 @@ Each "jmxserver" element you declare will be run in parallel.
 "jmxuser" and "jmxpass" are optional , if not specified, they will be ignored
 
 "host" can be a hostname, dns alias or ip address. 
-Use localhost or 127.0.0.1 to target a local jvm
 
 "jmxport" is the JMX server port to connect to.
 
@@ -80,6 +81,11 @@ Each time the Splunk JMX Poller runs, it will dynamically inspect the value of t
 This way, you dont have to alter the config.xml each time you do a JVM restart.
 
 Look at the example xml config files in the bin directory for usage examples.There is also an example of a pid file.
+
+Groups of jmxserver's that share that same mbeans can be grouped together in a cluster element,
+so that you only have to declare the MBeans/MBean attributes once ie: a cluster of JEE appservers, a cluster 
+of Hadoop or Cassandra nodes etc...This will be useful for enterprises with very large scale JVM deployments.
+
 
 At index time the "host" field is extracted and transformed into the SPLUNK internal host value.
 
@@ -101,7 +107,7 @@ See examples of this in config.xml
 
 Example output line (default formatter) :
 
-host=damien-laptop,jvmDescription="My test JVM",mbean="java.lang:type=Threading",started="1830",cpuTimeSupported="true",cpuTimeEnabled="true",count="47",cmSupported="true",cmEnabled="false",synchSupported="true",peak="57",omuSupported="true",daemonCount="18",currentUserTime="1060000000",cpuTimeSupported="true",currentCPUTime="1200000000"
+host=damien-laptop,jvmDescription="My test JVM",mbean="java.lang:type=Threading",started="1830",count="47",peak="57"
 
 JVM "ATTACH" NATIVE LIBRARYS
 -----------------------------
@@ -137,8 +143,8 @@ TROUBLESHOOTING
 3) check your hostname and port
 4) check your user and pass
 5) check that your JVM remote JMX access is correctly setup
-6) check that the SPLUNK_HOME and JAVA_HOME env variables have beed correctly setup and exported
+6) check that the SPLUNK_HOME and JAVA_HOME env variables have been correctly setup and exported
 7) ensure you have enabled the poll_jmx.sh / poll_jmx.bat script input
 8) check your process ID if trying to attach to a local JVM
-9)  ensure your XML config adheres to the XSD
+9) ensure your XML config adheres to the XSD
 10) look for errors in the log files
