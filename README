@@ -20,6 +20,12 @@ Tested to date against Hotspot and JRockit JVM's.
 This app is basically a custom scripted input comprising of a bash/bat script and a Java program.  I have bundled it up as an app for convenience  
 and included some demo dashboards that graph up a small selection of MBean attributes from the java.lang domain
 
+Also refer to the applications "docs" directory for :
+
+* javadoc API for creating a custom Formatter implementation
+* configuration schema docs
+* user guide
+
 
 '''INSTALLATION'''
 

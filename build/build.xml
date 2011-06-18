@@ -8,6 +8,7 @@
 	<property name="classes" value="classes" />
 	<property name="release" value="releases" />
 	<property name="lib" value="lib" />
+	<property name="docs" value="docs" />
 	<property name="bin" value="bin" />
 	<property name="config" value="config" />
 	<property name="temp_build" value="temp_build" />
@@ -70,6 +71,11 @@
 		<copy todir="${temp_build}/appserver">
 			<fileset dir="appserver" />
         </copy>
+		
+		<copy todir="${temp_build}/${docs}">
+					<fileset dir="${docs}" />
+		 </copy>
+			
 		<copy todir="${temp_build}/default">
 					<fileset dir="default" />
 		        </copy>
