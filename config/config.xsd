@@ -1,57 +1,187 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-  <xs:element name="jmxpoller">  
-    <xs:complexType>    
-      <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="1" ref="formatter"/> 
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="jmxserver"/>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="cluster"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="formatter">
-    <xs:complexType>
-      <xs:attribute name="className" type="xs:string" use="required"/>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="cluster">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element maxOccurs="unbounded" ref="mbean"/>
-        <xs:element maxOccurs="unbounded" ref="jmxserver"/>
-      </xs:sequence>
-      <xs:attribute name="name" type="xs:string"/>
-      <xs:attribute name="description" type="xs:string"/>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="jmxserver">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="mbean"/>
-      </xs:sequence>
-      <xs:attribute name="host"  type="xs:string"/>
-      <xs:attribute name="jmxpass" type="xs:string"/>
-      <xs:attribute name="jmxport" type="xs:integer"/>
-      <xs:attribute name="jmxuser" type="xs:string"/>
-      <xs:attribute name="jvmDescription" type="xs:string"/>
-      <xs:attribute name="pid" type="xs:integer"/>
-      <xs:attribute name="pidFile" type="xs:string"/>
-      <xs:attribute name="pidCommand" type="xs:string"/>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="mbean">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element maxOccurs="unbounded" ref="attribute"/>
-      </xs:sequence>
-      <xs:attribute name="domain" use="required" type="xs:string"/>
-      <xs:attribute name="properties" use="required" type="xs:string"/>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="attribute">
-    <xs:complexType>
-      <xs:attribute name="name" use="required" type="xs:string"/>
-      <xs:attribute name="outputname" use="required" type="xs:string"/>
-    </xs:complexType>
-  </xs:element>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+	<xs:element name="jmxpoller">
+		<xs:annotation>
+			<xs:documentation>
+				Root element of the configuration file.
+				This configuration file is where you specify local and remote JMX
+				servers to connect to across
+				your enterprise and extract whatever MBean attributes you have declared
+				to query.
+				The result will then be written to STDOUT for SPLUNK indexing.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="1" ref="formatter" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="jmxserver" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="cluster" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="formatter">
+		<xs:annotation>
+			<xs:documentation>Custom formatter declaration allows you to override
+				the default STDOUT format</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="className" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Fully qualified Java class name of the formatter
+						implementation, implements the
+						com.dtdsoftware.splunk.formatter.Formatter interface
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="cluster">
+		<xs:annotation>
+			<xs:documentation>
+				For JVMs with the same MBeans, you can group them
+				under this element so
+				you only have to declare the common beans to
+				query once.
+				You can still declare additional mbeans specfic to each
+				jmxserver
+				within the jmxserver elements.
+    </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" ref="mbean" />
+				<xs:element maxOccurs="unbounded" ref="jmxserver" />
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Name for this cluster</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="description" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Description of this cluster</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="jmxserver">
+		<xs:annotation>
+			<xs:documentation>A local or remote JMX Server to connect to
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="mbean" />
+			</xs:sequence>
+			<xs:attribute name="host" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>IP Address, Hostname or DNS Alias.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="jmxpass" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>JMX Password
+			</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="jmxport" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>JMX Port
+			</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="jmxuser" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>JMX Username
+			</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="jvmDescription" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>A description of this JVM
+			</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="pid" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Process ID for attaching directly to a locally
+						running JVM
+			</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="pidFile" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>File containing the Process ID for attaching
+						directly to a locally running JVM
+			</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="pidCommand" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Command/Script that returns the Process ID for
+						attaching
+						directly to a locally running JVM
+			</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="mbean">
+		<xs:annotation>
+			<xs:documentation>
+				An MBean to query
+				Standard JMX object name wildcard
+				patterns * and ? are supported
+				If no values are specified for the
+				"domain" and "properties"
+				attributes , the value will default to the
+				* wildcard
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" ref="attribute" />
+			</xs:sequence>
+			<xs:attribute name="domain" use="required" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The MBean domain</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="properties" use="required" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The MBean properties string in
+						"key=value,key2=value2" format</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="attribute">
+		<xs:annotation>
+			<xs:documentation>An MBean attribute</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="name" use="required" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The attribute name
+						For attributes that are multi
+						level ie: composite and tabular
+						attributes , then you can use a ":"
+						delimited notation for
+						specifying the attribute name.
+						ie:
+						foo:goo:myattribute
+    </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="outputname" use="required" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The attribute key that is output to STDOUT for
+						SPLUNK indexing</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
 </xs:schema>
