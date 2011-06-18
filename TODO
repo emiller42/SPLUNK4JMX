@@ -4,6 +4,8 @@
 
 3) jmxport, jmxpass, jmxuser...abstract this out so as to avoid potential unnecessary repetition in the config xml
 
-4) better quality docs, README has heaps of content but is a tad ugly.Also add docs for XSD and Formatter API
+4) formatted user guide, the README has heaps of content, but is just ugly.
+
+5) XSD doc generated
 
  

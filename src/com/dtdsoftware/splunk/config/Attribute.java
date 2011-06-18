@@ -20,6 +20,8 @@ public class Attribute {
 	public String outputname;
 
 	private List<String> tokens;
+	
+	private static final String ATTRIBUTE_DELIMITER=":";
 
 	public Attribute() {
 	}
@@ -35,7 +37,7 @@ public class Attribute {
 	public void setName(String name) {
 		this.name = name;
 		this.tokens = new ArrayList<String>();
-		StringTokenizer st = new StringTokenizer(this.name, ":");
+		StringTokenizer st = new StringTokenizer(this.name, ATTRIBUTE_DELIMITER);
 		while (st.hasMoreTokens()) {
 			this.tokens.add(st.nextToken());
 		}

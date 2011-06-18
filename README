@@ -79,8 +79,10 @@ This way, you dont have to alter the config.xml each time you do a JVM restart.
 
 You can also specify the path to a command to execute to output the JVM's PID.
 You set this in the "pidCommand" attribute.
-This command might be a custom shell script/batch script that looks for the JVM process and extracts the PID to STD OUT.
-eg: on Linux you could do this with a simple script that uses ps, grep and awk.
+This command might be a custom script that looks for the JVM process and extracts the PID to STD OUT.
+On Linux you could do this with a simple script that uses ps, grep and awk.
+
+Example : ps -eafH | grep "java" | grep -v "grep" | awk '{print $2}'
 
 Look at the example xml config files in the bin directory for usage examples.There is also an example of a pid file.
 

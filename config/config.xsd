@@ -114,15 +114,15 @@
 			<xs:attribute name="pidFile" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>File containing the Process ID for attaching
-						directly to a locally running JVM
+						directly to a locally running JVM.The only file contents should
+						be the PID on the first line of the file.
 			</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="pidCommand" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>Command/Script that returns the Process ID for
-						attaching
-						directly to a locally running JVM
+					<xs:documentation>Command/Script that outputs to STDOUT the Process ID for
+						attaching directly to a locally running JVM
 			</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>

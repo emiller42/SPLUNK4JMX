@@ -15,10 +15,16 @@ import java.util.Map;
 public interface Formatter {
 
 	/**
-	 * Constants , keys for the common meta data
+	 * Key for the host value
 	 */
 	public static final String META_HOST = "meta_host";
+	/**
+	 * Key for the JVM Description
+	 */
 	public static final String META_JVM_DESCRIPTION = "meta_description";
+	/**
+	 * Key for the process ID
+	 */
 	public static final String META_PROCESS_ID = "meta_processid";
 
 	/**

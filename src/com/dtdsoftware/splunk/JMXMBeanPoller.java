@@ -29,6 +29,12 @@ public class JMXMBeanPoller {
 
 	private static Logger logger = Logger.getLogger(JMXMBeanPoller.class);
 
+	/**
+	 * Application entry point
+	 * Usage : java com.dtdsoftware.splunk.JMXMBeanPoller [configFile]
+	 * 
+	 * @param args array of length 1 containing the path of the config xml file
+	 */
 	public static void main(String[] args) {
 
 		logger.info("Starting JMX Poller");
@@ -62,6 +68,12 @@ public class JMXMBeanPoller {
 		}
 	}
 
+	/**
+	 * Parse the config XML into Java POJOs and validate against XSD
+	 * @param configFileName
+	 * @return
+	 * @throws Exception
+	 */
 	private static JMXPoller loadConfig(String configFileName) throws Exception {
 		
 		// xsd validation
