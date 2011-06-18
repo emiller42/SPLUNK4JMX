@@ -36,6 +36,7 @@
       <xs:attribute name="jvmDescription" type="xs:string"/>
       <xs:attribute name="pid" type="xs:integer"/>
       <xs:attribute name="pidFile" type="xs:string"/>
+      <xs:attribute name="pidCommand" type="xs:string"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="mbean">

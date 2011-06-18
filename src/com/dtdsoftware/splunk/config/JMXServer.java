@@ -3,6 +3,7 @@ package com.dtdsoftware.splunk.config;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -22,6 +23,9 @@ public class JMXServer {
 
 	// PID File of locally running JVM
 	public String pidFile;
+	
+	// PID Command to obtain PID of locally running JVM
+	public String pidCommand;
 
 	// JMX hostname, dns alias, ip address
 	public String host = "";
@@ -90,7 +94,12 @@ public class JMXServer {
 	}
 
 	public void setMbeans(List<MBean> mbeans) {
-		this.mbeans = mbeans;
+		
+		if(this.mbeans != null){
+			this.mbeans.addAll(mbeans);
+		}
+		else
+			this.mbeans = mbeans;
 	}
 
 	public int getProcessID() {
@@ -111,16 +120,55 @@ public class JMXServer {
 	 */
 	public void setPidFile(String pidFile) {
 		this.pidFile = pidFile;
+		BufferedReader br = null;
 		try {
 			File f = new File(pidFile);
-			BufferedReader br = new BufferedReader(new FileReader(f));
+		    br = new BufferedReader(new FileReader(f));
 			String line = br.readLine();
-			setProcessID(Integer.parseInt(line));
-			br.close();
+			setProcessID(Integer.parseInt(line.trim()));
 		} catch (Exception e) {
 			logger.error("Error obtaining pid from file " + pidFile);
 		}
+		finally{
+			if(br != null)
+			try{br.close();}catch(Exception e){logger.error("Error closing file stream");}
+		}
 
+	}
+
+	public String getPidCommand() {
+		return pidCommand;
+	}
+
+	/**
+	 * Attempts to set the PID from the output of a command
+	 * @param pidCommand
+	 */
+	public void setPidCommand(String pidCommand) {
+		this.pidCommand = pidCommand;
+		BufferedReader input = null;
+		try {
+			
+			Process process = Runtime.getRuntime().exec(pidCommand);
+			input =
+		        new BufferedReader
+		          (new InputStreamReader(process.getInputStream()));
+			String line;
+		      if ((line = input.readLine()) != null) {
+		    	  setProcessID(Integer.parseInt(line.trim()));
+		      }
+		      else{
+		    	  throw new Exception("No command output");
+		      }
+		      
+			
+		} catch (Exception e) {
+			logger.error("Error obtaining pid from command " + pidCommand);
+		}
+		finally{
+			if(input != null)
+			try{input.close();}catch(Exception e){logger.error("Error closing process output stream");}
+		}
 	}
 
 }

@@ -1,0 +1,9 @@
+more SPLUNK dashboards for the java.lang domain
+
+jvmDescription attribute , allow this to be dynamically set from the value of a particular mbean attribute
+
+jmxport, jmxpass, jmxuser...abstract this out so as to avoid unnecessary repetition in the config xml
+
+better quality docs, README has heaps of content but is a tad ugly.Also add docs for XSD and Formatter API
+
+ 

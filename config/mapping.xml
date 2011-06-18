@@ -57,6 +57,10 @@
 		<field name="pidFile" type="java.lang.String">
 			<bind-xml name="pidFile" node="attribute" />
 		</field>
+		
+		<field name="pidCommand" type="java.lang.String">
+			<bind-xml name="pidCommand" node="attribute" />
+		</field>
 
         <field name="host" type="java.lang.String">
 			<bind-xml name="host" node="attribute" />

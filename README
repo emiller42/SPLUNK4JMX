@@ -74,17 +74,24 @@ You can also attach directly to a locally running JVM process by specifying the 
 In this case, the "host", "jmxport", "jmxuser","jmxpass" attributes will not be used.
 The host value will default to the localhost's name.
 
-For more dynamic flexibility,rather than specifying a static Process ID value in the config xml , you can also specfying the name of a PID file that contains the JVM's Process ID.
+For more dynamic flexibility,rather than specifying a static Process ID value in the config xml , you can also specfy the name of a PID file that contains the JVM's Process ID.
 You set this in the "pidFile" attribute.
 Many long running Java processes output the PID value to a file, particularly if using a JVM Service Wrapper such as Tanuki.
 Each time the Splunk JMX Poller runs, it will dynamically inspect the value of the PID from this file.
 This way, you dont have to alter the config.xml each time you do a JVM restart.
+
+You can also specify the path to a command to execute to output the JVM's PID.
+You set this in the "pidCommand" attribute.
+This command might be a custom shell script/batch script that looks for the JVM process and extracts the PID to STD OUT.
+eg: on Linux you could do this with a simple script that uses ps, grep and awk.
 
 Look at the example xml config files in the bin directory for usage examples.There is also an example of a pid file.
 
 Groups of jmxserver's that share that same mbeans can be grouped together in a cluster element,
 so that you only have to declare the MBeans/MBean attributes once ie: a cluster of JEE appservers, a cluster 
 of Hadoop or Cassandra nodes etc...This will be useful for enterprises with very large scale JVM deployments.
+MBean inheritance is supported, so you can have mbean's defined that are common to the cluster, and mbeans that are
+specific to a cluster member.
 
 
 At index time the "host" field is extracted and transformed into the SPLUNK internal host value.
