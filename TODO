@@ -1,6 +1,18 @@
-1) more SPLUNK dashboards for the java.lang domain
-2) jvmDescription attribute , allow this to be dynamically set from the value of a particular mbean attribute
-3) jmxport, jmxpass, jmxuser...abstract these out so as to avoid potential unnecessary repetition in the config xml
-4) formatted user guide, the README has heaps of content, but is just ugly.
+TODO Items
+----------
 
- 
+* more SPLUNK dashboards for the java.lang domain
+
+* scheduled searches,alerts,reports for the java.lang domain
+
+* jvmDescription attribute , allow this to be dynamically set from the value of a particular mbean attribute
+
+* jmxport, jmxpass, jmxuser...abstract these out so as to avoid potential unnecessary repetition in the config xml
+
+* formatted user guide, the README has heaps of content, but is just ugly.
+
+* autodiscovery of JVMs, local and remote
+
+* extract "all mbeans and attributes" functionality
+
+* become the defacto standard for JMX monitoring :) 

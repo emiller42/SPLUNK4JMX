@@ -62,7 +62,7 @@ A custom "formatter" can be specified.Only 1 may be specified for the entire con
 This is a Java implementation of the "com.dtdsoftware.splunk.formatter.Formatter" interface.
 The customer formatter class must be placed on the java classpath.
 If a formatter declaration is omitted, then the default system formatter will be used.
-Refer to the javadoc API oin the docs directory for creating a custom Formatter implementation.
+Refer to the javadoc API in the docs directory for creating a custom Formatter implementation.
 
 1 or more "jmxserver" elements can be included in this XML defintion ie:  if you need to accesss multiple different jmx sources within the same scheduled execution
 Each "jmxserver" element you declare will be run in parallel.
