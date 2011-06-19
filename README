@@ -1,8 +1,8 @@
-Welcome to SPLUNK 4 JMX v1.2.1
+'''Welcome to SPLUNK 4 JMX v1.2.1'''
 by Damien T. Dallimore , SPLUNK Padawan 
 June 2011
 damien@dtdsoftware.com
----
+----
 
 '''OVERVIEW'''
 
@@ -20,7 +20,7 @@ Tested to date against Hotspot and JRockit JVM's.
 This app is basically a custom scripted input comprising of a bash/bat script and a Java program.  I have bundled it up as an app for convenience  
 and included some demo dashboards that graph up a small selection of MBean attributes from the java.lang domain
 
-Also refer to the applications "docs" directory for :
+Also refer to the application's "docs" directory for :
 
 * javadoc API for creating a custom Formatter implementation
 * configuration schema docs
@@ -37,7 +37,8 @@ Also refer to the applications "docs" directory for :
 
 The SPLUNK4JMX app sets up a custom index(index=jms) and a custom script input (source=jmx) that parses and executes an XML config file
 By default, the input script is disabled and the schedule time is 60 seconds
-After you configure your config XML file, you should then enable the input script and set your preferred schedule time in the SPLUNK manager.
+After you configure your config XML file, you should then enable the input script for the platform you are running on.
+There is a "sh" script for Nix and a "bat" script for Windows.
 
 
 '''INSTALLED COMPONENTS'''
@@ -50,7 +51,7 @@ The only components you really need to know about are in the SPLUNK_HOME/etc/app
 
 '''CONFIG.XML'''
 
-Note : also refer to the XSD , config.xsd, which resides in jmxpoller.jar
+Note : also refer to the configuration schema documentation in the docs directory
 
 Included in the SPLUNK4JMX app distribution is a comprehensive sample config.xml
 This sample file queries various java.lang MBeans and obtains attributes
@@ -63,6 +64,7 @@ A custom "formatter" can be specified.Only 1 may be specified for the entire con
 This is a Java implementation of the "com.dtdsoftware.splunk.formatter.Formatter" interface.
 The customer formatter class must be placed on the java classpath.
 If a formatter declaration is omitted, then the default system formatter will be used.
+Refer to the javadoc API oin the docs directory for creating a custom Formatter implementation.
 
 1 or more "jmxserver" elements can be included in this XML defintion ie:  if you need to accesss multiple different jmx sources within the same scheduled execution
 Each "jmxserver" element you declare will be run in parallel.
@@ -90,14 +92,13 @@ On Linux you could do this with a simple script that uses ps, grep and awk.
 
 Example : ps -eafH | grep "java" | grep -v "grep" | awk '{print $2}'
 
-Look at the example xml config files in the bin directory for usage examples.There is also an example of a pid file.
+Look at the example xml config file in the bin/config directory for usage examples.
 
 Groups of jmxserver's that share that same mbeans can be grouped together in a cluster element,
 so that you only have to declare the MBeans/MBean attributes once ie: a cluster of JEE appservers, a cluster 
 of Hadoop or Cassandra nodes etc...This will be useful for enterprises with very large scale JVM deployments.
 MBean inheritance is supported, so you can have mbean's defined that are common to the cluster, and mbeans that are
 specific to a cluster member.
-
 
 At index time the "host" field is extracted and transformed into the SPLUNK internal host value.
 

@@ -45,14 +45,22 @@ public class ProcessServerThread extends Thread {
 	
 	private boolean directJVMAttach = false;
 	
+	//output formatter
 	private Formatter formatter;
 
+	/**
+	 * Thread to run each JMX Server connection in
+	 * @param serverConfig config POJO for this JMX Server
+	 * @param formatter config POJO for the formatter
+	 */
 	public ProcessServerThread(JMXServer serverConfig,Formatter formatter) {
 
 		this.logger = Logger.getLogger(this.getName());		
 		this.serverConfig = serverConfig;		
 		this.formatter = formatter;
 		
+		
+		//set up the formatter
 		Map <String,String>meta = new HashMap<String,String>();
 		
 		if(serverConfig.getProcessID() > 0){
@@ -200,7 +208,7 @@ public class ProcessServerThread extends Thread {
 
 	/**
 	 * Get a JMX URL
-	 * @return
+	 * @return the URL
 	 * @throws Exception
 	 */
 	private JMXServiceURL getJMXServiceURL() throws Exception {
@@ -226,7 +234,7 @@ public class ProcessServerThread extends Thread {
 	/**
 	 * Get a JMX URL for a process ID
 	 * @param pid
-	 * @return
+	 * @return the URL
 	 * @throws Exception
 	 */
 	private static JMXServiceURL getURLForPid(int pid) throws Exception {

@@ -71,7 +71,7 @@ public class JMXMBeanPoller {
 	/**
 	 * Parse the config XML into Java POJOs and validate against XSD
 	 * @param configFileName
-	 * @return
+	 * @return The configuration POJO root
 	 * @throws Exception
 	 */
 	private static JMXPoller loadConfig(String configFileName) throws Exception {

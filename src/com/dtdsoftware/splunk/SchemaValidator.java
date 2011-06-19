@@ -19,7 +19,7 @@ public class SchemaValidator {
 	/**
 	 * Validate XML source
 	 * @param xml
-	 * @throws Exception
+	 * @throws Exception if validation fails
 	 */
 	public void validateSchema(InputSource xml) throws Exception {
 
