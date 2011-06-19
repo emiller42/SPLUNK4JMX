@@ -45,8 +45,7 @@ There is a "sh" script for Nix and a "bat" script for Windows.
 The only components you really need to know about are in the SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin directory
 
 * bin/poll_jmx - this is the script that SPLUNK fires at scheduled intervals, this script invokes a Java program that has the logic for querying the JMX Server(s).
-* bin/config/config.xml - this is the config file where you specify JMX server(s), MBeans and MBean attributes to extract.You can create as many config files 
-,with any name, as you want and set them up as the argument to the poll_jmx script on the SPLUNK Manager Data Inputs page.
+* bin/config/config.xml - this is the config file where you specify JMX server(s), MBeans and MBean attributes to extract.You can create as many config files,with any name, as you want and set them up as the argument to the poll_jmx script on the SPLUNK Manager Data Inputs page.
 
 '''CONFIG.XML'''
 
@@ -119,7 +118,7 @@ See examples of this in config.xml
 
 ''Example output line (default formatter)''
 
-host=damien-laptop,jvmDescription="My test JVM",mbean="java.lang:type=Threading",started="1830",count="47",peak="57"
+host=damien-laptop,jvmDescription="My test JVM",mbean="java.lang:type=Threading",count="47"
 
 '''JVM "ATTACH" NATIVE LIBRARYS'''
 
@@ -159,3 +158,4 @@ If you need to tweak log settings, then the log4j.xml config file resides in jmx
 * check your process ID if trying to attach to a local JVM
 * ensure your XML config adheres to the XSD
 * look for errors in the log files
+
