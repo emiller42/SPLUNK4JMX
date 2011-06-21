@@ -38,6 +38,7 @@ public class ProcessServerThread extends Thread {
 	private Logger logger;
 	
 	private MBeanServerConnection serverConnection;
+	private JMXConnector jmxc;
 
 	private static final String CONNECTOR_ADDRESS = "com.sun.management.jmxremote.localConnectorAddress";
 
@@ -173,6 +174,13 @@ public class ProcessServerThread extends Thread {
 		} catch (Exception e) {
 			logger.error("Error : "+e.getMessage());
 		}
+		finally{
+			if(jmxc != null){
+			  try{jmxc.close();}catch(Exception e){}
+			}
+			
+		}
+		
 
 	}
 
@@ -186,7 +194,6 @@ public class ProcessServerThread extends Thread {
 		// get the JMX URL
 		JMXServiceURL url = getJMXServiceURL();
 
-		JMXConnector jmxc;
 
 		// only send user/pass credentials if they have been set
 		if (serverConfig.getJmxuser().length() > 0
@@ -201,7 +208,7 @@ public class ProcessServerThread extends Thread {
 		} else {
 			jmxc = JMXConnectorFactory.connect(url);
 		}
-
+		
 		serverConnection = jmxc.getMBeanServerConnection();
 
 	}

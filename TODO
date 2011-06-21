@@ -15,4 +15,12 @@ TODO Items
 
 * extract "all mbeans and attributes" functionality
 
-* become the defacto standard for JMX monitoring :) 
+* utility for JMX Server schema dumper(list all mbeans and attributes)
+
+* jmx operations
+
+* jmx notifications
+
+* additional connectors and protocol adaptors
+
+* discovery/lookup (slp, jini, jndi) of JMX Connectors 
