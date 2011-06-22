@@ -11,15 +11,13 @@ TODO Items
 
 * formatted user guide, the README has heaps of content, but is just ugly.
 
-* autodiscovery of JVMs, local and remote
-
 * extract "all mbeans and attributes" functionality
 
 * utility for JMX Server schema dumper(list all mbeans and attributes)
 
-* jmx operations
+* jmx operations, perhaps add functionality to invoke an operation before querying an attribute value
 
-* jmx notifications
+* jmx notifications(unsure if this will be applicable as jmx notifications aren't store and forward)
 
 * additional connectors and protocol adaptors
 
