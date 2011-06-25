@@ -1,5 +1,5 @@
-'''Welcome to SPLUNK 4 JMX v1.2.1'''
-by Damien T. Dallimore , SPLUNK Padawan 
+'''Welcome to SPLUNK 4 JMX v1.2.2'''
+by Damien T. Dallimore
 June 2011
 damien@dtdsoftware.com
 ----
@@ -22,15 +22,16 @@ and included some demo dashboards that graph up a small selection of MBean attri
 
 Also refer to the application's "docs" directory for :
 
-* javadoc API for creating a custom Formatter implementation
-* configuration schema docs
+* PDF User Guide
+* Javadoc API for creating a custom Formatter implementation
+* Configuration schema documentation
 
 
 '''INSTALLATION'''
 
 * set the JAVA_HOME environment variable to the location of your JRE install location(version 1.6 +)
 * set the SPLUNK_HOME environment variable to the install root of SPLUNK
-* uncompress SPLUNK4JMX-1.2.1.tar.gz to SPLUNK_HOME/etc/apps
+* uncompress SPLUNK4JMX-1.2.2.tar.gz to SPLUNK_HOME/etc/apps
 * restart SPLUNK
 
 

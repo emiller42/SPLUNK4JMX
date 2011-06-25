@@ -1,8 +1,6 @@
 <!--
 Example config file that obtains several attributes from the java.lang domain of a JMX Server.
 
-You can declare to connect to  either the remote JMX interface or locally by processID
-
 Shows many scenarios of simple attributes, array attributes, composite attributes, tabular attributes, 
 composite attributes nested within tabular attributes etc...
 
@@ -10,15 +8,10 @@ Tested against a Sun Hotspot JVM and JRockit JVM
 
 Multiple jmxserver elements can be included and they will be executed in parallel
 
-Alternatively groups of jmxserver's that share that same mbeans can be grouped together in a cluster element,
-so that you only have to declare the MBeans/MBean attributes once ie: a cluster of JEE appservers, a cluster 
-of Hadoop or Cassandra nodes etc...
-
 A custom formatter can be specified.Only 1 may be specified for the entire configuration.
 This is a Java implementation of the "com.dtdsoftware.splunk.formatter.Formatter" interface.
 The formatter class must be placed on the java classpath.
 If the optional formatter declaration is omitted, then the default formatter will be used.
-
 
 Use this file as an example for polling any Mbean attributes you need to SPLUNK
 
@@ -30,83 +23,6 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 <!-- optional formatter declaration, will default to the DefaultFormatter class -->
 <!--<formatter className="com.dtdsoftware.splunk.formatter.DefaultFormatter" /> -->
 <!-- <formatter className="com.dtdsoftware.splunk.formatter.YourCustomFormatter" /> -->
-
-<!--  cluster example, many JVMs that have the same MBeans can be conveniently grouped together -->
-<cluster name="cluster1" description="A cluster of Cassandra Nodes">
-
-<!-- Mbeans common to all cluster members -->
-<mbean domain="java.lang" properties="type=Memory">
-
-<attribute name="HeapMemoryUsage:used" outputname="heapUsed"/>
-<attribute name="HeapMemoryUsage:max" outputname="heapMax"/>
-
-</mbean>
-
-<!-- cluster members with many examples of connecting to JMX Servers -->
-<jmxserver host="10.1.1.1" jvmDescription="node1" jmxport="1234" jmxuser="fred" jmxpass="secret"/>
-<jmxserver host="10.1.1.2" jvmDescription="node2" jmxport="1234" jmxuser="fred" jmxpass="secret"/>
-<jmxserver host="10.1.1.3" jvmDescription="node3" jmxport="4567" />
-<jmxserver pid="1234" jvmDescription="node4"/>
-<jmxserver pidFile="/home/myapp/bin/mypidfile.pid" jvmDescription="node5"/>
-<jmxserver pidCommand="/home/myapp/bin/obtain_JVM_pid.sh" jvmDescription="node6"/>
-<jmxserver host="localhost" jvmDescription="node7" jmxport="7654" />
-
-<!-- an example of inheritance.In addition to the common cluster mbeans, from this jmx server
-we also want a couple of other specific attributes -->
-<jmxserver host="10.1.1.4" jvmDescription="node8" jmxport="5678">
-
-<mbean domain="java.lang" properties="type=Memory">
-
-<!-- composite attributes -->
-<attribute name="NonHeapMemoryUsage:used" outputname="nonHeapUsed"/>
-<attribute name="NonHeapMemoryUsage:max" outputname="nonHeapMax"/>
-
-</mbean>
-
-</jmxserver>
-
-
-</cluster>
-
-<!-- Connect to a local JVM by PID -->
-<jmxserver pid="1234" jvmDescription="My JVM">
-
-<mbean domain="java.lang" properties="type=Memory">
-
-<!-- composite attributes -->
-<attribute name="NonHeapMemoryUsage:used" outputname="nonHeapUsed"/>
-<attribute name="NonHeapMemoryUsage:max" outputname="nonHeapMax"/>
-
-</mbean>
-
-</jmxserver>
-
-
-<!-- Connect to a local JVM by PID contained in a PID File -->
-<jmxserver pidFile="/home/myapp/bin/mypidfile.pid" jvmDescription="Another JVM">
-
-<mbean domain="java.lang" properties="type=Memory">
-
-<!-- composite attributes -->
-<attribute name="NonHeapMemoryUsage:used" outputname="nonHeapUsed"/>
-<attribute name="NonHeapMemoryUsage:max" outputname="nonHeapMax"/>
-
-</mbean>
-
-</jmxserver>
-
-<!-- Connect to a local JVM by PID obtained from the output of a custom command -->
-<jmxserver pidCommand="/home/myapp/bin/obtain_JVM_pid.sh" jvmDescription="Another JVM">
-
-<mbean domain="java.lang" properties="type=Memory">
-
-<!-- composite attributes -->
-<attribute name="NonHeapMemoryUsage:used" outputname="nonHeapUsed"/>
-<attribute name="NonHeapMemoryUsage:max" outputname="nonHeapMax"/>
-
-</mbean>
-
-</jmxserver>
 
 <!-- Connect to a JVM via the remote JMX interface -->
 <jmxserver host="10.1.1.1" jvmDescription="tomcat" jmxport="1234" jmxuser="fred" jmxpass="secret">

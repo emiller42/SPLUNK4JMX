@@ -60,6 +60,8 @@
 		
 		<copy todir="${temp_build}/${bin}/${config}">
 			<fileset file="${config}/config.xml" />
+			<fileset file="${config}/config_cluster_example.xml" />
+			<fileset file="${config}/config_PID_example.xml" />
 			
 				</copy>
 
