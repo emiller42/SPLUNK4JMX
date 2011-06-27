@@ -19,7 +19,7 @@ This SPLUNK app provides the means to :
 Tested to date against Hotspot and JRockit JVM's.
 
 This app is basically a custom scripted input comprising of a bash/bat script and a Java program.  I have bundled it up as an app for convenience  
-and included some demo dashboards that graph up a small selection of MBean attributes from the java.lang domain
+and included some demo dashboards that graph up a selection of MBean attributes from the java.lang domain
 
 Also refer to the application's "docs" directory for :
 
@@ -47,7 +47,7 @@ There is a "sh" script for Nix and a "bat" script for Windows.
 The only components you really need to know about are in the SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin directory
 
 * bin/poll_jmx - this is the script that SPLUNK fires at scheduled intervals, this script invokes a Java program that has the logic for querying the JMX Server(s).
-* bin/config/config.xml - this is the config file where you specify JMX server(s), MBeans and MBean attributes to extract.You can create as many config files,with any name, as you want and set them up as the argument to the poll_jmx script on the SPLUNK Manager Data Inputs page.
+* bin/config/config.xml - this is the config file where you specify JMX server(s), MBeans and MBean attributes/operations.You can create as many config files,with any name, as you want and set them up as the argument to the poll_jmx script on the SPLUNK Manager Data Inputs page.
 
 '''CONFIG.XML'''
 
@@ -123,15 +123,16 @@ You can declare operations that return a result or not , take arguments or not.
 Operation overloading is supported for methods of the same name with different signatures.
 
 The following parameter types are supported :
-int
-float
-double
-long
-short
-byte
-boolean
-char
-string
+
+* int
+* float
+* double
+* long
+* short
+* byte
+* boolean
+* char
+* string
 
 Internally these get autoboxed into their respective Object counterparts.
 See config_operations_example.xml for usage scenarios.
