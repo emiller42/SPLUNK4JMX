@@ -31,18 +31,20 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 <mbean domain="myAppDomain" properties="type=foo">
 
 <!-- invoke operation with no arguments and write out result-->
-<operation name="getSystemTime" outputname="multiplicationResult" />
+<operation name="getSystemTime" outputname="systime" />
  
  <!-- invoke operation with int arguments and write out result-->
-<operation name="doMultiply" outputname="multiplicationResult">
+<operation name="doMultiply" outputname="multiplied">
   <parameter value="4" type="int" />
   <parameter value="6" type="int" />
 </operation>
 
- <!-- invoke operation with string arguments and write out result-->
-<operation name="concatentateStrings" outputname="concatResult">
+ <!-- invoke operation with several argument types and write out result-->
+<operation name="concatentateArgs" outputname="concat">
   <parameter value="Hello" type="string" />
   <parameter value="World" type="string" />
+  <parameter value="1.2" type="double" />
+  <parameter value="true" type="boolean" />
 </operation>
 
  <!-- invoke operation with no arguments and no result is returned-->
