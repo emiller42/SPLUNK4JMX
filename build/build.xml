@@ -62,7 +62,7 @@
 			<fileset file="${config}/config.xml" />
 			<fileset file="${config}/config_cluster_example.xml" />
 			<fileset file="${config}/config_PID_example.xml" />
-			
+			<fileset file="${config}/config_operations_example.xml" />
 				</copy>
 
 		<copy todir="${temp_build}/${bin}">

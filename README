@@ -1,4 +1,4 @@
-'''Welcome to SPLUNK 4 JMX v1.2.2'''
+'''Welcome to SPLUNK 4 JMX v1.2.3'''
 by Damien T. Dallimore
 June 2011
 damien@dtdsoftware.com
@@ -11,7 +11,8 @@ This SPLUNK app provides the means to :
 * connect to any local or remote JVM's JMX server, either via the remote JMX interface or attaching to a local JVM process
 * query any MBean running on that server
 * extract any MBean attributes (simple, composite or tabular)
-* write them out in a default key/value format, or your own custom format, for SPLUNK indexing and searching
+* invoke MBean operations
+* write attributes and operation results out in a default key/value format, or your own custom format, for SPLUNK indexing and searching
 * declare clusters of JVM's for large scale JVM deployments
 * runs on *Nix and Windows
 
@@ -31,7 +32,7 @@ Also refer to the application's "docs" directory for :
 
 * set the JAVA_HOME environment variable to the location of your JRE install location(version 1.6 +)
 * set the SPLUNK_HOME environment variable to the install root of SPLUNK
-* uncompress SPLUNK4JMX-1.2.2.tar.gz to SPLUNK_HOME/etc/apps
+* uncompress SPLUNK4JMX-1.2.3.tar.gz to SPLUNK_HOME/etc/apps
 * restart SPLUNK
 
 
@@ -54,7 +55,7 @@ Note : also refer to the configuration schema documentation in the docs director
 
 Included in the SPLUNK4JMX app distribution is a comprehensive sample config.xml
 This sample file queries various java.lang MBeans and obtains attributes
-You can use this as a basis for creating your own config files for whatever MBeans and attributes you need to poll across your environment
+You can use this as a basis for creating your own config files for whatever MBeans and attributes/operations you need to poll across your environment
 To try out this sample config.xml file , just set the values for your environment in the jmxserver element , and you should be good to go.
 
 "jmxpoller" is the root xml element
@@ -94,7 +95,7 @@ Example : ps -eafH | grep "java" | grep -v "grep" | awk '{print $2}'
 Look at the example xml config file in the bin/config directory for usage examples.
 
 Groups of jmxserver's that share that same mbeans can be grouped together in a cluster element,
-so that you only have to declare the MBeans/MBean attributes once ie: a cluster of JEE appservers, a cluster 
+so that you only have to declare the MBeans/MBean attributes/operations once ie: a cluster of JEE appservers, a cluster 
 of Hadoop or Cassandra nodes etc...This will be useful for enterprises with very large scale JVM deployments.
 MBean inheritance is supported, so you can have mbeans defined that are common to the cluster, and mbeans that are
 specific to a cluster member.
@@ -112,10 +113,28 @@ If no values are specified for the "domain" and "properties" attributes , the va
 
 The MBean's canonical objectname will be written out to SPLUNK
 
-Single, composite and tabluar MBean attributes are supported.
+Single, composite and tabular MBean attributes are supported.
 
 For attributes that are multi level ie: composite and tabular attributes , then you can use a ":" delimited notation for specifying the attribute name.
 See examples of this in config.xml
+
+MBean operation invocation is supported.
+You can declare operations that return a result or not , take arguments or not.
+Operation overloading is supported for methods of the same name with different signatures.
+
+The following parameter types are supported :
+int
+float
+double
+long
+short
+byte
+boolean
+char
+string
+
+Internally these get autoboxed into their respective Object counterparts.
+See config_operations_example.xml for usage scenarios.
 
 ''Example output line (default formatter)''
 
@@ -150,7 +169,7 @@ If you need to tweak log settings, then the log4j.xml config file resides in jmx
 '''TROUBLESHOOTING'''
 
 * check your firewall setup
-* check the correct spelling/case of your MBeans and MBean attribute defintion
+* check the correct spelling/case of your MBeans and MBean attribute/operation definitions
 * check your hostname and port
 * check your user and pass
 * check that your JVM remote JMX access is correctly setup

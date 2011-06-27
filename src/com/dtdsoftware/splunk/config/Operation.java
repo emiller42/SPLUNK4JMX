@@ -112,21 +112,21 @@ public class Operation {
 		try {
 			String type = parameter.getType();
 			if (type.equalsIgnoreCase(Parameter.INT))
-				return "java.lang.Integer";
+				return "int";
 			else if (type.equalsIgnoreCase(Parameter.FLOAT))
-				return "java.lang.Float";
+				return "float";
 			else if (type.equalsIgnoreCase(Parameter.DOUBLE))
-				return "java.lang.Double.class";
+				return "double";
 			else if (type.equalsIgnoreCase(Parameter.LONG))
-				return "java.lang.Long";
+				return "long";
 			else if (type.equalsIgnoreCase(Parameter.SHORT))
-				return "java.lang.Short";
+				return "short";
 			else if (type.equalsIgnoreCase(Parameter.BYTE))
-				return "java.lang.Byte";
+				return "byte";
 			else if (type.equalsIgnoreCase(Parameter.BOOLEAN))
-				return "java.lang.Boolean";
+				return "boolean";
 			else if (type.equalsIgnoreCase(Parameter.CHAR))
-				return "java.lang.Character";
+				return "char";
 			else if (type.equalsIgnoreCase(Parameter.STRING))
 				return "java.lang.String";
 			else
