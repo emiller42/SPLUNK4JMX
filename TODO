@@ -11,8 +11,6 @@ TODO Items
 
 * extract "all mbeans and attributes" functionality
 
-* jmx operations, perhaps add functionality to invoke an operation before querying an attribute value
-
 * additional connectors and protocol adaptors
 
 * discovery/lookup (slp, jini, jndi) of JMX Connectors 

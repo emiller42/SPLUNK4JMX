@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import com.dtdsoftware.splunk.config.JMXServer;
 import com.dtdsoftware.splunk.config.MBean;
 import com.dtdsoftware.splunk.config.Attribute;
+import com.dtdsoftware.splunk.config.Operation;
 import com.dtdsoftware.splunk.formatter.Formatter;
 import com.sun.tools.attach.VirtualMachine;
 
@@ -108,7 +109,20 @@ public class ProcessServerThread extends Thread {
 						String mBeanName=on.getCanonicalName();
 						Map <String,String>mBeanAttributes = new HashMap<String,String>();
 						
-
+						//execute operations
+						if (bean.getOperations() != null) {
+						
+							for(Operation operation : bean.getOperations()){
+								try{
+								Object result = serverConnection.invoke(on, operation.getName(), operation.getParametersArray(),operation.getSignatureArray());
+								String outputname = operation.getOutputname();
+								if(outputname !=null && !outputname.isEmpty())
+								  mBeanAttributes.put(operation.getOutputname(), result.toString());
+								}
+								catch(Exception e){logger.error("Error : "+e.getMessage());}
+							}
+						}
+                        //extract attributes
 						if (bean.getAttributes() != null) {
 
 							// look up the attribute for the MBean

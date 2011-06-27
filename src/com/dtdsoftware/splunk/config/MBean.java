@@ -25,6 +25,8 @@ public class MBean {
 
 
 	public List<Attribute> attributes;
+	
+	public List<Operation> operations;
 
 	public MBean() {
 	}
@@ -52,5 +54,15 @@ public class MBean {
 	public void setAttributes(List<Attribute> attributes) {
 		this.attributes = attributes;
 	}
+
+	public List<Operation> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(List<Operation> operations) {
+		this.operations = operations;
+	}
+	
+	
 
 }

@@ -140,10 +140,11 @@
 				* wildcard
 			</xs:documentation>
 		</xs:annotation>
-		<xs:complexType>
+		<xs:complexType>		
 			<xs:sequence>
-				<xs:element maxOccurs="unbounded" ref="attribute" />
-			</xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="operation" />
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="attribute" />
+			</xs:sequence>	
 			<xs:attribute name="domain" use="required" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The MBean domain</xs:documentation>
@@ -154,6 +155,62 @@
 					<xs:documentation>The MBean properties string in
 						"key=value,key2=value2" format</xs:documentation>
 				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>	
+	<xs:element name="operation">
+		<xs:annotation>
+			<xs:documentation>An MBean operation</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="parameter" />
+			</xs:sequence>
+			<xs:attribute name="name" use="required" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The operation name.
+						For overloaded operations, the operation signature is inferred from the paramaters list.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="outputname" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The operation result key that is output to STDOUT for
+						SPLUNK indexing.Optional, some operations may not return values.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="parameter">
+		<xs:annotation>
+			<xs:documentation>An MBean operation parameter</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="value" use="required" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						The parameter value
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="type" use="required">
+				<xs:annotation>
+					<xs:documentation>The parameter type</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="int" />
+						<xs:enumeration value="byte" />
+						<xs:enumeration value="short" />
+						<xs:enumeration value="long" />
+						<xs:enumeration value="float" />
+						<xs:enumeration value="double" />
+						<xs:enumeration value="boolean" />
+						<xs:enumeration value="char" />
+						<xs:enumeration value="string" />
+					</xs:restriction>
+				</xs:simpleType>
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
