@@ -203,13 +203,23 @@ public class ProcessServerThread extends Thread {
 
 	}
 
+	/**
+	 * Resolve an Object to a String representation.
+	 * Arrays, Lists, Sets and Maps will be recursively deep resolved
+	 * @param obj
+	 * @return
+	 */
 	private String resolveObjectToString(Object obj) {
 
 		StringBuffer sb = new StringBuffer();
 		if (obj != null) {
+			
+			//convert an array to a List view
 			if (obj instanceof Object[]) {
-				sb.append(Arrays.toString((Object[]) obj));
-			} else if (obj instanceof Map) {
+				obj = Arrays.asList((Object[])obj);
+			} 
+			
+			if (obj instanceof Map) {
 				sb.append("[");
 				Map map = (Map) obj;
 				Set keys = map.keySet();
