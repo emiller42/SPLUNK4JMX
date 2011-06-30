@@ -135,11 +135,27 @@ The following parameter types are supported :
 * string
 
 Internally these get autoboxed into their respective Object counterparts.
+
 See config_operations_example.xml for usage scenarios.
 
 ''Example output line (default formatter)''
 
 host=damien-laptop,jvmDescription="My test JVM",mbean="java.lang:type=Threading",count="47"
+
+''' SUPPORTED RETURN DATA TYPES FOR OPERATIONS AND ATTRIBUTES'''
+
+Simple, Composite and Tabular MBean data structures are supported.
+
+The value obtained from the Attribute or as the return type of an Operation can be :
+
+1. Any primitive type(Object wrapped)
+2. String
+3. Array
+4. List
+5. Map
+6. Set
+
+Collection types will be recursively deeply inspected, so you can have Collections of Collections etc..
 
 '''JVM "ATTACH" NATIVE LIBRARYS'''
 
