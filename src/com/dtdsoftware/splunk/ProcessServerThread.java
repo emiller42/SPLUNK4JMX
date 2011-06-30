@@ -35,47 +35,49 @@ import com.sun.tools.attach.VirtualMachine;
  */
 public class ProcessServerThread extends Thread {
 
-	
 	private Logger logger;
-	
+
 	private MBeanServerConnection serverConnection;
 	private JMXConnector jmxc;
 
 	private static final String CONNECTOR_ADDRESS = "com.sun.management.jmxremote.localConnectorAddress";
 
 	private JMXServer serverConfig;
-	
+
 	private boolean directJVMAttach = false;
-	
-	//output formatter
+
+	// output formatter
 	private Formatter formatter;
 
 	/**
 	 * Thread to run each JMX Server connection in
-	 * @param serverConfig config POJO for this JMX Server
-	 * @param formatter config POJO for the formatter
+	 * 
+	 * @param serverConfig
+	 *            config POJO for this JMX Server
+	 * @param formatter
+	 *            config POJO for the formatter
 	 */
-	public ProcessServerThread(JMXServer serverConfig,Formatter formatter) {
+	public ProcessServerThread(JMXServer serverConfig, Formatter formatter) {
 
-		this.logger = Logger.getLogger(this.getName());		
-		this.serverConfig = serverConfig;		
+		this.logger = Logger.getLogger(this.getName());
+		this.serverConfig = serverConfig;
 		this.formatter = formatter;
-		
-		
-		//set up the formatter
-		Map <String,String>meta = new HashMap<String,String>();
-		
-		if(serverConfig.getProcessID() > 0){
+
+		// set up the formatter
+		Map<String, String> meta = new HashMap<String, String>();
+
+		if (serverConfig.getProcessID() > 0) {
 			this.directJVMAttach = true;
-			meta.put(Formatter.META_PROCESS_ID, String.valueOf(serverConfig.getProcessID()));
+			meta.put(Formatter.META_PROCESS_ID, String.valueOf(serverConfig
+					.getProcessID()));
 		}
-		
+
 		meta.put(Formatter.META_HOST, this.serverConfig.getHost());
-		meta.put(Formatter.META_JVM_DESCRIPTION, this.serverConfig.getJvmDescription());
-		
+		meta.put(Formatter.META_JVM_DESCRIPTION, this.serverConfig
+				.getJvmDescription());
+
 		formatter.setMetaData(meta);
-		
-		
+
 	}
 
 	@Override
@@ -106,23 +108,31 @@ public class ProcessServerThread extends Thread {
 					for (ObjectInstance oi : foundBeans) {
 						ObjectName on = oi.getObjectName();
 						// the mbean specific part of the SPLUNK output String
-						String mBeanName=on.getCanonicalName();
-						Map <String,String>mBeanAttributes = new HashMap<String,String>();
-						
-						//execute operations
+						String mBeanName = on.getCanonicalName();
+						Map<String, String> mBeanAttributes = new HashMap<String, String>();
+
+						// execute operations
 						if (bean.getOperations() != null) {
-						
-							for(Operation operation : bean.getOperations()){
-								try{
-								Object result = serverConnection.invoke(on, operation.getName(), operation.getParametersArray(),operation.getSignatureArray());
-								String outputname = operation.getOutputname();
-								if(outputname !=null && !outputname.isEmpty())
-								  mBeanAttributes.put(operation.getOutputname(), result.toString());
+
+							for (Operation operation : bean.getOperations()) {
+								try {
+									Object result = serverConnection.invoke(on,
+											operation.getName(), operation
+													.getParametersArray(),
+											operation.getSignatureArray());
+									String outputname = operation
+											.getOutputname();
+									if (outputname != null
+											&& !outputname.isEmpty())
+										mBeanAttributes.put(operation
+												.getOutputname(),
+												resolveObjectToString(result));
+								} catch (Exception e) {
+									logger.error("Error : " + e.getMessage());
 								}
-								catch(Exception e){logger.error("Error : "+e.getMessage());}
 							}
 						}
-                        //extract attributes
+						// extract attributes
 						if (bean.getAttributes() != null) {
 
 							// look up the attribute for the MBean
@@ -138,14 +148,16 @@ public class ProcessServerThread extends Thread {
 											attributeValue = serverConnection
 													.getAttribute(on, token);
 										} catch (Exception e) {
-											logger.error("Error : "+e.getMessage());
+											logger.error("Error : "
+													+ e.getMessage());
 										}
 									else if (attributeValue instanceof CompositeDataSupport) {
 										try {
 											attributeValue = ((CompositeDataSupport) attributeValue)
 													.get(token);
 										} catch (Exception e) {
-											logger.error("Error : "+e.getMessage());
+											logger.error("Error : "
+													+ e.getMessage());
 										}
 									} else if (attributeValue instanceof TabularDataSupport) {
 										try {
@@ -155,30 +167,22 @@ public class ProcessServerThread extends Thread {
 											attributeValue = ((CompositeDataSupport) attributeValue)
 													.get("value");
 										} catch (Exception e) {
-											logger.error("Error : "+e.getMessage());
+											logger.error("Error : "
+													+ e.getMessage());
 										}
 									} else {
 									}
 								}
 
-								String splunkValue = "";
-								if (attributeValue != null) {
-									if (attributeValue instanceof Object[]) {
-										splunkValue = Arrays
-												.toString((Object[]) attributeValue);
-									} else {
-										splunkValue = attributeValue.toString();
-									}
-								}
+								mBeanAttributes.put(singular.getOutputname(),
+										resolveObjectToString(attributeValue));
 
-								
-								mBeanAttributes.put(singular.getOutputname(), splunkValue);
-								
 							}
 
 						}
 						// write line out to SYSOUT
-						formatter.print(mBeanName,mBeanAttributes,System.currentTimeMillis());
+						formatter.print(mBeanName, mBeanAttributes, System
+								.currentTimeMillis());
 					}
 
 				}
@@ -186,15 +190,70 @@ public class ProcessServerThread extends Thread {
 			}
 
 		} catch (Exception e) {
-			logger.error("Error : "+e.getMessage());
-		}
-		finally{
-			if(jmxc != null){
-			  try{jmxc.close();}catch(Exception e){}
+			logger.error("Error : " + e.getMessage());
+		} finally {
+			if (jmxc != null) {
+				try {
+					jmxc.close();
+				} catch (Exception e) {
+				}
 			}
-			
+
 		}
-		
+
+	}
+
+	private String resolveObjectToString(Object obj) {
+
+		StringBuffer sb = new StringBuffer();
+		if (obj != null) {
+			if (obj instanceof Object[]) {
+				sb.append(Arrays.toString((Object[]) obj));
+			} else if (obj instanceof Map) {
+				sb.append("[");
+				Map map = (Map) obj;
+				Set keys = map.keySet();
+				int totalEntrys = keys.size();
+				int index = 0;
+				for (Object key : keys) {
+					index++;
+					Object value = map.get(key);
+					sb.append(resolveObjectToString(key));
+					sb.append("=");
+					sb.append(resolveObjectToString(value));
+					if (index < totalEntrys)
+						sb.append(",");
+				}
+				sb.append("]");
+			} else if (obj instanceof List) {
+				sb.append("[");
+				List list = (List) obj;
+				int totalEntrys = list.size();
+				int index = 0;
+				for (Object item : list) {
+					index++;
+					sb.append(resolveObjectToString(item));
+					if (index < totalEntrys)
+						sb.append(",");
+				}
+				sb.append("]");
+			} else if (obj instanceof Set) {
+				sb.append("[");
+				Set set = (Set) obj;
+				int totalEntrys = set.size();
+				int index = 0;
+				for (Object item : set) {
+					index++;
+					sb.append(resolveObjectToString(item));
+					if (index < totalEntrys)
+						sb.append(",");
+				}
+				sb.append("]");
+			} else {
+				sb.append(obj.toString());
+			}
+		}
+		return sb.toString();
 
 	}
 
@@ -208,10 +267,10 @@ public class ProcessServerThread extends Thread {
 		// get the JMX URL
 		JMXServiceURL url = getJMXServiceURL();
 
-
 		// only send user/pass credentials if they have been set
 		if (serverConfig.getJmxuser().length() > 0
-				&& serverConfig.getJmxpass().length() > 0 && !this.directJVMAttach) {
+				&& serverConfig.getJmxpass().length() > 0
+				&& !this.directJVMAttach) {
 			Map<String, String[]> env = new HashMap<String, String[]>();
 			String[] creds = { serverConfig.getJmxuser(),
 					serverConfig.getJmxpass() };
@@ -222,13 +281,14 @@ public class ProcessServerThread extends Thread {
 		} else {
 			jmxc = JMXConnectorFactory.connect(url);
 		}
-		
+
 		serverConnection = jmxc.getMBeanServerConnection();
 
 	}
 
 	/**
 	 * Get a JMX URL
+	 * 
 	 * @return the URL
 	 * @throws Exception
 	 */
@@ -238,7 +298,6 @@ public class ProcessServerThread extends Thread {
 		// connect to local process
 		if (serverConfig.getProcessID() > 0) {
 
-			
 			url = getURLForPid(serverConfig.getProcessID());
 		}
 		// connect to a remote process
@@ -254,6 +313,7 @@ public class ProcessServerThread extends Thread {
 
 	/**
 	 * Get a JMX URL for a process ID
+	 * 
 	 * @param pid
 	 * @return the URL
 	 * @throws Exception
