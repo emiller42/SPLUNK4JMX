@@ -5,10 +5,19 @@ TODO Items
 
 * scheduled searches,alerts,reports for the java.lang domain
 
-* jvmDescription attribute , allow this to be dynamically set from the value of an attribute or operation result
+* SSL support for default RMI connector
 
-* jmxport, jmxpass, jmxuser...abstract these out so as to avoid potential unnecessary repetition in the config xml
+* HTTP connector and JVM agent using "REST like" protocol
+  * JSON/Hessian/Burlap for the data serialization ?
+  * HTTPs support
+  * additional security ie: ACL's
+  * bulk requests 
+  
+* jolokia support ?
 
-* additional JMX connectors and adaptors (HTTP, REST, JSON, XML etc...)
+* mx4j support ?
 
 * discovery/lookup (slp, jini, jndi) of JMX Connectors 
+
+* option for dumping all mbean attributes
+
