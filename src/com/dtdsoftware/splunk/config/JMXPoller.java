@@ -3,6 +3,7 @@ package com.dtdsoftware.splunk.config;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Root config POJO
  * 
@@ -13,7 +14,7 @@ public class JMXPoller {
 
 	// the list of JMX Servers to connect to
 	public List<JMXServer> servers;
-	
+
 	// a list of JMX Server Clusters
 	public List<Cluster> clusters;
 
@@ -28,13 +29,12 @@ public class JMXPoller {
 	}
 
 	public void setServers(List<JMXServer> servers) {
-				
-		if(this.servers != null){
+
+		if (this.servers != null) {
 			this.servers.addAll(servers);
-		}
-		else
+		} else
 			this.servers = servers;
-		
+
 	}
 
 	public Formatter getFormatter() {
@@ -51,25 +51,31 @@ public class JMXPoller {
 
 	/**
 	 * Set the clusters and resolve the JMXServer objects
+	 * 
 	 * @param clusters
 	 */
 	public void setClusters(List<Cluster> clusters) {
+
 		this.clusters = clusters;
-		
-		if(this.servers == null){
-			this.servers=new ArrayList<JMXServer>();
+
+	}
+
+	public void normalizeClusters() {
+
+		if (this.clusters == null)
+			return;
+		if (this.servers == null) {
+			this.servers = new ArrayList<JMXServer>();
 		}
-		for(Cluster cluster:clusters){
-			
-			List <MBean>mbeans = cluster.getMbeans();
-			List <JMXServer>clusterServers = cluster.getServers();
-			for(JMXServer server:clusterServers){
+		for (Cluster cluster : this.clusters) {
+
+			List<MBean> mbeans = cluster.getMbeans();
+			List<JMXServer> clusterServers = cluster.getServers();
+			for (JMXServer server : clusterServers) {
 				server.setMbeans(mbeans);
 				this.servers.add(server);
 			}
 		}
 	}
-	
-	
 
 }

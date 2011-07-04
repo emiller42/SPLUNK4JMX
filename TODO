@@ -1,9 +1,9 @@
 TODO Items
 ----------
 
-* more SPLUNK dashboards for the java.lang domain
+* more SPLUNK dashboards, searches for the java.lang domain
 
-* scheduled searches,alerts,reports for the java.lang domain
+* option for dumping all mbean attributes
 
 * SSL support for default RMI connector
 
@@ -12,12 +12,15 @@ TODO Items
   * HTTPs support
   * additional security ie: ACL's
   * bulk requests 
-  
+
 * jolokia support ?
 
 * mx4j support ?
 
+* wildcard classpath for jars in run scripts
+
+* jmxport, jmxpass, jmxuser...abstract these out so as to avoid potential unnecessary repetition in the config xml
+
 * discovery/lookup (slp, jini, jndi) of JMX Connectors 
 
-* option for dumping all mbean attributes
 

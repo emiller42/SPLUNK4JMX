@@ -1,4 +1,4 @@
-'''Welcome to SPLUNK 4 JMX v1.2.4'''
+'''Welcome to SPLUNK 4 JMX v1.2.5'''
 by Damien T. Dallimore
 June 2011
 damien@dtdsoftware.com
@@ -16,7 +16,9 @@ This SPLUNK app provides the means to :
 * declare clusters of JVM's for large scale JVM deployments
 * runs on *Nix and Windows
 
-Tested to date against Hotspot and JRockit JVM's.
+Tested to date against Hotspot ,JRockit and IBM J9 JVM's.
+
+Currently supports the JSR160 RMI connector.
 
 This app is basically a custom scripted input comprising of a bash/bat script and a Java program.  I have bundled it up as an app for convenience  
 and included some demo dashboards that graph up a selection of MBean attributes from the java.lang domain
@@ -32,7 +34,7 @@ Also refer to the application's "docs" directory for :
 
 * set the JAVA_HOME environment variable to the location of your JRE install location(version 1.6 +)
 * set the SPLUNK_HOME environment variable to the install root of SPLUNK
-* uncompress SPLUNK4JMX-1.2.4.tar.gz to SPLUNK_HOME/etc/apps
+* uncompress SPLUNK4JMX-1.2.5.tar.gz to SPLUNK_HOME/etc/apps
 * restart SPLUNK
 
 

@@ -15,6 +15,9 @@ If the optional formatter declaration is omitted, then the default formatter wil
 
 Use this file as an example for polling any Mbean attributes you need to SPLUNK
 
+This file will work against Hotspot and JRockit JVMs.
+The IBM J9 JVM has slightly different attribute names for some beans in the java.lang domain
+
 This file is strictly validated against the schema "config.xsd" (located in jmxpoller.jar)
 -->
 
@@ -25,7 +28,8 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 <!-- <formatter className="com.dtdsoftware.splunk.formatter.YourCustomFormatter" /> -->
 
 <!-- Connect to a JVM via the remote JMX interface -->
-<jmxserver host="10.1.1.1" jvmDescription="tomcat" jmxport="1234" jmxuser="fred" jmxpass="secret">
+
+<jmxserver host="10.1.1.1" jvmDescription="tomcat" jmxport="8887" jmxuser="fred" jmxpass="qwerty">
 
 <mbean domain="java.lang" properties="type=Threading">
 
@@ -50,8 +54,8 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 <mbean domain="java.lang" properties="type=Runtime">
 
 <!-- tabular attributes -->
-<attribute name="SystemProperties:user.timezone" outputname="timezone"/>
-<attribute name="SystemProperties:java.vm.vendor" outputname="jvmVendor"/>
+<attribute name="SystemProperties:user.timezone:value" outputname="timezone"/>
+<attribute name="SystemProperties:java.vm.vendor:value" outputname="jvmVendor"/>
 
 <!-- simple attributes -->
 <attribute name="VmVersion" outputname="jvmVersion"/>
@@ -142,10 +146,10 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 <attribute name="LastGcInfo:startTime" outputname="parNewGCStart"/>
 
 <!-- composite-tabular-composite-simple attributes -->
-<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:used" outputname="beforeGCUsedPerm"/>
-<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:max" outputname="beforeGCMaxPerm"/>
-<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:init" outputname="beforeGCInitPerm"/>
-<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:committed" outputname="beforeGCCommittedPerm"/>
+<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:value:used" outputname="beforeGCUsedPerm"/>
+<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:value:max" outputname="beforeGCMaxPerm"/>
+<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:value:init" outputname="beforeGCInitPerm"/>
+<attribute name="LastGcInfo:memoryUsageBeforeGc:CMS Perm Gen:value:committed" outputname="beforeGCCommittedPerm"/>
 
 </mbean>
 

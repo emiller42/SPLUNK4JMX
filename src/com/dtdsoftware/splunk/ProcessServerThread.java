@@ -128,6 +128,7 @@ public class ProcessServerThread extends Thread {
 												.getOutputname(),
 												resolveObjectToString(result));
 								} catch (Exception e) {
+									
 									logger.error("Error : " + e.getMessage());
 								}
 							}
@@ -139,34 +140,42 @@ public class ProcessServerThread extends Thread {
 							for (Attribute singular : bean.getAttributes()) {
 								List<String> tokens = singular.getTokens();
 								Object attributeValue = null;
+								
 								// if the attribute pattern is multi level, loop
 								// through the levels until the value is found
 								for (String token : tokens) {
+									
 									// get root attribute object the first time
 									if (attributeValue == null)
 										try {
+											
 											attributeValue = serverConnection
 													.getAttribute(on, token);
 										} catch (Exception e) {
+											
 											logger.error("Error : "
 													+ e.getMessage());
 										}
 									else if (attributeValue instanceof CompositeDataSupport) {
 										try {
+											
 											attributeValue = ((CompositeDataSupport) attributeValue)
 													.get(token);
 										} catch (Exception e) {
+											
 											logger.error("Error : "
 													+ e.getMessage());
 										}
 									} else if (attributeValue instanceof TabularDataSupport) {
 										try {
+										
 											Object[] key = { token };
+											
 											attributeValue = ((TabularDataSupport) attributeValue)
 													.get(key);
-											attributeValue = ((CompositeDataSupport) attributeValue)
-													.get("value");
+											
 										} catch (Exception e) {
+											
 											logger.error("Error : "
 													+ e.getMessage());
 										}

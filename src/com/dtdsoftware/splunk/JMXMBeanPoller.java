@@ -45,6 +45,7 @@ public class JMXMBeanPoller {
 						"Incorrect program usage.Expected : java com.dtdsoftware.splunk.JMXMBeanPoller [configFile] ");
 			// parse XML config into POJOs
 			JMXPoller config = loadConfig(args[0]);
+			config.normalizeClusters();
 			Formatter formatter = config.getFormatter();
 			if(formatter == null){
 				formatter = new Formatter();//default
@@ -53,6 +54,7 @@ public class JMXMBeanPoller {
 				// get list of JMX Servers and process in their own thread.
 				List<JMXServer> servers = config.getServers();
 				if (servers != null) {
+					
 					for (JMXServer server : servers) {
 						new ProcessServerThread(server,formatter.getFormatterInstance()).start();
 					}
@@ -63,6 +65,7 @@ public class JMXMBeanPoller {
 				logger
 						.error("The root config object(JMXPoller) failed to initialize");
 		} catch (Exception e) {
+			
 			logger.error("Error : " + e.getMessage());
 			System.exit(1);
 		}
