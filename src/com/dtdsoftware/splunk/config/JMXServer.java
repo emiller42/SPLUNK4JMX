@@ -42,6 +42,18 @@ public class JMXServer {
 	// JMX password
 	public String jmxpass = "";
 
+	//JMX connector protocol
+	public String protocol = "rmi"; // default
+	
+	//Remote stub lookup path
+	public String lookupPath = "jmxrmi"; // default
+	
+	//Remote stub source
+	public String stubSource = "jndi";  // default
+	
+	//Raw URL input, optional if the pre set fields dont suffice
+	public String jmxServiceURL = "";
+	
 	// list of MBeans/MBeans Patterns to Query
 	public List<MBean> mbeans;
 
@@ -87,6 +99,40 @@ public class JMXServer {
 
 	public void setJmxpass(String jmxpass) {
 		this.jmxpass = jmxpass;
+	}
+	
+	
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(String protocol) {
+		this.protocol = protocol;
+	}
+
+	public String getLookupPath() {
+		return lookupPath;
+	}
+
+	public void setLookupPath(String lookupPath) {
+		this.lookupPath = lookupPath;
+	}
+
+	public String getStubSource() {
+		return stubSource;
+	}
+
+	public void setStubSource(String stubSource) {
+		this.stubSource = stubSource;
+	}
+
+	public String getJmxServiceURL() {
+		return jmxServiceURL;
+	}
+
+	public void setJmxServiceURL(String jmxServiceURL) {
+		this.jmxServiceURL = jmxServiceURL;
 	}
 
 	public List<MBean> getMbeans() {

@@ -1,4 +1,4 @@
-'''Welcome to SPLUNK 4 JMX v1.2.5'''
+'''Welcome to SPLUNK 4 JMX v1.2.6'''
 by Damien T. Dallimore
 June 2011
 damien@dtdsoftware.com
@@ -18,7 +18,14 @@ This SPLUNK app provides the means to :
 
 Tested to date against Hotspot ,JRockit and IBM J9 JVM's.
 
-Currently supports the JSR160 RMI connector.
+Currently supports the following  JMX Connectors :
+ 
+* rmi  (JSR160 Standard Implementation and MX4J's JSR160 Implementation)
+* iiop (JSR160 Standard Implementation and MX4J's JSR160 Implementation)
+* local (MX4J only)
+* soap (MX4J only)
+* hessian (MX4J only)
+* burlap (MX4J only)
 
 This app is basically a custom scripted input comprising of a bash/bat script and a Java program.  I have bundled it up as an app for convenience  
 and included some demo dashboards that graph up a selection of MBean attributes from the java.lang domain
@@ -34,7 +41,7 @@ Also refer to the application's "docs" directory for :
 
 * set the JAVA_HOME environment variable to the location of your JRE install location(version 1.6 +)
 * set the SPLUNK_HOME environment variable to the install root of SPLUNK
-* uncompress SPLUNK4JMX-1.2.5.tar.gz to SPLUNK_HOME/etc/apps
+* uncompress SPLUNK4JMX-1.2.6.tar.gz to SPLUNK_HOME/etc/apps
 * restart SPLUNK
 
 
@@ -178,6 +185,20 @@ The config file should reside in SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin/config
 
 To set up a JMX server for remote access via jvm system properties at startup, see this :
 http://download.oracle.com/javase/1.5.0/docs/guide/management/agent.html#remote
+
+'''ADDING JAVA CLASSES TO CLASSPATH'''
+
+You can dump a jar file in the "SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin/lib/ext" directory and it will be automatically loaded.
+
+'''ADDING JAVA CLASSES TO BOOT CLASSPATH'''
+
+Any classes that you need prepended to the java bootclasspath should be put in "SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin/lib/boot".
+They won't be automatically loaded, you will need to specify each jar in the poll_jmx script.
+
+'''MX4J Support'''
+
+If you wish to use MX4J as the JMX implmentation, or use any of the MX4J specific JMX connectors(soap, burlap, hessian, local), 
+then it is simply a matter of using the poll_mx4j_jmx script rather than the standard poll_jmx script.
 
 '''LOGGING'''
 

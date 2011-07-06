@@ -128,7 +128,7 @@ public class ProcessServerThread extends Thread {
 												.getOutputname(),
 												resolveObjectToString(result));
 								} catch (Exception e) {
-									
+
 									logger.error("Error : " + e.getMessage());
 								}
 							}
@@ -140,42 +140,42 @@ public class ProcessServerThread extends Thread {
 							for (Attribute singular : bean.getAttributes()) {
 								List<String> tokens = singular.getTokens();
 								Object attributeValue = null;
-								
+
 								// if the attribute pattern is multi level, loop
 								// through the levels until the value is found
 								for (String token : tokens) {
-									
+
 									// get root attribute object the first time
 									if (attributeValue == null)
 										try {
-											
+
 											attributeValue = serverConnection
 													.getAttribute(on, token);
 										} catch (Exception e) {
-											
+
 											logger.error("Error : "
 													+ e.getMessage());
 										}
 									else if (attributeValue instanceof CompositeDataSupport) {
 										try {
-											
+
 											attributeValue = ((CompositeDataSupport) attributeValue)
 													.get(token);
 										} catch (Exception e) {
-											
+
 											logger.error("Error : "
 													+ e.getMessage());
 										}
 									} else if (attributeValue instanceof TabularDataSupport) {
 										try {
-										
+
 											Object[] key = { token };
-											
+
 											attributeValue = ((TabularDataSupport) attributeValue)
 													.get(key);
-											
+
 										} catch (Exception e) {
-											
+
 											logger.error("Error : "
 													+ e.getMessage());
 										}
@@ -199,6 +199,7 @@ public class ProcessServerThread extends Thread {
 			}
 
 		} catch (Exception e) {
+
 			logger.error("Error : " + e.getMessage());
 		} finally {
 			if (jmxc != null) {
@@ -213,8 +214,9 @@ public class ProcessServerThread extends Thread {
 	}
 
 	/**
-	 * Resolve an Object to a String representation.
-	 * Arrays, Lists, Sets and Maps will be recursively deep resolved
+	 * Resolve an Object to a String representation. Arrays, Lists, Sets and
+	 * Maps will be recursively deep resolved
+	 * 
 	 * @param obj
 	 * @return
 	 */
@@ -222,12 +224,12 @@ public class ProcessServerThread extends Thread {
 
 		StringBuffer sb = new StringBuffer();
 		if (obj != null) {
-			
-			//convert an array to a List view
+
+			// convert an array to a List view
 			if (obj instanceof Object[]) {
-				obj = Arrays.asList((Object[])obj);
-			} 
-			
+				obj = Arrays.asList((Object[]) obj);
+			}
+
 			if (obj instanceof Map) {
 				sb.append("[");
 				Map map = (Map) obj;
@@ -321,9 +323,22 @@ public class ProcessServerThread extends Thread {
 		}
 		// connect to a remote process
 		else {
-			String urlPath = "/jndi/rmi://" + serverConfig.getHost() + ":"
-					+ serverConfig.getJmxport() + "/jmxrmi";
-			url = new JMXServiceURL("rmi", "", 0, urlPath);
+			String rawURL = serverConfig.getJmxServiceURL();
+			// use raw URL
+			if (rawURL != null && rawURL.length() > 0) {
+				url = new JMXServiceURL(rawURL);
+			}
+			// construct URL from individual parameter components
+			else {
+				String urlPath = "/" + serverConfig.getStubSource() + "/"
+						+ serverConfig.getProtocol() + "://"
+						+ serverConfig.getHost() + ":"
+						+ serverConfig.getJmxport() + "/"
+						+ serverConfig.getLookupPath();
+				url = new JMXServiceURL(serverConfig.getProtocol(), "", 0,
+						urlPath);
+			}
+
 		}
 
 		return url;

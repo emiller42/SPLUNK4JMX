@@ -5,22 +5,16 @@ TODO Items
 
 * option for dumping all mbean attributes
 
-* SSL support for default RMI connector
+* SSL support
 
 * HTTP connector and JVM agent using "REST like" protocol
-  * JSON/Hessian/Burlap for the data serialization ?
+  * JSON for the data serialization
   * HTTPs support
   * additional security ie: ACL's
   * bulk requests 
+  * use the Jolokia implementation ?
 
-* jolokia support ?
 
-* mx4j support ?
 
-* wildcard classpath for jars in run scripts
-
-* jmxport, jmxpass, jmxuser...abstract these out so as to avoid potential unnecessary repetition in the config xml
-
-* discovery/lookup (slp, jini, jndi) of JMX Connectors 
 
 

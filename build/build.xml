@@ -68,6 +68,8 @@
 		<copy todir="${temp_build}/${bin}">
 			<fileset file="${bin}/linux/poll_jmx.sh" />
 			<fileset file="${bin}/win/poll_jmx.bat" />
+			<fileset file="${bin}/linux/poll_mx4j_jmx.sh" />
+			<fileset file="${bin}/win/poll_mx4j_jmx.bat" />
 		</copy>
 		
 		<copy todir="${temp_build}/appserver">

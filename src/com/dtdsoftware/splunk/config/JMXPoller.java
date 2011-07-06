@@ -60,6 +60,9 @@ public class JMXPoller {
 
 	}
 
+	/**
+	 * Extract all JMX Servers out of the cluster and aggregate them in the same set
+	 */
 	public void normalizeClusters() {
 
 		if (this.clusters == null)

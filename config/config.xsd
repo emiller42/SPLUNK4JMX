@@ -98,6 +98,52 @@
 			</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="protocol">
+				<xs:annotation>
+					<xs:documentation>
+						The service protocol to use.Will default to "rmi".
+						Note : the "local", "soap", "hessian" and "burlap" protocols require MX4J to be used as the JMX 
+						implementation at both the client and server endss of the connection.					
+					</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="rmi" />
+						<xs:enumeration value="iiop" />
+						<xs:enumeration value="local" />
+						<xs:enumeration value="soap" />
+						<xs:enumeration value="hessian" />
+						<xs:enumeration value="burlap" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="lookupPath" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The url path of the service object.Will default to "jmxrmi"
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="stubSource">
+				<xs:annotation>
+					<xs:documentation>The source of the remote stub.Will default to "jndi"</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="jndi" />
+						<xs:enumeration value="stub" />
+						<xs:enumeration value="ior" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="jmxServiceURL" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						A raw jmx service url in format "service:jmx:protocol:sap"
+						ie: service:jmx:rmi:///jndi/rmi://myhost:9909/jmxrmi
+						If set will take precedence over other parameters
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 			<xs:attribute name="jvmDescription" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>A description of this JVM

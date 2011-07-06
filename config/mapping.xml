@@ -77,6 +77,22 @@
 		<field name="jmxpass" type="java.lang.String">
 			<bind-xml name="jmxpass" node="attribute" />
 		</field>
+		
+		<field name="protocol" type="java.lang.String">
+			<bind-xml name="protocol" node="attribute" />
+		</field>
+		
+		<field name="lookupPath" type="java.lang.String">
+			<bind-xml name="lookupPath" node="attribute" />
+		</field>
+		
+		<field name="stubSource" type="java.lang.String">
+			<bind-xml name="stubSource" node="attribute" />
+		</field>
+		
+		<field name="jmxServiceURL" type="java.lang.String">
+			<bind-xml name="jmxServiceURL" node="attribute" />
+		</field>
 
         <field name="jmxport" type="integer">
 			<bind-xml name="jmxport" node="attribute" />
