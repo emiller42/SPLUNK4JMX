@@ -135,6 +135,12 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
+			<xs:attribute name="encodedStub" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Base64 encoded stub value for stubSource types of "ior" and "stub"
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 			<xs:attribute name="jmxServiceURL" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>
