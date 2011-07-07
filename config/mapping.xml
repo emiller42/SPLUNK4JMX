@@ -90,6 +90,10 @@
 			<bind-xml name="stubSource" node="attribute" />
 		</field>
 		
+		<field name="encodedStub" type="java.lang.String">
+			<bind-xml name="encodedStub" node="attribute" />
+		</field>
+		
 		<field name="jmxServiceURL" type="java.lang.String">
 			<bind-xml name="jmxServiceURL" node="attribute" />
 		</field>
