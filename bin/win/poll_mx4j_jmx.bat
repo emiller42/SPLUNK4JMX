@@ -23,7 +23,7 @@ set JVM_MEMORY="-Xms64m -Xmx64m"
 set JAVA_OPTS="%JVM_MEMORY%"
 set CONFIG_XML=%SPLUNK4JMX_HOME%/bin/config/%CONFIG_FILE_NAME%
 
-set MX4J_JARS_FOR BOOTPATH=%LIB_DIR%/boot/mx4j.jar;%LIB_DIR%/boot/mx4j-remote.jar;%LIB_DIR%/boot/mx4j-tools.jar
+set MX4J_JARS_FOR BOOTPATH=%LIB_DIR%/boot/mx4j.jar;%LIB_DIR%/boot/mx4j-remote.jar
 
 set BOOTPATH=%MX4J_JARS_FOR BOOTPATH%
 

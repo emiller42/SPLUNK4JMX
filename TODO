@@ -5,14 +5,9 @@ TODO Items
 
 * option for dumping all mbean attributes
 
-* SSL support
+* SSL support for rmi and iiop JSR160 connectors
 
-* HTTP connector and JVM agent using "REST like" protocol
-  * JSON for the data serialization
-  * HTTPs support
-  * additional security ie: ACL's
-  * bulk requests 
-  * use the Jolokia implementation ?
+
 
 
 

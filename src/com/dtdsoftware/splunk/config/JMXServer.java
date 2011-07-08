@@ -46,10 +46,13 @@ public class JMXServer {
 	public String protocol = "rmi"; // default
 	
 	//Remote stub lookup path
-	public String lookupPath = "jmxrmi"; // default
+	public String lookupPath = ""; 
 	
 	//Remote stub source
 	public String stubSource = "jndi";  // default
+	
+	//Encoded stub
+	public String encodedStub = "";  //for "stub" and "ior" stub sources
 	
 	//Raw URL input, optional if the pre set fields dont suffice
 	public String jmxServiceURL = "";
@@ -100,8 +103,15 @@ public class JMXServer {
 	public void setJmxpass(String jmxpass) {
 		this.jmxpass = jmxpass;
 	}
-	
-	
+		
+
+	public String getEncodedStub() {
+		return encodedStub;
+	}
+
+	public void setEncodedStub(String encodedStub) {
+		this.encodedStub = encodedStub;
+	}
 
 	public String getProtocol() {
 		return protocol;

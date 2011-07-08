@@ -24,7 +24,7 @@ JVM_MEMORY="-Xms64m -Xmx64m"
 JAVA_OPTS="$JVM_MEMORY"
 CONFIG_XML=$SPLUNK4JMX_HOME/bin/config/$CONFIG_FILE_NAME
 
-MX4J_JARS_FOR BOOTPATH=$LIB_DIR/boot/mx4j.jar:$LIB_DIR/boot/mx4j-remote.jar:$LIB_DIR/boot/mx4j-tools.jar
+MX4J_JARS_FOR BOOTPATH=$LIB_DIR/boot/mx4j.jar:$LIB_DIR/boot/mx4j-remote.jar
 
 BOOTPATH=$MX4J_JARS_FOR BOOTPATH
 

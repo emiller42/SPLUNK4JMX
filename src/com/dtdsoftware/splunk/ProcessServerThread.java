@@ -199,7 +199,6 @@ public class ProcessServerThread extends Thread {
 			}
 
 		} catch (Exception e) {
-
 			logger.error("Error : " + e.getMessage());
 		} finally {
 			if (jmxc != null) {
@@ -288,6 +287,7 @@ public class ProcessServerThread extends Thread {
 		// get the JMX URL
 		JMXServiceURL url = getJMXServiceURL();
 
+		
 		// only send user/pass credentials if they have been set
 		if (serverConfig.getJmxuser().length() > 0
 				&& serverConfig.getJmxpass().length() > 0
@@ -324,20 +324,48 @@ public class ProcessServerThread extends Thread {
 		// connect to a remote process
 		else {
 			String rawURL = serverConfig.getJmxServiceURL();
+			String protocol = serverConfig.getProtocol();
 			// use raw URL
 			if (rawURL != null && rawURL.length() > 0) {
 				url = new JMXServiceURL(rawURL);
 			}
-			// construct URL from individual parameter components
-			else {
+			// construct URL for MX4J connectors
+			else if( protocol.startsWith("soap") || protocol.startsWith("hessian") ||protocol.startsWith("burlap") || protocol.equalsIgnoreCase("local")){
+				
+				String lookupPath = serverConfig.getLookupPath();
+				if(lookupPath == null || lookupPath.length() == 0){
+					if(protocol.startsWith("soap")){
+						lookupPath = "/jmxconnector";
+						
+					}
+					else{
+						lookupPath = "/"+protocol;
+					}
+				}
+				url = new JMXServiceURL(serverConfig.getProtocol(),serverConfig.getHost(), serverConfig.getJmxport(),
+						lookupPath);
+			}
+			//use remote encoded stub for JSR160 iiop and rmi
+			else if(serverConfig.getStubSource().equalsIgnoreCase("ior") || serverConfig.getStubSource().equalsIgnoreCase("stub") ){
+				url = new JMXServiceURL(protocol, "", 0,"/" + serverConfig.getStubSource() + "/" + serverConfig.getEncodedStub());
+			}
+			//use jndi lookup for JSR160 iiop and rmi stub
+			else if( serverConfig.getStubSource().equalsIgnoreCase("jndi")){
+				
+				String lookupPath = serverConfig.getLookupPath();
+				if(lookupPath == null || lookupPath.length() == 0){					
+						lookupPath = "/jmxrmi";									
+				}
+				
 				String urlPath = "/" + serverConfig.getStubSource() + "/"
-						+ serverConfig.getProtocol() + "://"
+						+ protocol + "://"
 						+ serverConfig.getHost() + ":"
-						+ serverConfig.getJmxport() + "/"
-						+ serverConfig.getLookupPath();
-				url = new JMXServiceURL(serverConfig.getProtocol(), "", 0,
+						+ serverConfig.getJmxport() + lookupPath;
+						
+				url = new JMXServiceURL(protocol, "", 0,
 						urlPath);
 			}
+			
 
 		}
 

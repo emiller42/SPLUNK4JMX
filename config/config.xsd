@@ -114,12 +114,15 @@
 						<xs:enumeration value="soap" />
 						<xs:enumeration value="hessian" />
 						<xs:enumeration value="burlap" />
+						<xs:enumeration value="soap+ssl" />
+						<xs:enumeration value="hessian+ssl" />
+						<xs:enumeration value="burlap+ssl" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
 			<xs:attribute name="lookupPath" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>The url path of the service object.Will default to "jmxrmi"
+					<xs:documentation>The url path of the service.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
