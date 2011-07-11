@@ -76,6 +76,10 @@
 			<fileset dir="appserver" />
         </copy>
 		
+		<copy todir="${temp_build}/3rdparty_licenses">
+					<fileset dir="3rdparty_licenses" />
+		</copy>
+		
 		<copy todir="${temp_build}/${docs}">
 					<fileset dir="${docs}" />
 		 </copy>
