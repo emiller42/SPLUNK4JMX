@@ -8,7 +8,7 @@ damien@dtdsoftware.com
 
 This SPLUNK app provides the means to :
 
-* connect to any local or remote JVM's JMX server, either via the remote JMX interface or attaching to a local JVM process
+* connect to any local or remote JVM's JMX server, either via the remote JMX interface,attaching to a local JVM process or using an MX4J HTTP based connector.
 * query any MBean running on that server
 * extract any MBean attributes (simple, composite or tabular)
 * invoke MBean operations
@@ -56,6 +56,7 @@ There is a "sh" script for Nix and a "bat" script for Windows.
 The only components you really need to know about are in the SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin directory
 
 * bin/poll_jmx - this is the script that SPLUNK fires at scheduled intervals, this script invokes a Java program that has the logic for querying the JMX Server(s).
+* bin/poll_mx4j_jmx - same as the above script, however the MX4J JMX implementation will be used.You must use this script should you want to use the MX4J specific JMX connectors. 
 * bin/config/config.xml - this is the config file where you specify JMX server(s), MBeans and MBean attributes/operations.You can create as many config files,with any name, as you want and set them up as the argument to the poll_jmx script on the SPLUNK Manager Data Inputs page.
 
 '''CONFIG.XML'''
@@ -83,6 +84,18 @@ Each "jmxserver" element you declare will be run in parallel.
 "host" can be a hostname, dns alias or ip address. 
 
 "jmxport" is the JMX server port to connect to.
+
+"protocol"(default is rmi) is the jmx service protocol to use : rmi, iiop and mx4j specific protocols soap, hessian etc..
+
+For more advanced finer grained control over the format of the jmx service URL you can also specify the "stubSource"(default is jndi), "encodedStub" and url "lookupPath"(default is jmxrmi).
+Refer to the schema docs for more details.
+
+Or, to facilitate complete user flexibility, you can enter the full jmx service url as a raw string using the "jmxServiceURL" attribute.
+
+This is raw jmx service url in standard format "service:jmx:protocol:sap"
+service:jmx:rmi:///jndi/rmi://myhost:9909/jmxrmi
+
+If this attribute is set, it will override any other set connection related attributes("host", "jmxport", "protocol", "stubSource", "encodedStub" and "lookupPath")
 
 You can also attach directly to a locally running JVM process by specifying the Process ID in the "pid" attribute.
 In this case, the "host", "jmxport", "jmxuser","jmxpass" attributes will not be used.
@@ -186,19 +199,22 @@ The config file should reside in SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin/config
 To set up a JMX server for remote access via jvm system properties at startup, see this :
 http://download.oracle.com/javase/1.5.0/docs/guide/management/agent.html#remote
 
-'''ADDING JAVA CLASSES TO CLASSPATH'''
+'''MX4J SUPPORT'''
 
-You can dump a jar file in the "SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin/lib/ext" directory and it will be automatically loaded.
+If you wish to use MX4J as your JMX implementation for remote connectors(rmi and iiop) or use any of the MX4J specific JMX connectors(soap, burlap, hessian, local), then it is simply a matter of using the poll_mx4j_jmx script rather than the standard poll_jmx script.
 
-'''ADDING JAVA CLASSES TO BOOT CLASSPATH'''
+For more details about MX4J browse here : http://mx4j.sourceforge.net
+
+'''ADDING JAVA CLASSES TO THE APPLICATION CLASSPATH'''
+
+You can dump a jar file in the "SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin/lib/ext" directory and it will be automatically loaded. 
+Why would you want to do this ? Well perhaps you have created a custom formatter implementation as described above.
+
+'''ADDING JAVA CLASSES TO THE BOOT CLASSPATH'''
 
 Any classes that you need prepended to the java bootclasspath should be put in "SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin/lib/boot".
-They won't be automatically loaded, you will need to specify each jar in the poll_jmx script.
-
-'''MX4J Support'''
-
-If you wish to use MX4J as the JMX implmentation, or use any of the MX4J specific JMX connectors(soap, burlap, hessian, local), 
-then it is simply a matter of using the poll_mx4j_jmx script rather than the standard poll_jmx script.
+They won't be automatically loaded, you will need to specify each jar in the poll_jmx/poll_mx4j_jmx script.
+Why would you want to do this ? Well perhaps you are targeting a JVM with some proprietary JMX logic that requires additional libraries on the JMX client side ie: using the IIOP connector with IBM  Websphere products is one such scenario I've encountered.
 
 '''LOGGING'''
 
