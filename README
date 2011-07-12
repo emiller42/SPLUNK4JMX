@@ -205,6 +205,8 @@ If you wish to use MX4J as your JMX implementation for remote connectors(rmi and
 
 For more details about MX4J browse here : http://mx4j.sourceforge.net
 
+Note : If using any of the HTTPS connectors(soap+ssl, hessian+ssl, burlap+ssl), the root certification authority must be present in the trusted certificates, normally stored in the "$JAVA_HOME/jre/lib/security/cacerts" file. 
+
 '''ADDING JAVA CLASSES TO THE APPLICATION CLASSPATH'''
 
 You can dump a jar file in the "SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin/lib/ext" directory and it will be automatically loaded. 
