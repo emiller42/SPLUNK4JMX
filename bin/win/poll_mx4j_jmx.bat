@@ -27,4 +27,4 @@ set MX4J_JARS_FOR BOOTPATH=%LIB_DIR%/boot/mx4j.jar;%LIB_DIR%/boot/mx4j-remote.ja
 
 set BOOTPATH=%MX4J_JARS_FOR BOOTPATH%
 
-"%JAVA%" "-Xbootclasspath/p:%BOOTPATH%"  "-Dsplunk4jmx.home=%SPLUNK4JMX_HOME%"  %JAVA_OPTS% -classpath "%LIB_DIR%;%POLLER_JARS%"  %MAIN_CLASS% "%CONFIG_XML%"
+"%JAVA%" "-Xbootclasspath/a:%BOOTPATH%"  "-Dsplunk4jmx.home=%SPLUNK4JMX_HOME%"  %JAVA_OPTS% -classpath "%LIB_DIR%;%POLLER_JARS%"  %MAIN_CLASS% "%CONFIG_XML%"
