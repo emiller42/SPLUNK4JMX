@@ -93,7 +93,6 @@ Refer to the schema docs for more details.
 Or, to facilitate complete user flexibility, you can enter the full jmx service url as a raw string using the "jmxServiceURL" attribute.
 
 This is raw jmx service url in standard format "service:jmx:protocol:sap"
-service:jmx:rmi:///jndi/rmi://myhost:9909/jmxrmi
 
 If this attribute is set, it will override any other set connection related attributes("host", "jmxport", "protocol", "stubSource", "encodedStub" and "lookupPath")
 

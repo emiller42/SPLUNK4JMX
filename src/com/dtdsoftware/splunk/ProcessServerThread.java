@@ -199,6 +199,7 @@ public class ProcessServerThread extends Thread {
 			}
 
 		} catch (Exception e) {
+			
 			logger.error("Error : " + e.getMessage());
 		} finally {
 			if (jmxc != null) {
