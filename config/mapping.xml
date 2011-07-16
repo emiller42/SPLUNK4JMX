@@ -121,6 +121,10 @@
 			<bind-xml name="properties" node="attribute" />
 		</field>
 
+        <field name="dumpAllAttributes" type="boolean">
+			<bind-xml name="dumpAllAttributes" node="attribute" />
+		</field>
+		
 
 		<field name="attributes" type="com.dtdsoftware.splunk.config.Attribute"
 			collection="arraylist">

@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectInstance;
 import javax.management.ObjectName;
 import javax.management.openmbean.CompositeDataSupport;
+import javax.management.openmbean.CompositeType;
 import javax.management.openmbean.TabularDataSupport;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
@@ -133,8 +135,28 @@ public class ProcessServerThread extends Thread {
 								}
 							}
 						}
+						// extract all attributes
+						if (bean.isDumpAllAttributes()) {
+							MBeanAttributeInfo[] attributes = serverConnection
+									.getMBeanInfo(on).getAttributes();
+							for (MBeanAttributeInfo attribute : attributes) {
+								try {
+									Object attributeValue = serverConnection
+											.getAttribute(on, attribute
+													.getName());
+									extractAttributeValue(attributeValue,
+											mBeanAttributes, attribute
+													.getName());
+								} catch (Exception e) {
+
+									logger.error("Error : " + e.getMessage());
+								}
+
+							}
+
+						}
 						// extract attributes
-						if (bean.getAttributes() != null) {
+						else if (bean.getAttributes() != null) {
 
 							// look up the attribute for the MBean
 							for (Attribute singular : bean.getAttributes()) {
@@ -199,7 +221,7 @@ public class ProcessServerThread extends Thread {
 			}
 
 		} catch (Exception e) {
-			
+
 			logger.error("Error : " + e.getMessage());
 		} finally {
 			if (jmxc != null) {
@@ -209,6 +231,56 @@ public class ProcessServerThread extends Thread {
 				}
 			}
 
+		}
+
+	}
+
+	/**
+	 * Extract MBean attributes and if necessary, deeply inspect and resolve composite and tabular data.
+	 * @param attributeValue the attribute object
+	 * @param mBeanAttributes the map used to hold attribute values before being handed off to the formatter
+	 * @param attributeName the attribute name
+	 */
+	private void extractAttributeValue(Object attributeValue,
+			Map<String, String> mBeanAttributes, String attributeName) {
+
+		if (attributeValue instanceof CompositeDataSupport) {
+			try {
+				CompositeDataSupport cds = ((CompositeDataSupport) attributeValue);
+				CompositeType ct = cds.getCompositeType();
+				Set<String> keys = ct.keySet();
+				for (String key : keys) {
+					extractAttributeValue(cds.get(key), mBeanAttributes,
+							attributeName + "_" + key);
+				}
+
+			} catch (Exception e) {
+
+				logger.error("Error : " + e.getMessage());
+			}
+		} else if (attributeValue instanceof TabularDataSupport) {
+			try {
+				TabularDataSupport tds = ((TabularDataSupport) attributeValue);
+				Set<Object> keys = tds.keySet();
+				for (Object key : keys) {
+
+					Object keyName = ((List) key).get(0);
+					Object[] keyArray = { keyName };
+					extractAttributeValue(tds.get(keyArray), mBeanAttributes,
+							attributeName + "_" + keyName);
+				}
+
+			} catch (Exception e) {
+				logger.error("Error : " + e.getMessage());
+			}
+		} else {
+			try {
+				mBeanAttributes.put(attributeName,
+						resolveObjectToString(attributeValue));
+			} catch (Exception e) {
+
+				logger.error("Error : " + e.getMessage());
+			}
 		}
 
 	}
@@ -288,7 +360,6 @@ public class ProcessServerThread extends Thread {
 		// get the JMX URL
 		JMXServiceURL url = getJMXServiceURL();
 
-		
 		// only send user/pass credentials if they have been set
 		if (serverConfig.getJmxuser().length() > 0
 				&& serverConfig.getJmxpass().length() > 0
@@ -331,42 +402,45 @@ public class ProcessServerThread extends Thread {
 				url = new JMXServiceURL(rawURL);
 			}
 			// construct URL for MX4J connectors
-			else if( protocol.startsWith("soap") || protocol.startsWith("hessian") ||protocol.startsWith("burlap") || protocol.equalsIgnoreCase("local")){
-				
+			else if (protocol.startsWith("soap")
+					|| protocol.startsWith("hessian")
+					|| protocol.startsWith("burlap")
+					|| protocol.equalsIgnoreCase("local")) {
+
 				String lookupPath = serverConfig.getLookupPath();
-				if(lookupPath == null || lookupPath.length() == 0){
-					if(protocol.startsWith("soap")){
+				if (lookupPath == null || lookupPath.length() == 0) {
+					if (protocol.startsWith("soap")) {
 						lookupPath = "/jmxconnector";
-						
-					}
-					else{
-						lookupPath = "/"+protocol;
+
+					} else {
+						lookupPath = "/" + protocol;
 					}
 				}
-				url = new JMXServiceURL(serverConfig.getProtocol(),serverConfig.getHost(), serverConfig.getJmxport(),
+				url = new JMXServiceURL(serverConfig.getProtocol(),
+						serverConfig.getHost(), serverConfig.getJmxport(),
 						lookupPath);
 			}
-			//use remote encoded stub for JSR160 iiop and rmi
-			else if(serverConfig.getStubSource().equalsIgnoreCase("ior") || serverConfig.getStubSource().equalsIgnoreCase("stub") ){
-				url = new JMXServiceURL(protocol, "", 0,"/" + serverConfig.getStubSource() + "/" + serverConfig.getEncodedStub());
+			// use remote encoded stub for JSR160 iiop and rmi
+			else if (serverConfig.getStubSource().equalsIgnoreCase("ior")
+					|| serverConfig.getStubSource().equalsIgnoreCase("stub")) {
+				url = new JMXServiceURL(protocol, "", 0, "/"
+						+ serverConfig.getStubSource() + "/"
+						+ serverConfig.getEncodedStub());
 			}
-			//use jndi lookup for JSR160 iiop and rmi stub
-			else if( serverConfig.getStubSource().equalsIgnoreCase("jndi")){
-				
+			// use jndi lookup for JSR160 iiop and rmi stub
+			else if (serverConfig.getStubSource().equalsIgnoreCase("jndi")) {
+
 				String lookupPath = serverConfig.getLookupPath();
-				if(lookupPath == null || lookupPath.length() == 0){					
-						lookupPath = "/jmxrmi";									
+				if (lookupPath == null || lookupPath.length() == 0) {
+					lookupPath = "/jmxrmi";
 				}
-				
+
 				String urlPath = "/" + serverConfig.getStubSource() + "/"
-						+ protocol + "://"
-						+ serverConfig.getHost() + ":"
+						+ protocol + "://" + serverConfig.getHost() + ":"
 						+ serverConfig.getJmxport() + lookupPath;
-						
-				url = new JMXServiceURL(protocol, "", 0,
-						urlPath);
+
+				url = new JMXServiceURL(protocol, "", 0, urlPath);
 			}
-			
 
 		}
 

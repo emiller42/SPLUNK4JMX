@@ -3,8 +3,6 @@ TODO Items
 
 * more SPLUNK dashboards, searches for the java.lang domain
 
-* option for dumping all mbean attributes
-
 * SSL support for rmi and iiop JSR160 connectors
 
 

@@ -211,6 +211,12 @@
 						"key=value,key2=value2" format</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="dumpAllAttributes" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>If set to true will dump all of the attributes of the mbean.
+					Use as an alternative to explicitly declaring each individual attribute to extract.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>	
 	<xs:element name="operation">

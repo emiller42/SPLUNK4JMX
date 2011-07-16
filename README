@@ -1,4 +1,4 @@
-'''Welcome to SPLUNK 4 JMX v1.2.6'''
+'''Welcome to SPLUNK 4 JMX v1.2.7'''
 by Damien T. Dallimore
 June 2011
 damien@dtdsoftware.com
@@ -41,7 +41,7 @@ Also refer to the application's "docs" directory for :
 
 * set the JAVA_HOME environment variable to the location of your JRE install location(version 1.6 +)
 * set the SPLUNK_HOME environment variable to the install root of SPLUNK
-* uncompress SPLUNK4JMX-1.2.6.tar.gz to SPLUNK_HOME/etc/apps
+* uncompress SPLUNK4JMX-1.2.7.tar.gz to SPLUNK_HOME/etc/apps
 * restart SPLUNK
 
 
@@ -135,6 +135,16 @@ If no values are specified for the "domain" and "properties" attributes , the va
 The MBean's canonical objectname will be written out to SPLUNK
 
 Single, composite and tabular MBean attributes are supported.
+
+You can set the "dumpAllAttributes" value to true and all of an MBean's attributes will be extracted.
+
+ie: dump all the attributes in the java.lang domain
+''<mbean domain="java.lang" properties="*" dumpAllAttributes="true"/>''
+
+ie: dump all the attributes in all of the cassandra domains
+''<mbean domain="org.apache.cassandra.*" properties="*" dumpAllAttributes="true" />''
+
+Or you can specify each individual attribute you want to extract using the "attribute" element.
 
 For attributes that are multi level ie: composite and tabular attributes , then you can use a ":" delimited notation for specifying the attribute name.
 See examples of this in config.xml
