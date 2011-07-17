@@ -25,11 +25,18 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 
 <!-- optional formatter declaration, will default to the DefaultFormatter class -->
 <!--<formatter className="com.dtdsoftware.splunk.formatter.DefaultFormatter" /> -->
-<!-- <formatter className="com.dtdsoftware.splunk.formatter.YourCustomFormatter" /> -->
+<!-- <formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameFormatter" /> -->
 
 <!-- Connect to a JVM via the remote JMX interface -->
 
 <jmxserver host="10.1.1.1" jvmDescription="tomcat" jmxport="8887" jmxuser="fred" jmxpass="qwerty">
+
+
+<!-- dump all the attributes of every mbean--> 
+<!-- <mbean domain="*" properties="*" dumpAllAttributes="true" />-->
+<!-- dump all the attributes of every mbean in the java.lang domain--> 
+<!-- <mbean domain="java.lang" properties="*" dumpAllAttributes="true"/>-->
+
 
 <mbean domain="java.lang" properties="type=Threading">
 

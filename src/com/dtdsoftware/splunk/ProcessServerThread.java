@@ -2,6 +2,7 @@ package com.dtdsoftware.splunk;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -236,19 +237,54 @@ public class ProcessServerThread extends Thread {
 	}
 
 	/**
-	 * Extract MBean attributes and if necessary, deeply inspect and resolve composite and tabular data.
-	 * @param attributeValue the attribute object
-	 * @param mBeanAttributes the map used to hold attribute values before being handed off to the formatter
-	 * @param attributeName the attribute name
+	 * Extract MBean attributes and if necessary, deeply inspect and resolve
+	 * composite and tabular data.
+	 * 
+	 * @param attributeValue
+	 *            the attribute object
+	 * @param mBeanAttributes
+	 *            the map used to hold attribute values before being handed off
+	 *            to the formatter
+	 * @param attributeName
+	 *            the attribute name
 	 */
 	private void extractAttributeValue(Object attributeValue,
 			Map<String, String> mBeanAttributes, String attributeName) {
 
-		if (attributeValue instanceof CompositeDataSupport) {
+
+		if (attributeValue instanceof Object[]) {
+			try {
+				int index = 0;
+				for (Object obj : (Object[]) attributeValue) {
+					index++;
+					extractAttributeValue(obj, mBeanAttributes, attributeName
+							+ "_" + index);
+				}
+			} catch (Exception e) {
+
+				logger.error("Error : " + e.getMessage());
+			}
+		} 
+		else if (attributeValue instanceof Collection) {
+			try {
+				int index = 0;
+				for (Object obj : (Collection)attributeValue) {
+					index++;
+					extractAttributeValue(obj, mBeanAttributes, attributeName
+							+ "_" + index);
+				}
+			} catch (Exception e) {
+
+				logger.error("Error : " + e.getMessage());
+			}
+		} 
+		else if (attributeValue instanceof CompositeDataSupport) {
 			try {
 				CompositeDataSupport cds = ((CompositeDataSupport) attributeValue);
 				CompositeType ct = cds.getCompositeType();
+
 				Set<String> keys = ct.keySet();
+
 				for (String key : keys) {
 					extractAttributeValue(cds.get(key), mBeanAttributes,
 							attributeName + "_" + key);
@@ -274,6 +310,7 @@ public class ProcessServerThread extends Thread {
 				logger.error("Error : " + e.getMessage());
 			}
 		} else {
+
 			try {
 				mBeanAttributes.put(attributeName,
 						resolveObjectToString(attributeValue));
