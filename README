@@ -1,4 +1,4 @@
-'''Welcome to SPLUNK 4 JMX v1.2.9'''
+'''Welcome to SPLUNK 4 JMX v1.3'''
 by Damien T. Dallimore
 July 2011
 damien@dtdsoftware.com
@@ -41,7 +41,7 @@ Also refer to the application's "docs" directory for :
 
 * set the JAVA_HOME environment variable to the location of your JRE install location(version 1.6 +)
 * set the SPLUNK_HOME environment variable to the install root of SPLUNK
-* uncompress SPLUNK4JMX-1.2.9.tar.gz to SPLUNK_HOME/etc/apps
+* uncompress SPLUNK4JMX-1.3.tar.gz to SPLUNK_HOME/etc/apps
 * restart SPLUNK
 
 
@@ -132,7 +132,12 @@ http://download.oracle.com/javase/1,5.0/docs/api/javax/management/ObjectName.htm
 
 If no values are specified for the "domain" and "properties" attributes , the value will default to the * wildcard
 
-The MBean's canonical objectname will be written out to SPLUNK
+The MBean's canonical objectname will be written out to SPLUNK.
+
+If you would like the components of the MBean canonical objectname broken out into individual fields, then there is a custom formatter available
+which you can declare in your config XML file to achieve this :
+
+''<formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameFormatter" />''
 
 Single, composite and tabular MBean attributes are supported.
 
