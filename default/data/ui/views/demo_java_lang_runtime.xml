@@ -4,7 +4,7 @@
 
 <chart>
 <title>JVM Uptime</title>
-<searchTemplate>index=jmx mbean="java.lang:type=Runtime" | chart max(eval(jvmUptime/1000/60)) as "Uptime in Minutes" by host,jvmName</searchTemplate>
+<searchTemplate>index=jmx mbean="java.lang:type=Runtime" | chart max(eval(jvmUptime/1000/60)) as "Uptime in Minutes" by host,jvmDescription</searchTemplate>
 <option name="charting.chart">bar</option>
 <option name="charting.axisTitleY.text">Host</option> 
 <option name="charting.axisTitleX.text">Time(Minutes)</option>

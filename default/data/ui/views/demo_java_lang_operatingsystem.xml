@@ -4,7 +4,7 @@
 
 <chart>
 <title>System Load</title>
-<searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" | timechart span=1m avg(sysLoad) by jvmDescription</searchTemplate>
+<searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" | timechart span=1m avg(sysLoad) by host</searchTemplate>
 <option name="charting.chart">line</option>
 <option name="charting.axisTitleY.text">Load</option> 
 <option name="charting.axisTitleX.text">Time</option>
