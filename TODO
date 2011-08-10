@@ -5,6 +5,10 @@ TODO Items
 
 * SSL support for rmi and iiop JSR160 connectors
 
+* JMXConnector custom timeout handler
+
+
+
 
 
 
