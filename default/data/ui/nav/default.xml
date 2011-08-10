@@ -14,8 +14,10 @@
  <view name="demo_java_lang_memory"/>
    </collection>
 
-
-
    </collection>
-    
+   
+   <collection label="JMX Connectivity"> 
+     <view name="demo_jmx_connectivity_errors" />
+   </collection>
+   
 </nav>
