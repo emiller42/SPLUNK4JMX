@@ -1,17 +1,25 @@
-<dashboard>
+<form>
 <label>Compilation</label>
+
+<fieldset autoRun="true">
+
+<input type="time" searchWhenChanged="true">
+  <default>Last 15 minutes</default>  
+</input>
+      
+</fieldset>
+
 <row>
 
 <chart>
 <title>Compilation Time by JVM and Host</title>
-<searchTemplate>index=jmx mbean="java.lang:type=Compilation" | chart max(time) as "Compilation Time" by host,jvmDescription</searchTemplate>
+<searchTemplate>index=jmx mbean="java.lang:type=Compilation" | chart first(time) as "Compilation Time" by host,jvmDescription</searchTemplate>
 <option name="charting.chart">bar</option>
 <option name="charting.axisTitleY.text">Host</option> 
 <option name="charting.axisTitleX.text">Time(Millis)</option>
-<earliestTime>-1d</earliestTime>
-<latestTime>now</latestTime>
+
 </chart>
 
 </row>
 
-</dashboard>
+</form>

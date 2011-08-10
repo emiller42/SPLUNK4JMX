@@ -1,5 +1,14 @@
-<dashboard>
+<form>
 <label>Memory</label>
+
+<fieldset autoRun="true">
+
+<input type="time" searchWhenChanged="true">
+  <default>Last 60 minutes</default>  
+</input>
+      
+</fieldset>
+
 <row>
 <chart>
 <title>JVM Heap Memory</title>
@@ -8,8 +17,7 @@
 
 <option name="charting.axisTitleY.text">Memory</option> 
 <option name="charting.axisTitleX.text">Time</option>
-<earliestTime>-60m</earliestTime>
-<latestTime>now</latestTime>
+
 </chart>
 
 </row>
@@ -22,10 +30,9 @@
 <option name="charting.chart">line</option>
 <option name="charting.axisTitleY.text">Percentage of Heap Used</option> 
 <option name="charting.axisTitleX.text">Time</option>
-<earliestTime>-60m</earliestTime>
-<latestTime>now</latestTime>
+
 
 </chart>
 </row>
 
-</dashboard>
+</form>
