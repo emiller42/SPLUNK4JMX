@@ -237,6 +237,8 @@ Why would you want to do this ? Well perhaps you are targeting a JVM with some p
 By default , "error" level log events will be written to SPLUNK_HOME/etc/apps/SPLUNK4JMX/logs
 The log file will roll daily and get timestamped.
 If you need to tweak log settings, then the log4j.xml config file resides in jmxpoller.jar
+The SPLUNK4JMX app will by default monitor it's own log files and present a "JMX Connectivity" view on the navigation
+menu bar showing any errors.
 
 '''TROUBLESHOOTING'''
 

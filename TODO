@@ -1,11 +1,11 @@
 TODO Items
 ----------
 
-* better SPLUNK dashboards for the java.lang domain
-
-* SSL support for rmi and iiop JSR160 connectors
+* enhanced demo SPLUNK dashboards for the java.lang domain
 
 * JMXConnector custom timeout handler
+
+* sample config files for various Java apps (WAS,Mule,JBoss,Hadoop MR,Cassandra, Tomcat etc..)
 
 
 
