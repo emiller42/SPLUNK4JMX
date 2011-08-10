@@ -1,0 +1,25 @@
+<form>
+<label>JMX Connectivity Errors</label>
+
+<fieldset autoRun="true">
+
+<input type="time" searchWhenChanged="true">
+  <default>Last 15 minutes</default>  
+</input>
+      
+</fieldset>
+
+<row>
+
+<table>
+<title>Errors</title>
+<searchString>index=jmx sourcetype=jmx_errors | stats count as "jmx connection error count" by error_host error_port error_jvmDescription</searchString>
+<option name="count">20</option>
+<option name="displayRowNumbers">true</option>
+<option name="showPager">true</option>
+
+</table>
+
+</row>
+
+</form>
