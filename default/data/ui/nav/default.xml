@@ -1,23 +1,22 @@
 <nav>
-    <view name="flashtimeline"/>
-    <collection label="Overview">
-        <view name="about_dashboard" default="true"/>		
-   </collection>
+
+<view name="about_dashboard" default="true"/>
+
 <collection label="Demo MBean Dashboards">
 
 <collection label="Domain : java.lang">
-        <view name="demo_java_lang_threading"/>
+ <view name="demo_java_lang_threading"/>
  <view name="demo_java_lang_runtime" />
  <view name="demo_java_lang_operatingsystem" />
  <view name="demo_java_lang_compilation"/>
  <view name="demo_java_lang_classloading"/>
  <view name="demo_java_lang_memory"/>
-   </collection>
+</collection>
 
-   </collection>
+</collection>
    
-   <collection label="JMX Connectivity"> 
-     <view name="demo_jmx_connectivity_errors" />
-   </collection>
+<collection label="JMX Connectivity"> 
+  <view name="demo_jmx_connectivity_errors" />
+</collection>
    
 </nav>
