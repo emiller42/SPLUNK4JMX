@@ -223,7 +223,7 @@ public class ProcessServerThread extends Thread {
 
 		} catch (Exception e) {
 
-			logger.error("Error : " + e.getMessage());
+			logger.error(serverConfig+",systemErrorMessage=\"" + e.getMessage()+"\"");
 		} finally {
 			if (jmxc != null) {
 				try {

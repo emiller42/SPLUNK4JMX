@@ -227,4 +227,13 @@ public class JMXServer {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "host=" + host + ", jmxServiceURL=" + jmxServiceURL
+				+ ", jmxport=" + jmxport + ", jvmDescription=" + jvmDescription
+				+ ", processID=" + processID;
+	}
+	
+	
+
 }

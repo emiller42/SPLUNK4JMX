@@ -1,5 +1,6 @@
 package com.dtdsoftware.splunk;
 
+import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.xml.sax.InputSource;
 import com.dtdsoftware.splunk.config.Formatter;
 import com.dtdsoftware.splunk.config.JMXPoller;
 import com.dtdsoftware.splunk.config.JMXServer;
+
 
 /**
  * Processes an XML config file that specifies a list of JMX Servers, MBeans on
@@ -79,8 +81,15 @@ public class JMXMBeanPoller {
 	 */
 	private static JMXPoller loadConfig(String configFileName) throws Exception {
 		
+		File file = new File(configFileName);
+		if(file.isDirectory()){
+			throw new Exception(configFileName+ " is a directory, you must pass the file NAME to this program and this file must adhere to the config.xsd schema");
+		}
+		else if(!file.exists()){
+			throw new Exception("The config file "+configFileName+ " does not exist");
+		}
 		// xsd validation
-		FileReader fr = new FileReader(configFileName);
+		FileReader fr = new FileReader(file);
 		InputSource inputSource = new InputSource(fr);
 		SchemaValidator validator = new SchemaValidator();
 		validator.validateSchema(inputSource);
@@ -92,7 +101,7 @@ public class JMXMBeanPoller {
 		Unmarshaller unmar = new Unmarshaller(mapping);
 
 		// for some reason the xsd validator closes the file stream, so re-open
-		fr = new FileReader(configFileName);
+		fr = new FileReader(file);
 		inputSource = new InputSource(fr);
 
 		JMXPoller poller = (JMXPoller) unmar.unmarshal(inputSource);
