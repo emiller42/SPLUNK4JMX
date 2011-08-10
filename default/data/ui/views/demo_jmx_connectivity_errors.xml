@@ -13,7 +13,7 @@
 
 <table>
 <title>Errors</title>
-<searchString>index=jmx sourcetype=jmx_errors | stats count as "jmx connection error count" by error_host error_port error_jvmDescription</searchString>
+<searchString>index=jmx sourcetype=jmx_errors | stats count as "jmx connection error count" by error_host jmxport jvmDescription</searchString>
 <option name="count">20</option>
 <option name="displayRowNumbers">true</option>
 <option name="showPager">true</option>
