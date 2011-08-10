@@ -45,7 +45,7 @@ Also refer to the application's "docs" directory for :
 * restart SPLUNK
 
 
-The SPLUNK4JMX app sets up a custom index(index=jms) and a custom script input (source=jmx) that parses and executes an XML config file
+The SPLUNK4JMX app sets up a custom index(index=jms) and a custom script input (sourcetype=jmx) that parses and executes an XML config file
 By default, the input script is disabled and the schedule time is 60 seconds
 After you configure your config XML file, you should then enable the input script for the platform you are running on.
 There is a "sh" script for Nix and a "bat" script for Windows.
