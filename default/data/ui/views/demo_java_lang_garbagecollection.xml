@@ -1,0 +1,20 @@
+<form>
+<label>Garbage Collection</label>
+
+<fieldset autoRun="true">
+
+<input type="time" searchWhenChanged="true">
+  <default>Last 15 minutes</default>  
+</input>
+      
+</fieldset>
+
+<row>
+
+<chart>
+//TODO
+</chart>
+
+</row>
+
+</form>

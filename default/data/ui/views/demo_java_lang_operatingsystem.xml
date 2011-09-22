@@ -12,6 +12,20 @@
 <row>
 
 <chart>
+<title>CPU Usage by each JVM</title>
+<searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" OR "java.lang:type=Runtime"  | bucket _time span=1m | stats max(jvmUptime) as uptime max(cpuTime) as cputime max(processors) as cpus by jvmDescription,_time | streamstats current=f global=f window=1 first(uptime) as next_uptime first(cputime) as next_cputime by jvmDescription | eval d_uptime=uptime-next_uptime | eval d_cputime=cputime-next_cputime | eval cpu=(d_cputime/(d_uptime*100*cpus)) |  chart max(cpu) by _time,jvmDescription</searchTemplate>
+<option name="charting.chart">line</option>
+<option name="charting.axisTitleY.text">CPU % Usage</option> 
+<option name="charting.axisTitleX.text">Time</option>
+<option name="charting.axisY.scale">log</option>
+
+</chart>
+
+</row>
+
+<row>
+
+<chart>
 <title>System Load</title>
 <searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" | timechart span=1m avg(sysLoad) by host</searchTemplate>
 <option name="charting.chart">line</option>
