@@ -11,9 +11,22 @@
 
 <row>
 
+<table>
+<title>Overview</title>
+<searchString>index=jmx  mbean="java.lang:type=OperatingSystem" | stats  first(name) as OS first(version) as Version first(arch) as Architecture  by host jvmDescription</searchString>
+<option name="count">20</option>
+<option name="displayRowNumbers">true</option>
+<option name="showPager">true</option>
+
+</table>
+
+</row>
+
+<row>
+
 <chart>
 <title>CPU Usage by each JVM</title>
-<searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" OR "java.lang:type=Runtime"  | bucket _time span=1m | stats max(jvmUptime) as uptime max(cpuTime) as cputime max(processors) as cpus by jvmDescription,_time | streamstats current=f global=f window=1 first(uptime) as next_uptime first(cputime) as next_cputime by jvmDescription | eval d_uptime=uptime-next_uptime | eval d_cputime=cputime-next_cputime | eval cpu=(d_cputime/(d_uptime*100*cpus)) |  chart max(cpu) by _time,jvmDescription</searchTemplate>
+<searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" OR "java.lang:type=Runtime" | bucket _time span=1m | stats max(jvmUptime) as uptime max(cpuTime) as cputime max(processors) as cpus by jvmDescription,_time | streamstats current=f global=f window=1 first(uptime) as next_uptime first(cputime) as next_cputime by jvmDescription | eval d_uptime=uptime-next_uptime | eval d_cputime=cputime-next_cputime | eval cpu=(d_cputime/(d_uptime*100*cpus)) |  chart max(cpu) by _time,jvmDescription</searchTemplate>
 <option name="charting.chart">line</option>
 <option name="charting.axisTitleY.text">CPU % Usage</option> 
 <option name="charting.axisTitleX.text">Time</option>
@@ -37,7 +50,7 @@
 </row>
 <row>
 <chart>
-<title>File Descriptors</title>
+<title>File Descriptors(*Nix Hosts only)</title>
 <searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" |timechart max(openFD) as "Open File Descriptors" ,max(maxFD) as "Max File Descriptors" by host</searchTemplate>
 <option name="charting.chart">line</option>
 
@@ -60,5 +73,32 @@
 </chart>
 
 </row>
+
+<row>
+<chart>
+<title>Swap Space</title>
+<searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" |eval swapUsed=(swapSpace-freeSwap) | timechart span=5m max(swapSpace) as "Total Swap" ,max(swapUsed) as "Used Swap" by host</searchTemplate>
+<option name="charting.chart">line</option>
+
+<option name="charting.axisTitleY.text">Swap</option> 
+<option name="charting.axisTitleX.text">Time</option>
+
+</chart>
+
+</row>
+
+<row>
+
+<chart>
+<title>Committed Virtual Memory</title>
+<searchTemplate>index=jmx mbean="java.lang:type=OperatingSystem" | timechart span=1m avg(committed) by host</searchTemplate>
+<option name="charting.chart">line</option>
+<option name="charting.axisTitleY.text">Committed</option> 
+<option name="charting.axisTitleX.text">Time</option>
+
+</chart>
+
+</row>
+
 
 </form>

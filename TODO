@@ -1,17 +1,14 @@
 TODO Items
 ----------
 
-* enhanced demo SPLUNK dashboards for the java.lang domain
+* sample config files for various other jvm apps(tanuki,xscale,was,weblogic,mule,tomcat,jboss,jetty,resin,solr,glassfish,hadoop,cassandra)
+ 
+* updated docs, weblogic/was/jboss HOWTO guides + sample tweaked "poll_jmx" scripts
 
-* JMXConnector custom timeout handler
+* test output data file dumps / mock data generator
 
-* sample config files for various Java apps (WAS,Mule,JBoss,Hadoop MR,Cassandra, Tomcat etc..)
+* generic mbean search page
 
+* better JMX connection timeout handling
 
-
-
-
-
-
-
-
+* customize CSS

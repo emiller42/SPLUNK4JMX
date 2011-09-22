@@ -22,4 +22,49 @@
 
 </row>
 
+<row>
+
+<table>
+<title>Error Messages</title>
+<searchString>index=jmx  sourcetype=jmx_errors | stats count by systemErrorMessage error_host jvmDescription</searchString>
+<option name="count">20</option>
+<option name="displayRowNumbers">true</option>
+<option name="showPager">true</option>
+
+</table>
+
+</row>
+
+<row>
+<chart>
+<title>Errors by Host</title>
+<searchTemplate>index=jmx sourcetype=jmx_errors | stats count by error_host</searchTemplate>
+<option name="charting.chart">pie</option>
+
+<option name="charting.axisTitleY.text">Connection Error Count</option> 
+
+
+</chart>
+<chart>
+<title>Errors by JVM</title>
+<searchTemplate>index=jmx sourcetype=jmx_errors | stats count by jvmDescription</searchTemplate>
+<option name="charting.chart">pie</option>
+
+<option name="charting.axisTitleY.text">Connection  Error Count</option> 
+
+
+</chart>
+
+<chart>
+<title>Errors by Message</title>
+<searchTemplate>index=jmx sourcetype=jmx_errors | stats count by systemErrorMessage</searchTemplate>
+<option name="charting.chart">pie</option>
+
+<option name="charting.axisTitleY.text">Connection  Error Count</option> 
+
+
+</chart>
+
+</row>
+
 </form>

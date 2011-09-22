@@ -137,7 +137,7 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 <mbean domain="java.lang" properties="type=MemoryPool,name=*">
 
 <attribute name="Name" outputname="name"/>
-<attribute name="Type" outputname="type"/>
+<attribute name="Type" outputname="memoryType"/>
 <attribute name="MemoryManagerNames" outputname="memManagerNames"/>
 
 <attribute name="PeakUsage:used" outputname="peakUsageUsed"/>

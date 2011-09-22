@@ -1,20 +1,37 @@
-<form>
-<label>Memory Pools</label>
+<form class="formsearch" >
+  <label>Memory Pools</label>
 
 <fieldset autoRun="true">
 
-<input type="time" searchWhenChanged="true">
-  <default>Last 15 minutes</default>  
-</input>
-      
+
+ <input type="time" searchWhenChanged="true">
+<default>Last 60 minutes</default>  
+</input>      
 </fieldset>
 
 <row>
+<table>
+<title>Overview</title>
+<searchString>index=jmx mbean="*MemoryPool*" |stats first(memoryType) as "Type"  first(memManagerNames) as "Memory Managers" first(usageMax) as "Max" first(usageInit) as "Init" first(usageCommitted) as "Committed" by host jvmDescription name</searchString>
+<option name="count">20</option>
+<option name="displayRowNumbers">true</option>
+<option name="showPager">true</option>
 
+</table>
+</row>
+
+<row>
 <chart>
-//TODO
+<title>Memory Pool Usage</title>
+<searchTemplate>index=jmx mbean="*MemoryPool*" | eval jvmpool=jvmDescription+"_"+name |  timechart span=1m max(usageUsed) as "Memory Used" by jvmpool</searchTemplate>
+<option name="charting.chart">line</option>
+
+<option name="charting.axisTitleY.text">Pool Memory</option> 
+<option name="charting.axisTitleX.text">Time</option>
+
 </chart>
 
 </row>
 
+  
 </form>
