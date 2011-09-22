@@ -11,11 +11,13 @@
  <view name="demo_java_lang_compilation"/>
  <view name="demo_java_lang_classloading"/>
  <view name="demo_java_lang_memory"/>
+ <view name="demo_java_lang_memorypools"/>
+ <view name="demo_java_lang_garbagecollection"/>
 </collection>
 
 </collection>
-   
-<collection label="JMX Connectivity"> 
+
+<collection label="JMX Connectivity Status"> 
   <view name="demo_jmx_connectivity_errors" />
 </collection>
    

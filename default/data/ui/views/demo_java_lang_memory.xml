@@ -1,5 +1,5 @@
 <form>
-<label>Memory</label>
+<label>Heap Memory</label>
 
 <fieldset autoRun="true">
 
