@@ -61,9 +61,12 @@
 		
 		<copy todir="${temp_build}/${bin}/${config}">
 			<fileset file="${config}/config.xml" />
-			<fileset dir="${examples}" />
 				</copy>
 
+		<copy todir="${temp_build}/${bin}/${config}/${examples}">					
+			<fileset dir="${config}/${examples}" />
+		</copy>
+		
 		<copy todir="${temp_build}/${bin}">
 			<fileset file="${bin}/linux/poll_jmx.sh" />
 			<fileset file="${bin}/win/poll_jmx.bat" />
