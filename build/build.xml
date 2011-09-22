@@ -8,6 +8,7 @@
 	<property name="classes" value="classes" />
 	<property name="release" value="releases" />
 	<property name="lib" value="lib" />
+	<property name="examples" value="examples" />
 	<property name="docs" value="docs" />
 	<property name="bin" value="bin" />
 	<property name="config" value="config" />
@@ -60,9 +61,7 @@
 		
 		<copy todir="${temp_build}/${bin}/${config}">
 			<fileset file="${config}/config.xml" />
-			<fileset file="${config}/config_cluster_example.xml" />
-			<fileset file="${config}/config_PID_example.xml" />
-			<fileset file="${config}/config_operations_example.xml" />
+			<fileset dir="${examples}" />
 				</copy>
 
 		<copy todir="${temp_build}/${bin}">
