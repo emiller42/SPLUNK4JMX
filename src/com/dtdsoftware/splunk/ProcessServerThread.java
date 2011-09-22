@@ -1,12 +1,14 @@
 package com.dtdsoftware.splunk;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanServerConnection;
@@ -168,6 +170,8 @@ public class ProcessServerThread extends Thread {
 								// through the levels until the value is found
 								for (String token : tokens) {
 
+									
+									
 									// get root attribute object the first time
 									if (attributeValue == null)
 										try {
@@ -235,6 +239,7 @@ public class ProcessServerThread extends Thread {
 		}
 
 	}
+
 
 	/**
 	 * Extract MBean attributes and if necessary, deeply inspect and resolve
