@@ -1,14 +1,46 @@
 TODO Items
 ----------
 
-* sample config files for various other jvm apps(tanuki,xscale,was,weblogic,mule,tomcat,jboss,jetty,resin,solr,glassfish,hadoop,cassandra)
+version 2
+----------
+
+* sample config files for 3 jvms(java.lang->hotspot/jrockit/j9) and various other jvm apps
+(tanuki,xscale,was,weblogic,mule,tomcat,jboss,jetty,resin,solr,glassfish,hadoop,cassandra)
  
-* updated docs, weblogic/was/jboss HOWTO guides + sample tweaked "poll_jmx" scripts
+* view sample xml config files
 
-* test output data file dumps / mock data generator
+* updated docs, weblogic/was/jboss HOWTO guides
 
-* generic mbean search page
+* html versions of all docs in app nav menu
 
-* better JMX connection timeout handling
+* generic mbean search page, dynamic chart on attribute values
 
-* customize CSS
+* change to token/quote strip formatter for demo and update searches in demo views
+
+* customize CSS, advanced xml views
+
+
+
+setup
+---------------------------------
+* setup demo config.xml for target JVM type and 1 or more JMX servers(host, port, user,pass etc..)
+* enable data input for win/lin
+
+
+interactive config editor
+---------------------------------
+
+* create / edit new xml config raw or use ui fields
+* name config script
+* choose windows/linux
+* use mx4j option ?
+* set schedule time
+* enable/disable
+* generate java.lang config for hotspot or jrockit or ibm j9
+* poll jmx , bootclasspath (use scripting to create the path of jars), jvm system propertys configurable
+* upload custom jars (to bootclasspath or classpath)
+* add custom jvm system propertys
+* set sourcetype (and add -> TRANSFORMS-host=extract-host SHOULD_LINEMERGE = false)
+* set index
+* commit data input
+
