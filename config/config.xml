@@ -111,7 +111,7 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 <!-- simple attributes -->
 <attribute name="TotalLoadedClassCount" outputname="total"/>
 <attribute name="LoadedClassCount" outputname="current"/>
-<attribute name="UnLoadedClassCount" outputname="unloaded"/>
+<attribute name="UnloadedClassCount" outputname="unloaded"/>
 
 </mbean>
 
@@ -192,8 +192,11 @@ Eden Space
 Survivor Space
 Tenured Gen
 
+etc...
+
+
 Based on which GC collector and policy you use and which JVM, these memory pool names may differ.
--->
+
 
 <attribute name="LastGcInfo:memoryUsageBeforeGc:Eden Space:value:used" outputname="eden_beforeGCUsed"/>
 <attribute name="LastGcInfo:memoryUsageBeforeGc:Eden Space:value:max" outputname="eden_beforeGCMax"/>
@@ -214,7 +217,7 @@ Based on which GC collector and policy you use and which JVM, these memory pool 
 <attribute name="LastGcInfo:memoryUsageAfterGc:Survivor Space:value:max" outputname="survivor_afterGCMax"/>
 <attribute name="LastGcInfo:memoryUsageAfterGc:Survivor Space:value:init" outputname="survivor_afterGCInit"/>
 <attribute name="LastGcInfo:memoryUsageAfterGc:Survivor Space:value:committed" outputname="survivor_afterGCCommitted"/>
-
+-->
 
 </mbean>
 
