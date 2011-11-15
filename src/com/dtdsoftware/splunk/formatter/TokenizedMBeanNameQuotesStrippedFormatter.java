@@ -7,8 +7,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * Custom formatter implementation that outputs the mbean canonical name as split up tokens
- * Has some extra formatting specifics to deal with MBean property values that are sometimes quoted.
+ * Custom formatter implementation that outputs the mbean canonical name as
+ * split up tokens Has some extra formatting specifics to deal with MBean
+ * property values that are sometimes quoted.
  * 
  * @author Damien Dallimore damien@dtdsoftware.com
  * 
@@ -48,7 +49,8 @@ public class TokenizedMBeanNameQuotesStrippedFormatter implements Formatter {
 		for (String key : keys) {
 
 			output.append(",").append(key).append("=\"").append(
-					attributes.get(key)).append("\"");
+					FormatterUtils.stripNewlines(attributes.get(key))).append(
+					"\"");
 		}
 
 		// write out to STDOUT for Splunk
@@ -57,8 +59,11 @@ public class TokenizedMBeanNameQuotesStrippedFormatter implements Formatter {
 	}
 
 	/**
-	 * Take a canonical mbean name  ie: "domain:key=value, key2=value2" , and split out the parts into individual fields.
-	 * @param mBean the canonical mbean name
+	 * Take a canonical mbean name ie: "domain:key=value, key2=value2" , and
+	 * split out the parts into individual fields.
+	 * 
+	 * @param mBean
+	 *            the canonical mbean name
 	 * @return sorted map of the name parts
 	 */
 	private SortedMap<String, String> tokenizeMBeanCanonicalName(String mBean) {
@@ -66,40 +71,28 @@ public class TokenizedMBeanNameQuotesStrippedFormatter implements Formatter {
 		SortedMap<String, String> result = new TreeMap<String, String>();
 
 		String[] parts = mBean.split(":");
-		if(parts == null || parts.length != 2){
+		if (parts == null || parts.length != 2) {
 			return result;
 		}
-		//the mbean domain
+		// the mbean domain
 		result.put("mbean_domain", parts[0]);
 
-		//the mbean properties
+		// the mbean properties
 		String[] properties = parts[1].split(",");
-		if(properties == null){
+		if (properties == null) {
 			return result;
 		}
 		for (String prop : properties) {
 			String[] property = prop.split("=");
-			if(property == null || property.length != 2){
+			if (property == null || property.length != 2) {
 				continue;
 			}
-			
-			result.put("mbean_property_" + property[0], trimQuotes(property[1]));
+
+			result.put("mbean_property_" + property[0], FormatterUtils
+					.trimQuotes(property[1]));
 		}
 
 		return result;
-	}
-
-	private String trimQuotes(String quotedString) {
-		
-		if(quotedString.startsWith("\"")){
-			quotedString=quotedString.substring(1);
-		}
-		if(quotedString.endsWith("\"")){
-			quotedString=quotedString.substring(0, quotedString.length()-1);
-		}
-		
-		
-		return quotedString;
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public class DefaultFormatter implements Formatter {
 		for (String key : keys) {
 
 			output.append(",").append(key).append("=\"").append(
-					attributes.get(key)).append("\"");
+					FormatterUtils.stripNewlines(attributes.get(key))).append("\"");
 		}
 
 		// write out to STDOUT for Splunk
