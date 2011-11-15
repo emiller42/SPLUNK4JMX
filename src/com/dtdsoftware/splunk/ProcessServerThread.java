@@ -170,8 +170,6 @@ public class ProcessServerThread extends Thread {
 								// through the levels until the value is found
 								for (String token : tokens) {
 
-									
-									
 									// get root attribute object the first time
 									if (attributeValue == null)
 										try {
@@ -227,7 +225,8 @@ public class ProcessServerThread extends Thread {
 
 		} catch (Exception e) {
 
-			logger.error(serverConfig+",systemErrorMessage=\"" + e.getMessage()+"\"");
+			logger.error(serverConfig + ",systemErrorMessage=\""
+					+ e.getMessage() + "\"");
 		} finally {
 			if (jmxc != null) {
 				try {
@@ -239,7 +238,6 @@ public class ProcessServerThread extends Thread {
 		}
 
 	}
-
 
 	/**
 	 * Extract MBean attributes and if necessary, deeply inspect and resolve
@@ -256,8 +254,15 @@ public class ProcessServerThread extends Thread {
 	private void extractAttributeValue(Object attributeValue,
 			Map<String, String> mBeanAttributes, String attributeName) {
 
+		if (attributeValue instanceof String[]) {
+			try {
+				mBeanAttributes.put(attributeName,
+						resolveObjectToString(attributeValue));
+			} catch (Exception e) {
 
-		if (attributeValue instanceof Object[]) {
+				logger.error("Error : " + e.getMessage());
+			}
+		} else if (attributeValue instanceof Object[]) {
 			try {
 				int index = 0;
 				for (Object obj : (Object[]) attributeValue) {
@@ -269,11 +274,10 @@ public class ProcessServerThread extends Thread {
 
 				logger.error("Error : " + e.getMessage());
 			}
-		} 
-		else if (attributeValue instanceof Collection) {
+		} else if (attributeValue instanceof Collection) {
 			try {
 				int index = 0;
-				for (Object obj : (Collection)attributeValue) {
+				for (Object obj : (Collection) attributeValue) {
 					index++;
 					extractAttributeValue(obj, mBeanAttributes, attributeName
 							+ "_" + index);
@@ -282,8 +286,7 @@ public class ProcessServerThread extends Thread {
 
 				logger.error("Error : " + e.getMessage());
 			}
-		} 
-		else if (attributeValue instanceof CompositeDataSupport) {
+		} else if (attributeValue instanceof CompositeDataSupport) {
 			try {
 				CompositeDataSupport cds = ((CompositeDataSupport) attributeValue);
 				CompositeType ct = cds.getCompositeType();
@@ -341,10 +344,26 @@ public class ProcessServerThread extends Thread {
 
 			// convert an array to a List view
 			if (obj instanceof Object[]) {
-				obj = Arrays.asList((Object[]) obj);
+				sb.append(Arrays.toString((Object[]) obj));
+			} else if (obj instanceof int[]) {
+				sb.append(Arrays.toString((int[]) obj));
+			} else if (obj instanceof long[]) {
+				sb.append(Arrays.toString((long[]) obj));
+			} else if (obj instanceof float[]) {
+				sb.append(Arrays.toString((float[]) obj));
+			} else if (obj instanceof double[]) {
+				sb.append(Arrays.toString((double[]) obj));
+			} else if (obj instanceof char[]) {
+				sb.append(Arrays.toString((char[]) obj));
+			} else if (obj instanceof boolean[]) {
+				sb.append(Arrays.toString((boolean[]) obj));
+			} else if (obj instanceof byte[]) {
+				sb.append(Arrays.toString((byte[]) obj));
+			} else if (obj instanceof short[]) {
+				sb.append(Arrays.toString((short[]) obj));
 			}
 
-			if (obj instanceof Map) {
+			else if (obj instanceof Map) {
 				sb.append("[");
 				Map map = (Map) obj;
 				Set keys = map.keySet();
