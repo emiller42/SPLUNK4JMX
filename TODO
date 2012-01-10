@@ -19,6 +19,8 @@ version 2
 
 * customize CSS, advanced xml views
 
+* connection and polling timeout handler
+
 
 
 setup
