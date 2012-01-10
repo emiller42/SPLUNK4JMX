@@ -5,10 +5,11 @@
 	debug="false">
 
 	<!-- Daily Rolling File Appender -->
-	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
+	<appender name="FILE" class="org.apache.log4j.RollingFileAppender">
 		<param name="Threshold" value="ERROR" />
 		<param name="File" value="${splunk4jmx.home}/logs/splunk4jmx.log" />
-		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<param name="MaxFileSize" value="1MB"/>
+        <param name="MaxBackupIndex" value="1"/>
 		<param name="Append" value="true" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d %-5p [%c] %m%n" />
