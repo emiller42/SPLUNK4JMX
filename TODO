@@ -11,8 +11,6 @@ version 2
 
 * updated docs, weblogic/was/jboss HOWTO guides
 
-* html versions of all docs in app nav menu
-
 * generic mbean search page, dynamic chart on attribute values
 
 * change to token/quote strip formatter for demo and update searches in demo views
@@ -26,7 +24,6 @@ version 2
 setup
 ---------------------------------
 * setup demo config.xml for target JVM type and 1 or more JMX servers(host, port, user,pass etc..)
-* enable data input for win/lin
 
 
 interactive config editor

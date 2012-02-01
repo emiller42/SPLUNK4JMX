@@ -20,5 +20,15 @@
 <collection label="JMX Connectivity Status"> 
   <view name="demo_jmx_connectivity_errors" />
 </collection>
+
+<collection label="Documentation"> 
+  <view name="user_guide"/>
+  <view name="configuration_schema"/>
+  <view name="formatters"/>
+</collection>
+
+<view name="about"/>
+<view name="donate"/>
+
    
 </nav>

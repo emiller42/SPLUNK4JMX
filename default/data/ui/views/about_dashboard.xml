@@ -13,7 +13,7 @@
   <module name="SearchBar" layoutPanel="splSearchControls-inline">
     <param name="useAssistant">true</param>
     <param name="useTypeahead">true</param>
-    <param name="q">index=jmx</param>
+    <param name="q">index=jmx sourcetype=jmx</param>
     <param name="useOwnSubmitButton">False</param>
     <module name="TimeRangePicker">
       <param name="selected">All time</param>
