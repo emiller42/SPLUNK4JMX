@@ -3,8 +3,7 @@ package com.dtdsoftware.splunk.formatter;
 import java.util.Map;
 
 /**
- * This interface can be implemented to provide custom formatting logic to the
- * STDOUT format that is picked up by SPLUNK.
+ * This interface can be implemented to provide custom formatting logic
  * 
  * The custom implementation class can then be placed on the classpath and
  * declared in the configuration xml file.
@@ -36,7 +35,15 @@ public interface Formatter {
 	public void setMetaData(Map<String, String> metaData);
 
 	/**
-	 * This method is called to print each Mbean attribute line
+	 * Parameters that can be declared in the config xml file
+	 * 
+	 * @param parameters
+	 *            map of key value pairs from the config xml file
+	 */
+	public void setParameters(Map<String, String> parameters);
+
+	/**
+	 * This method is called to format each Mbean attribute line
 	 * 
 	 * @param Mbean
 	 *            the canonical mbean name
@@ -45,8 +52,9 @@ public interface Formatter {
 	 * @param timestamp
 	 *            internal timestamp that can optionally be used in the output
 	 *            line
+	 * @return the formatted payload
 	 */
-	public void print(String Mbean, Map<String, String> attributes,
+	public String format(String Mbean, Map<String, String> attributes,
 			long timestamp);
 
 }

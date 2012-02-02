@@ -8,24 +8,25 @@ package com.dtdsoftware.splunk.config;
  */
 public class Parameter {
 
-	//parameter value
+	// parameter value
 	public String value;
 
-	//parameter type
-	//int,float,double,long,short,byte,boolean,char,string
+	// parameter type
+	// int,float,double,long,short,byte,boolean,char,string
 	public String type;
-		
-	public static final String INT="int";
-	public static final String FLOAT="float";
-	public static final String DOUBLE="double";
-	public static final String LONG="long";
-	public static final String SHORT="short";
-	public static final String BYTE="byte";
-	public static final String BOOLEAN="boolean";
-	public static final String CHAR="char";
-	public static final String STRING="string";
-	
-	public Parameter(){}
+
+	public static final String INT = "int";
+	public static final String FLOAT = "float";
+	public static final String DOUBLE = "double";
+	public static final String LONG = "long";
+	public static final String SHORT = "short";
+	public static final String BYTE = "byte";
+	public static final String BOOLEAN = "boolean";
+	public static final String CHAR = "char";
+	public static final String STRING = "string";
+
+	public Parameter() {
+	}
 
 	public String getValue() {
 		return value;
@@ -42,6 +43,5 @@ public class Parameter {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
+
 }

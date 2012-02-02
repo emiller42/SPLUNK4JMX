@@ -20,6 +20,10 @@
 		<field name="formatter" type="com.dtdsoftware.splunk.config.Formatter">
 			<bind-xml name="formatter" />
 		</field>
+		
+		<field name="transport" type="com.dtdsoftware.splunk.config.Transport">
+			<bind-xml name="transport" />
+		</field>
 
 	</class>
 	
@@ -175,6 +179,35 @@
 
         <field name="className" type="java.lang.String">
 			<bind-xml name="className" node="attribute" />
+		</field>
+		
+		<field name="parameters" collection="hashtable">
+			<bind-xml name="param" />
+		</field>
+
+	</class>
+	
+	<class name="com.dtdsoftware.splunk.config.Transport">
+		<map-to xml="transport" />
+
+        <field name="className" type="java.lang.String">
+			<bind-xml name="className" node="attribute" />
+		</field>
+		
+		<field name="parameters" collection="hashtable">
+			<bind-xml name="param" />
+		</field>
+
+	</class>
+	
+	<class name="org.exolab.castor.mapping.MapItem">
+		<map-to xml="param" />
+
+        <field name="key" type="java.lang.String">
+			<bind-xml name="name" node="attribute" />
+		</field>
+		<field name="value" type="java.lang.String">
+			<bind-xml name="value" node="attribute" />
 		</field>
 
 	</class>

@@ -3,7 +3,6 @@ package com.dtdsoftware.splunk.config;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Root config POJO
  * 
@@ -20,6 +19,9 @@ public class JMXPoller {
 
 	// a custom formatter
 	public Formatter formatter;
+
+	// a custom transport
+	public Transport transport;
 
 	public JMXPoller() {
 	}
@@ -45,6 +47,14 @@ public class JMXPoller {
 		this.formatter = formatter;
 	}
 
+	public Transport getTransport() {
+		return transport;
+	}
+
+	public void setTransport(Transport transport) {
+		this.transport = transport;
+	}
+
 	public List<Cluster> getClusters() {
 		return clusters;
 	}
@@ -61,7 +71,8 @@ public class JMXPoller {
 	}
 
 	/**
-	 * Extract all JMX Servers out of the cluster and aggregate them in the same set
+	 * Extract all JMX Servers out of the cluster and aggregate them in the same
+	 * set
 	 */
 	public void normalizeClusters() {
 

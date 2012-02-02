@@ -23,7 +23,7 @@ public class JMXServer {
 
 	// PID File of locally running JVM
 	public String pidFile;
-	
+
 	// PID Command to obtain PID of locally running JVM
 	public String pidCommand;
 
@@ -42,21 +42,21 @@ public class JMXServer {
 	// JMX password
 	public String jmxpass = "";
 
-	//JMX connector protocol
+	// JMX connector protocol
 	public String protocol = "rmi"; // default
-	
-	//Remote stub lookup path
-	public String lookupPath = ""; 
-	
-	//Remote stub source
-	public String stubSource = "jndi";  // default
-	
-	//Encoded stub
-	public String encodedStub = "";  //for "stub" and "ior" stub sources
-	
-	//Raw URL input, optional if the pre set fields dont suffice
+
+	// Remote stub lookup path
+	public String lookupPath = "";
+
+	// Remote stub source
+	public String stubSource = "jndi"; // default
+
+	// Encoded stub
+	public String encodedStub = ""; // for "stub" and "ior" stub sources
+
+	// Raw URL input, optional if the pre set fields dont suffice
 	public String jmxServiceURL = "";
-	
+
 	// list of MBeans/MBeans Patterns to Query
 	public List<MBean> mbeans;
 
@@ -103,7 +103,6 @@ public class JMXServer {
 	public void setJmxpass(String jmxpass) {
 		this.jmxpass = jmxpass;
 	}
-		
 
 	public String getEncodedStub() {
 		return encodedStub;
@@ -150,11 +149,10 @@ public class JMXServer {
 	}
 
 	public void setMbeans(List<MBean> mbeans) {
-		
-		if(this.mbeans != null){
+
+		if (this.mbeans != null) {
 			this.mbeans.addAll(mbeans);
-		}
-		else
+		} else
 			this.mbeans = mbeans;
 	}
 
@@ -172,6 +170,7 @@ public class JMXServer {
 
 	/**
 	 * Attempts to obtain the pid from a pidFile
+	 * 
 	 * @param pidFile
 	 */
 	public void setPidFile(String pidFile) {
@@ -179,15 +178,18 @@ public class JMXServer {
 		BufferedReader br = null;
 		try {
 			File f = new File(pidFile);
-		    br = new BufferedReader(new FileReader(f));
+			br = new BufferedReader(new FileReader(f));
 			String line = br.readLine();
 			setProcessID(Integer.parseInt(line.trim()));
 		} catch (Exception e) {
 			logger.error("Error obtaining pid from file " + pidFile);
-		}
-		finally{
-			if(br != null)
-			try{br.close();}catch(Exception e){logger.error("Error closing file stream");}
+		} finally {
+			if (br != null)
+				try {
+					br.close();
+				} catch (Exception e) {
+					logger.error("Error closing file stream");
+				}
 		}
 
 	}
@@ -198,32 +200,33 @@ public class JMXServer {
 
 	/**
 	 * Attempts to set the PID from the output of a command
+	 * 
 	 * @param pidCommand
 	 */
 	public void setPidCommand(String pidCommand) {
 		this.pidCommand = pidCommand;
 		BufferedReader input = null;
 		try {
-			
+
 			Process process = Runtime.getRuntime().exec(pidCommand);
-			input =
-		        new BufferedReader
-		          (new InputStreamReader(process.getInputStream()));
+			input = new BufferedReader(new InputStreamReader(process
+					.getInputStream()));
 			String line;
-		      if ((line = input.readLine()) != null) {
-		    	  setProcessID(Integer.parseInt(line.trim()));
-		      }
-		      else{
-		    	  throw new Exception("No command output");
-		      }
-		      
-			
+			if ((line = input.readLine()) != null) {
+				setProcessID(Integer.parseInt(line.trim()));
+			} else {
+				throw new Exception("No command output");
+			}
+
 		} catch (Exception e) {
 			logger.error("Error obtaining pid from command " + pidCommand);
-		}
-		finally{
-			if(input != null)
-			try{input.close();}catch(Exception e){logger.error("Error closing process output stream");}
+		} finally {
+			if (input != null)
+				try {
+					input.close();
+				} catch (Exception e) {
+					logger.error("Error closing process output stream");
+				}
 		}
 	}
 
@@ -233,7 +236,5 @@ public class JMXServer {
 				+ ", jmxport=" + jmxport + ", jvmDescription=" + jvmDescription
 				+ ", processID=" + processID;
 	}
-	
-	
 
 }

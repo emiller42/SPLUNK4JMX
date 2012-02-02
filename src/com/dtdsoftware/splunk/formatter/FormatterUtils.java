@@ -2,7 +2,7 @@ package com.dtdsoftware.splunk.formatter;
 
 /**
  * 
- * Utility methods for formatting 
+ * Utility methods for formatting
  * 
  * @author Damien Dallimore damien@dtdsoftware.com
  * 
@@ -11,6 +11,7 @@ public abstract class FormatterUtils {
 
 	/**
 	 * Strip all whitespace chars and replace with a single space char
+	 * 
 	 * @param input
 	 * @return
 	 */
@@ -31,6 +32,7 @@ public abstract class FormatterUtils {
 
 	/**
 	 * Remove surrounding quotes from a string
+	 * 
 	 * @param quotedString
 	 * @return
 	 */

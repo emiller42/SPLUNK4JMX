@@ -28,6 +28,7 @@ import com.dtdsoftware.splunk.config.MBean;
 import com.dtdsoftware.splunk.config.Attribute;
 import com.dtdsoftware.splunk.config.Operation;
 import com.dtdsoftware.splunk.formatter.Formatter;
+import com.dtdsoftware.splunk.transport.Transport;
 import com.sun.tools.attach.VirtualMachine;
 
 /**
@@ -51,8 +52,11 @@ public class ProcessServerThread extends Thread {
 
 	private boolean directJVMAttach = false;
 
-	// output formatter
+	// formatter
 	private Formatter formatter;
+
+	// transport
+	private Transport transport;
 
 	/**
 	 * Thread to run each JMX Server connection in
@@ -60,13 +64,17 @@ public class ProcessServerThread extends Thread {
 	 * @param serverConfig
 	 *            config POJO for this JMX Server
 	 * @param formatter
-	 *            config POJO for the formatter
+	 *            formatter impl
+	 * @param transport
+	 *            transport impl
 	 */
-	public ProcessServerThread(JMXServer serverConfig, Formatter formatter) {
+	public ProcessServerThread(JMXServer serverConfig, Formatter formatter,
+			Transport transport) {
 
 		this.logger = Logger.getLogger(this.getName());
 		this.serverConfig = serverConfig;
 		this.formatter = formatter;
+		this.transport = transport;
 
 		// set up the formatter
 		Map<String, String> meta = new HashMap<String, String>();
@@ -214,9 +222,11 @@ public class ProcessServerThread extends Thread {
 							}
 
 						}
-						// write line out to SYSOUT
-						formatter.print(mBeanName, mBeanAttributes, System
-								.currentTimeMillis());
+
+						String payload = formatter.format(mBeanName,
+								mBeanAttributes, System.currentTimeMillis());
+
+						transport.transport(payload);
 					}
 
 				}

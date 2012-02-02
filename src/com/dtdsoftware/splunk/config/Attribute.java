@@ -20,8 +20,8 @@ public class Attribute {
 	public String outputname;
 
 	private List<String> tokens;
-	
-	private static final String ATTRIBUTE_DELIMITER=":";
+
+	private static final String ATTRIBUTE_DELIMITER = ":";
 
 	public Attribute() {
 	}
@@ -32,6 +32,7 @@ public class Attribute {
 
 	/**
 	 * Sets name and breaks up ":" delimited parts of the attribute name
+	 * 
 	 * @param name
 	 */
 	public void setName(String name) {

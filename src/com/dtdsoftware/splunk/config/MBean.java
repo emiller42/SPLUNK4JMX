@@ -23,11 +23,11 @@ public class MBean {
 	// format
 	public String propertiesList = "";
 
-	//if true, will dump all of the attributes for the MBean
+	// if true, will dump all of the attributes for the MBean
 	public boolean dumpAllAttributes;
 
 	public List<Attribute> attributes;
-	
+
 	public List<Operation> operations;
 
 	public MBean() {
@@ -72,7 +72,5 @@ public class MBean {
 	public void setDumpAllAttributes(boolean dumpAllAttributes) {
 		this.dumpAllAttributes = dumpAllAttributes;
 	}
-	
-	
 
 }

@@ -16,13 +16,13 @@ public class Operation {
 	public String name;
 
 	// name for the result that should be written out to SPLUNK
-	public String outputname ="";
+	public String outputname = "";
 
 	// operations parameters
 	public List<Parameter> parameters;
 
 	private static Logger logger = Logger.getLogger(Operation.class);
-	
+
 	public Operation() {
 	}
 
@@ -63,10 +63,10 @@ public class Operation {
 
 	}
 
-	public String [] getSignatureArray() {
+	public String[] getSignatureArray() {
 		if (parameters == null || parameters.isEmpty())
 			return null;
-		String [] signature = new String[parameters.size()];
+		String[] signature = new String[parameters.size()];
 
 		for (int i = 0; i < parameters.size(); i++) {
 			signature[i] = getObjectType(parameters.get(i));
@@ -101,7 +101,8 @@ public class Operation {
 			else
 				return new Object();
 		} catch (Exception e) {
-			logger.error("Error creating parameter object for operation : "+e.getMessage());
+			logger.error("Error creating parameter object for operation : "
+					+ e.getMessage());
 			return null;
 		}
 
@@ -132,7 +133,8 @@ public class Operation {
 			else
 				return null;
 		} catch (Exception e) {
-			logger.error("Error creating signature object for operation : "+e.getMessage());
+			logger.error("Error creating signature object for operation : "
+					+ e.getMessage());
 			return null;
 		}
 	}

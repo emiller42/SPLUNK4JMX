@@ -6,20 +6,21 @@ import java.util.List;
  * POJO for a cluster of JMX Servers
  * 
  * @author Damien Dallimore damien@dtdsoftware.com
- *
+ * 
  */
 public class Cluster {
-	
+
 	public String name;
 	public String description;
-	
+
 	// the cluster MBeans to Query
 	public List<MBean> mbeans;
-	
+
 	// the cluster members
 	public List<JMXServer> servers;
-	
-	public Cluster(){}
+
+	public Cluster() {
+	}
 
 	public String getName() {
 		return name;

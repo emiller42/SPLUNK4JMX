@@ -23,13 +23,63 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 
 <!-- optional formatter declaration, will default to the DefaultFormatter class -->
 
-<!-- <formatter className="com.dtdsoftware.splunk.formatter.DefaultFormatter" /> -->
-<!-- <formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameFormatter" /> -->
-<!-- <formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameQuotesStrippedFormatter" /> -->
+<formatter className="com.dtdsoftware.splunk.formatter.DefaultFormatter" >
+  <param name="kvdelim" value="=" />
+  <param name="pairdelim" value="," />
+</formatter>
+
+<!--
+<formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameFormatter" > 
+  <param name="kvdelim" value="=" />
+  <param name="pairdelim" value="," />
+</formatter>
+
+<formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameQuotesStrippedFormatter" >
+  <param name="kvdelim" value="=" />
+  <param name="pairdelim" value="," />
+</formatter> 
+
+-->
+
+
+
+<!-- optional custom transport declaration, will default to the StdOut class -->
+
+<transport className="com.dtdsoftware.splunk.transport.StdOut" />
+ 
+<!-- Examples of other potential transports, not yet coded
+
+<transport className="com.dtdsoftware.splunk.transport.RestApi" >
+  <param name="user" value="admin" />
+  <param name="pass" value="password" />
+  <param name="host" value="splunk" />
+  <param name="port" value="8089" />
+  <param name="delivery" value="stream" />
+  <param name="meta_index" value="jmx" />
+  <param name="meta_source" value="rest" />
+  <param name="meta_sourcetype" value="jmx" />
+  <param name="meta_hostregex" value="host=(([a-zA-Z0-9\._-]+))" />
+</transport>
+
+<transport className="com.dtdsoftware.splunk.transport.UDP" >
+  <param name="host" value="splunk" />
+  <param name="port" value="8089" />
+</transport>
+
+<transport className="com.dtdsoftware.splunk.transport.TCP" >
+  <param name="host" value="splunk" />
+  <param name="port" value="8089" />
+</transport>
+
+<transport className="com.dtdsoftware.splunk.transport.File" >
+  <param name="log4jloggername" value="transport.File" />
+</transport>
+
+-->
 
 <!-- Connect to a JVM via the remote JMX interface -->
 
-<jmxserver host="localhost" jvmDescription="tomcat" jmxport="34345">
+<jmxserver host="localhost" jvmDescription="cassandra" jmxport="7199">
 
 
 <!-- dump all the attributes of every mbean--> 

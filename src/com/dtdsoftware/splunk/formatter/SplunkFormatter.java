@@ -7,7 +7,7 @@ import java.util.Map;
  * Abstract out a few common methods and params
  * 
  * @author Damien Dallimore damien@dtdsoftware.com
- *
+ * 
  */
 public abstract class SplunkFormatter {
 
@@ -22,6 +22,7 @@ public abstract class SplunkFormatter {
 
 	/**
 	 * Build a key value pair based on configured delimiters
+	 * 
 	 * @param key
 	 * @param value
 	 * @return

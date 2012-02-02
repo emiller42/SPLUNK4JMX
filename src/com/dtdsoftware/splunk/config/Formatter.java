@@ -4,11 +4,11 @@ package com.dtdsoftware.splunk.config;
  * POJO for Formatter config
  * 
  * @author Damien Dallimore damien@dtdsoftware.com
- *
+ * 
  */
-public class Formatter {
+public class Formatter extends ParameterizedConfig {
 
-	//default formatter implementation
+	// default formatter implementation
 	public final static String DEFAULT = "com.dtdsoftware.splunk.formatter.DefaultFormatter";
 
 	// class name of the Formatter implementation
@@ -27,14 +27,17 @@ public class Formatter {
 
 	/**
 	 * Obtain a formatter instance via reflection
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	public com.dtdsoftware.splunk.formatter.Formatter getFormatterInstance()
 			throws Exception {
 
-		return (com.dtdsoftware.splunk.formatter.Formatter) Class.forName(
-				className).newInstance();
+		com.dtdsoftware.splunk.formatter.Formatter obj = (com.dtdsoftware.splunk.formatter.Formatter) Class
+				.forName(className).newInstance();
+		obj.setParameters(this.getParameters());
+		return obj;
 	}
 
 }

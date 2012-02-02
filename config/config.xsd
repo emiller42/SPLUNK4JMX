@@ -15,6 +15,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element minOccurs="0" maxOccurs="1" ref="formatter" />
+				<xs:element minOccurs="0" maxOccurs="1" ref="transport" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="cluster" />
 				<xs:element minOccurs="0" maxOccurs="unbounded" ref="jmxserver" />				
 			</xs:sequence>
@@ -22,15 +23,37 @@
 	</xs:element>
 	<xs:element name="formatter">
 		<xs:annotation>
-			<xs:documentation>Custom formatter declaration allows you to override
-				the default STDOUT format</xs:documentation>
+			<xs:documentation>Custom formatter declaration</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
+		<xs:sequence>
+
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+			</xs:sequence>
 			<xs:attribute name="className" type="xs:string" use="required">
 				<xs:annotation>
 					<xs:documentation>Fully qualified Java class name of the formatter
 						implementation, implements the
 						com.dtdsoftware.splunk.formatter.Formatter interface
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="transport">
+		<xs:annotation>
+			<xs:documentation>Custom transport declaration</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+		<xs:sequence>
+
+				<xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+			</xs:sequence>
+			<xs:attribute name="className" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Fully qualified Java class name of the transport
+						implementation, implements the
+						com.dtdsoftware.splunk.transport.Transport interface
 					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
@@ -301,5 +324,27 @@
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>
+	</xs:element>
+	<xs:element name="param">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">parameters for a ParameterizedConfig object</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="name" use="required" type="xs:string">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">parameter name
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="value" use="required" type="xs:string">
+				<xs:annotation>
+					<xs:documentation xml:lang="en">parameter value
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+
+
+
 	</xs:element>
 </xs:schema>

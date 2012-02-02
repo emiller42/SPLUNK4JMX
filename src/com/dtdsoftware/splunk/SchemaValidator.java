@@ -18,8 +18,10 @@ public class SchemaValidator {
 
 	/**
 	 * Validate XML source
+	 * 
 	 * @param xml
-	 * @throws Exception if validation fails
+	 * @throws Exception
+	 *             if validation fails
 	 */
 	public void validateSchema(InputSource xml) throws Exception {
 
@@ -60,7 +62,7 @@ public class SchemaValidator {
 
 	/**
 	 * Validation handler
-	 *
+	 * 
 	 */
 	private class Validator extends DefaultHandler {
 		public boolean validationError = false;
