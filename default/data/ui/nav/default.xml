@@ -25,6 +25,7 @@
   <view name="user_guide"/>
   <view name="configuration_schema"/>
   <view name="formatters"/>
+  <view name="transports"/>
 </collection>
 
 <view name="about"/>
