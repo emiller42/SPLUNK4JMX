@@ -44,20 +44,20 @@ public class RestApi implements Transport {
 	public void setParameters(Map<String, String> parameters) {
 		
 		String userparam = parameters.get(USER_PARAM);
-		if (userparam != null && userparam.length() > 1)
+		if (userparam != null && userparam.length() > 0)
 			user = userparam;
 		
 		String passparam = parameters.get(PASS_PARAM);
-		if (passparam != null && passparam.length() > 1)
+		if (passparam != null && passparam.length() > 0)
 			pass = passparam;
 			
 		
 		String hostparam = parameters.get(HOST_PARAM);
-		if (hostparam != null && hostparam.length() > 1)
+		if (hostparam != null && hostparam.length() > 0)
 			host = hostparam;
 		
 		String portparam = parameters.get(PORT_PARAM);
-		if (portparam != null && portparam.length() > 1){
+		if (portparam != null && portparam.length() > 0){
 			try {
 				port = Integer.parseInt(portparam);
 			} catch (NumberFormatException e) {
@@ -65,23 +65,23 @@ public class RestApi implements Transport {
 			}
 		}		
 		String deliveryparam = parameters.get(DELIVERY_PARAM);
-		if (deliveryparam != null && deliveryparam.length() > 1)
+		if (deliveryparam != null && deliveryparam.length() > 0)
 			delivery = deliveryparam;		
 		
 		String metaIndexparam = parameters.get(META_INDEX_PARAM);
-		if (metaIndexparam != null && metaIndexparam.length() > 1)
+		if (metaIndexparam != null && metaIndexparam.length() > 0)
 			metaIndex = metaIndexparam;
 		
 		String metaSourceparam = parameters.get(META_SOURCE_PARAM);
-		if (metaSourceparam != null && metaSourceparam.length() > 1)
+		if (metaSourceparam != null && metaSourceparam.length() > 0)
 			metaSource = metaSourceparam;
 		
 		String metaSourceTypeparam = parameters.get(META_SOURCETYPE_PARAM);
-		if (metaSourceTypeparam != null && metaSourceTypeparam.length() > 1)
+		if (metaSourceTypeparam != null && metaSourceTypeparam.length() > 0)
 			metaSourcetype = metaSourceTypeparam;
 		
 		String metaHostRegexparam = parameters.get(META_HOSTREGEX_PARAM);
-		if (metaHostRegexparam != null && metaHostRegexparam.length() > 1)
+		if (metaHostRegexparam != null && metaHostRegexparam.length() > 0)
 			metaHostRegex = metaHostRegexparam;
 		
 		//TODO uncomment when SDK librarys are present

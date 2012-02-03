@@ -44,11 +44,11 @@ public abstract class SplunkFormatter {
 	void setCommonSplunkParameters(Map<String, String> parameters) {
 
 		String kv = parameters.get(KEY_VAL_DELIMITER_PARAM);
-		if (kv != null && kv.length() > 1)
+		if (kv != null && kv.length() > 0)
 			kvdelim = kv;
 
 		String pair = parameters.get(PAIR_DELIMITER_PARAM);
-		if (pair != null && pair.length() > 1)
+		if (pair != null && pair.length() > 0)
 			pairdelim = pair;
 
 	}
