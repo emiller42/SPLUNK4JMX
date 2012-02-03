@@ -1,42 +1,26 @@
 TODO Items
-----------
+==========
 
-version 2
-----------
+core java engine
+----------------
+* connection and mbean polling timeout handler
+
+examples
+--------
 
 * sample config files for 3 jvms(java.lang->hotspot/jrockit/j9) and various other jvm apps
 (tanuki,xscale,was,weblogic,mule,tomcat,jboss,jetty,resin,solr,glassfish,hadoop,cassandra)
- 
-* updated docs, weblogic/was/jboss HOWTO guides
+
+docs
+----
+
+* weblogic/was/jboss HOWTO guides
+
+splunk application artifacts
+----------------------------
 
 * generic mbean search page, dynamic chart on attribute values
-
 * change to token/quote strip formatter for demo and update searches in demo views
-
-* customize CSS, advanced xml views
-
-* connection and polling timeout handler
-
-
-setup
----------------------------------
-* setup demo config.xml for target JVM type and 1 or more JMX servers(host, port, user,pass etc..)
-
-
-interactive config editor
----------------------------------
-
-* create / edit new xml config raw or use ui fields
-* name config script
-* choose windows/linux
-* use mx4j option ?
-* set schedule time
-* enable/disable
-* generate java.lang config for hotspot or jrockit or ibm j9
-* poll jmx , bootclasspath (use scripting to create the path of jars), jvm system propertys configurable
-* upload custom jars (to bootclasspath or classpath)
-* add custom jvm system propertys
-* set sourcetype (and add -> TRANSFORMS-host=extract-host SHOULD_LINEMERGE = false)
-* set index
-* commit data input
-
+* convert to advanced xml views
+* interactive config file editor/creator/generator
+* enhanced setup screen (setup config file, setup inputs)
