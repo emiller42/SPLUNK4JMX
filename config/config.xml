@@ -74,7 +74,7 @@ quotechar : the quote character to use. A doublequote is the default.
 <!-- 
 
 These 3 transports use appenders/loggers in log4j.xml to facilitate their functionality 
-So if using one of these transports, you'll need to uncomment the relevant appender/logger
+So if using one of these transports, you'll need to uncomment and configure the relevant appender/logger
 definition in log4j.xml that resides in jmxpoller.jar
 -->
 <!--

@@ -1,4 +1,4 @@
-'''Welcome to SPLUNK 4 JMX v1.4'''
+'''Welcome to SPLUNK 4 JMX v1.5'''
 by Damien T. Dallimore
 February 2012
 damien@dtdsoftware.com
@@ -12,7 +12,8 @@ This SPLUNK app provides the means to :
 * query any MBean running on that server
 * extract any MBean attributes (simple, composite or tabular)
 * invoke MBean operations
-* write attributes and operation results out in a default key/value format, or your own custom format, for SPLUNK indexing and searching
+* write attributes and operation results out in a default key/value format, or plugin your own custom format, for SPLUNK indexing and searching
+* transport events over STD out(default), TCP, Syslog, Splunk REST endpoint or direct to file.
 * declare clusters of JVM's for large scale JVM deployments
 * runs on *Nix and Windows
 
@@ -41,7 +42,7 @@ Also refer to the application's "docs" directory for :
 
 * set the JAVA_HOME environment variable to the location of your JRE install location(version 1.6 +)
 * set the SPLUNK_HOME environment variable to the install root of SPLUNK
-* uncompress SPLUNK4JMX-1.4.tar.gz to SPLUNK_HOME/etc/apps
+* uncompress SPLUNK4JMX-1.5.tar.gz to SPLUNK_HOME/etc/apps
 * restart SPLUNK
 
 
@@ -70,11 +71,18 @@ To try out this sample config.xml file , just set the values for your environmen
 
 "jmxpoller" is the root xml element
 
-A custom "formatter" can be specified.Only 1 may be specified for the entire configuration.
+A custom formatter can be specified.Only 1 may be specified for the entire configuration.
 This is a Java implementation of the "com.dtdsoftware.splunk.formatter.Formatter" interface.
-The customer formatter class must be placed on the java classpath.
-If a formatter declaration is omitted, then the default system formatter will be used.
-Refer to the javadoc API in the docs directory for creating a custom Formatter implementation.
+The formatter class must be placed on the java classpath.
+If the optional formatter declaration is omitted, then the default formatter will be used.
+
+A custom transport can be specified.Only 1 may be specified for the entire configuration.
+This is a Java implementation of the "com.dtdsoftware.splunk.transport.Transport" interface.
+The transport class must be placed on the java classpath.
+If the optional transport declaration is omitted, then the default transport(STD out) will be used.
+
+Refer to the javadoc API in the docs directory for viewing bundled Formatter and Transport implementations or the signature 
+of the interfaces for creating your own custom implementations.
 
 1 or more "jmxserver" elements can be included in this XML defintion ie:  if you need to accesss multiple different jmx sources within the same scheduled execution
 Each "jmxserver" element you declare will be run in parallel.
@@ -126,6 +134,8 @@ At index time the "host" field is extracted and transformed into the SPLUNK inte
 "jvmDescription" is just meta data, useful for searching on in SPLUNK where you might have multiple JVM's on the same host
 
 By default, no timestamp is added , instead relying on the SPLUNK index time as the event time.
+However you may  customise the 3 bundled formatters and configure them to prepend a timestamp if you wish.
+See the examples in the default config.xml file
 
 For MBean definitions , standard JMX object name wildcard patterns * and ? are supported for the "domain" and "properties" attributes 
 http://download.oracle.com/javase/1,5.0/docs/api/javax/management/ObjectName.html
@@ -224,7 +234,7 @@ Note : If using any of the HTTPS connectors(soap+ssl, hessian+ssl, burlap+ssl), 
 '''ADDING JAVA CLASSES TO THE APPLICATION CLASSPATH'''
 
 You can dump a jar file in the "SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin/lib/ext" directory and it will be automatically loaded. 
-Why would you want to do this ? Well perhaps you have created a custom formatter implementation as described above.
+Why would you want to do this ? Well perhaps you have created a custom formatter/transport implementation as described above.
 
 '''ADDING JAVA CLASSES TO THE BOOT CLASSPATH'''
 
@@ -239,6 +249,21 @@ The log file has a max size of 1MB and 1 backup.
 If you need to tweak log settings, then the log4j.xml config file resides in jmxpoller.jar
 The SPLUNK4JMX app will by default monitor it's own log files and present a "JMX Connectivity" view on the navigation
 menu bar showing any errors.
+
+'''TRANSPORTS'''
+
+Bundled with the release are transport implementations for :
+
+* STD out : this is the default
+* TCP : stream events over a TCP socket.You will also need to setup a TCP input in SPLUNK
+
+These 3 transports also use appenders/loggers in log4j.xml to facilitate their functionality 
+So if using one of these transports, you'll need to uncomment and configure the relevant appender/logger
+definition in log4j.xml that resides in jmxpoller.jar
+
+* Syslog : send events over SYSLOG UDP.You will also need to setup a UDP input in SPLUNK
+* Splunk REST endpoint : stream events over HTTP/REST to Splunk.
+* File : write events to file.You will also need to setup a monitor input in Splunk.
 
 '''TROUBLESHOOTING'''
 
