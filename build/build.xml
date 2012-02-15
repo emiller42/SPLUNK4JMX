@@ -45,7 +45,12 @@
 
 	</target>
 
-
+	<!--standalone builds , 2 tarballs , collector app & splunk app artifacts -->
+	<target name="build_standalone_win32" depends="compile" description="generate a standalone distribution for win32 systems"/>
+	<target name="build_standalone_win64" depends="compile" description="generate a standalone distribution for win64 systems"/>
+	<target name="build_standalone_lin32" depends="compile" description="generate a standalone distribution for lin32 systems"/>
+	<target name="build_standalone_lin64" depends="compile" description="generate a standalone distribution for lin64 systems"/>
+	
 	<target name="build_release" depends="compile" description="generate a distribution">
 		<!-- Create the distribution directory -->
 

@@ -36,6 +36,7 @@ public class TokenizedMBeanNameQuotesStrippedFormatter extends SplunkFormatter
 
 		// append the common prefix
 		StringBuffer output = new StringBuffer();
+		prependDate(timestamp, output);
 		output.append(outputPrefix);
 
 		SortedMap<String, String> mbeanNameParts = tokenizeMBeanCanonicalName(mBean);

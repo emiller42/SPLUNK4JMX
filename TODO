@@ -1,10 +1,6 @@
 TODO Items
 ==========
 
-core java engine
-----------------
-* connection and mbean polling timeout handler
-
 examples
 --------
 
@@ -16,11 +12,35 @@ docs
 
 * weblogic/was/jboss HOWTO guides
 
+misc
+----
+
+* interactive config file editor/creator/generator
+* enhanced setup screen (setup config file, setup inputs)
+
 splunk application artifacts
 ----------------------------
 
 * generic mbean search page, dynamic chart on attribute values
 * change to token/quote strip formatter for demo and update searches in demo views
 * convert to advanced xml views
-* interactive config file editor/creator/generator
-* enhanced setup screen (setup config file, setup inputs)
+
+standalone
+----------
+* jmx notifications
+* tanuki scripts, w/ mx4j options commented out,set JAVA_HOME,SPLUNK4JMX_HOME
+* build xml, build.properties
+* seperate logback file /logging statements , dynamic reload
+* connection and mbean polling timeout handler
+* scheduler(quartz)
+* pickup and run all files in config directory, dynamically
+* forward internal logs to Splunk ?, another TCP appender.
+* log4j config to logback config
+
+
+updates
+-------
+* readme
+* readme.md for github
+* xsd doc
+* pdf guide

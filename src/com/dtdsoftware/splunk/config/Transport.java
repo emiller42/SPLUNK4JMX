@@ -1,5 +1,8 @@
 package com.dtdsoftware.splunk.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * POJO for Transport config
  * 
@@ -36,7 +39,12 @@ public class Transport extends ParameterizedConfig {
 
 		com.dtdsoftware.splunk.transport.Transport obj = (com.dtdsoftware.splunk.transport.Transport) Class
 				.forName(className).newInstance();
-		obj.setParameters(this.getParameters());
+		Map <String,String>parameters = this.getParameters();
+		if(parameters == null)
+			parameters = new HashMap<String, String>();
+		
+		obj.setParameters(parameters);		
+		obj.open();
 		return obj;
 	}
 

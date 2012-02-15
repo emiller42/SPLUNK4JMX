@@ -6,7 +6,8 @@ import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * POJO for a JMX Server
@@ -16,7 +17,7 @@ import org.apache.log4j.Logger;
  */
 public class JMXServer {
 
-	private static Logger logger = Logger.getLogger(JMXServer.class);
+	private static Logger logger = LoggerFactory.getLogger(JMXServer.class);
 
 	// PID of locally running JVM
 	public int processID;

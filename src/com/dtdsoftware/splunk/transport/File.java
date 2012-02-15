@@ -29,7 +29,7 @@ private Logger logger;
 	 */
 	public void transport(String payload) {
 
-		//use the log4j appender
+		//use the logging appender
 		logger.info(payload);
 	}
 

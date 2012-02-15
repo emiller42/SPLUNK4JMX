@@ -11,6 +11,11 @@ This is a Java implementation of the "com.dtdsoftware.splunk.formatter.Formatter
 The formatter class must be placed on the java classpath.
 If the optional formatter declaration is omitted, then the default formatter will be used.
 
+A custom transport can be specified.Only 1 may be specified for the entire configuration.
+This is a Java implementation of the "com.dtdsoftware.splunk.transport.Transport" interface.
+The transport class must be placed on the java classpath.
+If the optional transport declaration is omitted, then the default transport will be used.
+
 Use this file as an example for polling any Mbean attributes you need to SPLUNK
 
 This file will work against Hotspot and JRockit JVMs.
@@ -21,60 +26,61 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 
 <jmxpoller>
 
-<!-- optional formatter declaration, will default to the DefaultFormatter class -->
+<!-- 
 
+optional formatter declaration, will default to the DefaultFormatter class.
+Each of the 3 formatters below can take the optional 6 parameters as shown in the example.
+
+kvdelim : the key value pair delimeter.An equals is the default.
+pairdelim : the delimter to use between pairs.A comma is the default.
+prependDate : if true, then prepend an internal date to the event.false is the default.
+dateformat : specify a date format as per http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html
+             yyyy-MM-dd HH:mm:ss:SSSZ is the default.
+quotevalues : if true the put quotes around values.true is the default.
+quotechar : the quote character to use. A doublequote is the default.
+-->
+
+<!--
 <formatter className="com.dtdsoftware.splunk.formatter.DefaultFormatter" >
   <param name="kvdelim" value="=" />
   <param name="pairdelim" value="," />
+  <param name="prependDate" value="true" />
+  <param name="dateformat" value="yyyy-MM-dd HH:mm:ss:SSSZ" />
+  <param name="quotevalues" value="true"/>
+  <param name="quotechar" value='"'/>
 </formatter>
 
-<!--
 <formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameFormatter" > 
-  <param name="kvdelim" value="=" />
-  <param name="pairdelim" value="," />
 </formatter>
 
 <formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameQuotesStrippedFormatter" >
-  <param name="kvdelim" value="=" />
-  <param name="pairdelim" value="," />
 </formatter> 
 
 -->
 
-
-
 <!-- optional custom transport declaration, will default to the StdOut class -->
 
+
+
+<!-- Examples of other transports , StdOut is the default
+
 <transport className="com.dtdsoftware.splunk.transport.StdOut" />
- 
-<!-- Examples of other potential transports, not yet coded
-
-<transport className="com.dtdsoftware.splunk.transport.RestApi" >
-  <param name="user" value="admin" />
-  <param name="pass" value="password" />
-  <param name="host" value="splunk" />
-  <param name="port" value="8089" />
-  <param name="delivery" value="stream" />
-  <param name="meta_index" value="jmx" />
-  <param name="meta_source" value="rest" />
-  <param name="meta_sourcetype" value="jmx" />
-  <param name="meta_hostregex" value="host=(([a-zA-Z0-9\._-]+))" />
-</transport>
-
-<transport className="com.dtdsoftware.splunk.transport.UDP" >
-  <param name="host" value="splunk" />
-  <param name="port" value="8089" />
-</transport>
-
 <transport className="com.dtdsoftware.splunk.transport.TCP" >
-  <param name="host" value="splunk" />
-  <param name="port" value="8089" />
+  <param name="host" value="localhost" />
+  <param name="port" value="4567" />
 </transport>
+-->
 
-<transport className="com.dtdsoftware.splunk.transport.File" >
-  <param name="log4jloggername" value="transport.File" />
-</transport>
+<!-- 
 
+These 3 transports use appenders/loggers in log4j.xml to facilitate their functionality 
+So if using one of these transports, you'll need to uncomment the relevant appender/logger
+definition in log4j.xml that resides in jmxpoller.jar
+-->
+<!--
+<transport className="com.dtdsoftware.splunk.transport.File" />
+<transport className="com.dtdsoftware.splunk.transport.RestApi" />
+<transport className="com.dtdsoftware.splunk.transport.Syslog" />
 -->
 
 <!-- Connect to a JVM via the remote JMX interface -->

@@ -31,6 +31,7 @@ public class DefaultFormatter extends SplunkFormatter implements Formatter {
 
 		// append the common prefix
 		StringBuffer output = new StringBuffer();
+		prependDate(timestamp, output);
 		output.append(outputPrefix);
 
 		// append the mbean name
@@ -53,6 +54,8 @@ public class DefaultFormatter extends SplunkFormatter implements Formatter {
 																			// character(s)
 
 	}
+
+	
 
 	@Override
 	public void setMetaData(Map<String, String> metaData) {

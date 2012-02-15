@@ -1,15 +1,12 @@
 package com.dtdsoftware.splunk;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
-
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanServerConnection;
 import javax.management.ObjectInstance;
@@ -21,7 +18,8 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.dtdsoftware.splunk.config.JMXServer;
 import com.dtdsoftware.splunk.config.MBean;
@@ -71,7 +69,7 @@ public class ProcessServerThread extends Thread {
 	public ProcessServerThread(JMXServer serverConfig, Formatter formatter,
 			Transport transport) {
 
-		this.logger = Logger.getLogger(this.getName());
+		this.logger = LoggerFactory.getLogger(this.getName());
 		this.serverConfig = serverConfig;
 		this.formatter = formatter;
 		this.transport = transport;
@@ -243,6 +241,9 @@ public class ProcessServerThread extends Thread {
 					jmxc.close();
 				} catch (Exception e) {
 				}
+			}
+			if(transport != null){
+				transport.close();
 			}
 
 		}

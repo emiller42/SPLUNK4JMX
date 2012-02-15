@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Transport the sends events over syslog(UDP)
+ * Transport that sends events over syslog(UDP)
  * 
  * Uses the syslog.logger logger in the underlying log configuration file
  * 
@@ -29,7 +29,7 @@ private Logger logger;
 	 */
 	public void transport(String payload) {
 
-		//use the log4j appender
+		//use the logging appender
 		logger.info(payload);
 	}
 

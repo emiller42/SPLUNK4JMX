@@ -5,6 +5,7 @@ import java.util.Map;
 /**
  * Very simple transport implementation that writes to STD OUT
  * 
+ * 
  * @author Damien Dallimore damien@dtdsoftware.com
  * 
  */
@@ -29,6 +30,18 @@ public class StdOut implements Transport {
 
 		System.out.println(payload);
 
+	}
+
+	@Override
+	public void close() {
+		// do nothing
+		
+	}
+
+	@Override
+	public void open() {
+		// do nothing
+		
 	}
 
 }

@@ -3,22 +3,112 @@
 
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
 	debug="false">
+	
+<!--
+	<appender name="REST"
+		class="com.dtdsoftware.splunk.logging.log4j.appender.SplunkRestAppender">
+		<param name="Threshold" value="INFO" />
+		<param name="user" value="admin" />
+		<param name="pass" value="foo" />
+		<param name="host" value="localhost" />
+		<param name="port" value="8089" />
+		<param name="delivery" value="stream" />
+		<param name="metaSource" value="rest" />
+		<param name="metaSourcetype" value="jmx" />
+		<param name="metaIndex" value="jmx" />
+		<param name="metaHostRegex" value="host=([a-zA-Z0-9\._-]+)" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
+	</appender>
+	
 
-	<!-- Daily Rolling File Appender -->
-	<appender name="FILE" class="org.apache.log4j.RollingFileAppender">
-		<param name="Threshold" value="ERROR" />
+	<appender name="SYSLOG" class="org.apache.log4j.net.SyslogAppender">
+		<param name="Threshold" value="INFO" />
+		<param name="Facility" value="user" />
+		<param name="SyslogHost" value="localhost" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
+	</appender>
+	
+	
+	<appender name="FILEOUTPUT" class="org.apache.log4j.RollingFileAppender">
+		<param name="Threshold" value="INFO" />
+		<param name="File" value="${splunk4jmx.home}/output/output.log" />
+		<param name="MaxFileSize" value="10MB" />
+		<param name="MaxBackupIndex" value="5" />
+		<param name="Append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
+	</appender>
+	
+
+	<appender name="FILE_STANDALONE" class="org.apache.log4j.RollingFileAppender">
+		<param name="Threshold" value="INFO" />
 		<param name="File" value="${splunk4jmx.home}/logs/splunk4jmx.log" />
-		<param name="MaxFileSize" value="1MB"/>
-        <param name="MaxBackupIndex" value="1"/>
+		<param name="MaxFileSize" value="10MB" />
+		<param name="MaxBackupIndex" value="5" />
 		<param name="Append" value="true" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d %-5p [%c] %m%n" />
 		</layout>
 	</appender>
 	
+	<appender name="ASYNC_STANDALONE" class="org.apache.log4j.AsyncAppender">
+		<appender-ref ref="FILE_STANDALONE" />
+
+	</appender>
+
+-->
+
+	<!-- File Appender -->
+	<appender name="FILE" class="org.apache.log4j.RollingFileAppender">
+		<param name="Threshold" value="ERROR" />
+		<param name="File" value="${splunk4jmx.home}/logs/splunk4jmx.log" />
+		<param name="MaxFileSize" value="1MB" />
+		<param name="MaxBackupIndex" value="1" />
+		<param name="Append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %-5p [%c] %m%n" />
+		</layout>
+	</appender>
+	
+
+	<!-- Buffer events and log them asynchronously -->
+	<appender name="ASYNC" class="org.apache.log4j.AsyncAppender">
+		<appender-ref ref="FILE" />
+
+	</appender>
+
+<!-- 
+	<logger name="file.logger" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="FILEOUTPUT" />
+	</logger>
+	
+	<logger name="rest.logger" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="REST" />
+	</logger>
+	
+	<logger name="syslog.logger" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="SYSLOG" />
+	</logger>
+	
+	<logger name="standalone" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="ASYNC_STANDALONE" />
+	</logger>
+	
+
+
+ -->	
 	<root>
 		<level value="ERROR" />
-		<appender-ref ref="FILE" />				
+		<appender-ref ref="ASYNC" />
 	</root>
 
 

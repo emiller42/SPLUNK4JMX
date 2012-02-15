@@ -5,7 +5,9 @@ import java.io.FileReader;
 import java.net.URL;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.xml.Unmarshaller;
 import org.xml.sax.InputSource;
@@ -29,7 +31,7 @@ import com.dtdsoftware.splunk.config.Transport;
  */
 public class JMXMBeanPoller {
 
-	private static Logger logger = Logger.getLogger(JMXMBeanPoller.class);
+	private static Logger logger = LoggerFactory.getLogger(JMXMBeanPoller.class);
 
 	/**
 	 * Application entry point Usage : java

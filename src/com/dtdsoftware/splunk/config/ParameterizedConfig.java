@@ -23,6 +23,7 @@ public class ParameterizedConfig {
 	}
 
 	public Map<String, String> getParameters() {
+		
 		return parameters;
 	}
 

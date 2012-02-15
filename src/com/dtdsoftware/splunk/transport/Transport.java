@@ -29,5 +29,16 @@ public interface Transport {
 	 *            the payload to be transported to Splunk
 	 */
 	public void transport(String payload);
+	
+	/**
+	 * Lifecycle method invoked after paramaters have been set
+	 */
+	public void open();
+	
+	/**
+	 * Lifecycle method invoked when transport is no longer needed
+	 */
+	public void close();
+	
 
 }

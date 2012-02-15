@@ -2,7 +2,8 @@ package com.dtdsoftware.splunk.config;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * POJO for an MBean operation
@@ -21,7 +22,7 @@ public class Operation {
 	// operations parameters
 	public List<Parameter> parameters;
 
-	private static Logger logger = Logger.getLogger(Operation.class);
+	private static Logger logger = LoggerFactory.getLogger(Operation.class);
 
 	public Operation() {
 	}
