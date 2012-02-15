@@ -6,7 +6,19 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * Abstract out a few common methods and params
+ * Abstract out a common methods and params for similar formatter implementations
+ * 
+ * <pre>
+ * 
+ * kvdelim : the key value pair delimeter.An equals is the default.
+ * pairdelim : the delimter to use between pairs.A comma is the default.
+ * prependDate : if true, then prepend an internal date to the event.false is the default.
+ * dateformat : specify a date format as per http://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html
+             yyyy-MM-dd HH:mm:ss:SSSZ is the default.
+ * quotevalues : if true the put quotes around values.true is the default.
+ * quotechar : the quote character to use. A doublequote is the default.
+ *
+ * </pre>
  * 
  * @author Damien Dallimore damien@dtdsoftware.com
  * 

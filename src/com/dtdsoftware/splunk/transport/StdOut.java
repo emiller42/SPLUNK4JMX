@@ -3,6 +3,8 @@ package com.dtdsoftware.splunk.transport;
 import java.util.Map;
 
 /**
+ * Default transport.
+ * 
  * Very simple transport implementation that writes to STD OUT
  * 
  * 

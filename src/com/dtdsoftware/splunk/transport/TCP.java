@@ -9,6 +9,12 @@ import java.util.Map;
 /**
  * Transport that sends events over a TCP socket
  * 
+ * <pre>
+ * 
+ * host : host to establish TCP socket connection with
+ * port : TCP socket port on the host
+ * 
+ * </pre>
  * 
  * @author Damien Dallimore damien@dtdsoftware.com
  * 
