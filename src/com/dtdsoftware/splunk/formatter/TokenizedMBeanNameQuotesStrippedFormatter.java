@@ -6,10 +6,14 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * Custom formatter implementation that outputs the mbean canonical name as
- * split up tokens Has some extra formatting specifics to deal with MBean
- * property values that are sometimes quoted.
+ * <pre>
  * 
+ * Custom formatter implementation that outputs the mbean canonical name as
+ * split up tokens. 
+ * 
+ * Has some extra formatting specifics to deal with MBean
+ * property values that are sometimes quoted.
+ * </pre>
  * @author Damien Dallimore damien@dtdsoftware.com
  * 
  */

@@ -6,10 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * <pre>
  * Transport that sends events over syslog(UDP)
  * 
  * Uses the syslog.logger logger in the underlying log configuration file
  * 
+ * </pre>
  * @author Damien Dallimore damien@dtdsoftware.com
  *
  */

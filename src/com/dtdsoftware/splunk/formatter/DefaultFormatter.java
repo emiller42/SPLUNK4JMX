@@ -4,8 +4,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * <pre>
  * Default formatter implementation
- * 
+ * </pre>
  * @author Damien Dallimore damien@dtdsoftware.com
  * 
  */

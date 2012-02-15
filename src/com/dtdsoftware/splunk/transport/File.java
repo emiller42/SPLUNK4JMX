@@ -6,10 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * <pre>
  * Transport that outputs to file
  * 
  * Uses the file.logger logger in the underlying log configuration file
- * 
+ * </pre>
  * @author Damien Dallimore damien@dtdsoftware.com
  *
  */

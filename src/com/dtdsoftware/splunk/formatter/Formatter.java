@@ -3,11 +3,12 @@ package com.dtdsoftware.splunk.formatter;
 import java.util.Map;
 
 /**
+ * <pre>
  * This interface can be implemented to provide custom formatting logic
  * 
  * The custom implementation class can then be placed on the classpath and
  * declared in the configuration xml file.
- * 
+ * </pre>
  * @author Damien Dallimore damien@dtdsoftware.com
  * 
  */

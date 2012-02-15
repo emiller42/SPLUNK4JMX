@@ -8,11 +8,13 @@ import org.slf4j.LoggerFactory;
 
 
 /**
+ * <pre>
  * Transport implementation that uses the Splunk Java SDK to send events to the
  * receivers/simple or receivers/stream REST endpoints
  * 
  * Uses the rest.logger logger in the underlying log configuration file
  * 
+ * </pre>
  * @author Damien Dallimore damien@dtdsoftware.com
  * 
  */

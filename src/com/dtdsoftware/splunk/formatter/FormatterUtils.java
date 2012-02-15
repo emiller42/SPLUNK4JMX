@@ -1,9 +1,9 @@
 package com.dtdsoftware.splunk.formatter;
 
 /**
- * 
+ * <pre>
  * Utility methods for formatting
- * 
+ * </pre>
  * @author Damien Dallimore damien@dtdsoftware.com
  * 
  */

@@ -7,10 +7,11 @@ import java.net.Socket;
 import java.util.Map;
 
 /**
- * Transport that sends events over a TCP socket
- * 
  * <pre>
  * 
+ * Transport that sends events over a TCP socket
+ * 
+ * <h3>Configurable Parameters</h3>
  * host : host to establish TCP socket connection with
  * port : TCP socket port on the host
  * 

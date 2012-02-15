@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.Map;
 
 /**
+ * <pre>
+ * 
  * Abstract out a common methods and params for similar formatter implementations
  * 
- * <pre>
+ * <h3>Configurable Parameters</h3>
  * 
  * kvdelim : the key value pair delimeter.An equals is the default.
  * pairdelim : the delimter to use between pairs.A comma is the default.

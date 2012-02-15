@@ -7,9 +7,11 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
+ * <pre>
+ * 
  * Custom formatter implementation that outputs the mbean canonical name as
  * split up tokens
- * 
+ * </pre>
  * @author Damien Dallimore damien@dtdsoftware.com
  * 
  */
