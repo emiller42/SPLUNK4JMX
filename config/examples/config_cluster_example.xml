@@ -10,6 +10,8 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 
 <jmxpoller>
 
+<formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameQuotesStrippedFormatter" />
+
 <!--  cluster example, many JVMs that have the same MBeans can be conveniently grouped together -->
 <cluster name="cluster1" description="A cluster of Cassandra Nodes">
 

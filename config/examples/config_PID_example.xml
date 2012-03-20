@@ -7,6 +7,8 @@ This file is strictly validated against the schema "config.xsd" (located in jmxp
 
 <jmxpoller>
 
+<formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameQuotesStrippedFormatter" />
+
 <!-- Connect to a local JVM by PID -->
 <jmxserver pid="1234" jvmDescription="My JVM">
 

@@ -53,8 +53,8 @@ quotechar : the quote character to use. A doublequote is the default.
 <formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameFormatter" > 
 </formatter>
 -->
-<formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameQuotesStrippedFormatter" >
-</formatter> 
+<formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameQuotesStrippedFormatter" />
+ 
 
 
 
