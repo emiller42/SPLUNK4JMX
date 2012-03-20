@@ -28,6 +28,7 @@
 
 			<module name="SearchSelectLister">
 				<param name="settingToCreate">error_host</param>
+				<param name="applyOuterIntentionsToInternalSearch">True</param>
 				<param name="search">index=jmx sourcetype=jmx_errors| dedup error_host | sort error_host</param>
 				<param name="label">Error Host</param>
 				<param name="searchWhenChanged">True</param>
@@ -53,6 +54,7 @@
 					</param>
                                   <module name="SearchSelectLister">
 				<param name="settingToCreate">jvmDescription</param>
+				<param name="applyOuterIntentionsToInternalSearch">True</param>
 				<param name="search">index=jmx sourcetype=jmx_errors| dedup jvmDescription | sort jvmDescription</param>
 				<param name="label">JVM</param>
 				<param name="searchWhenChanged">True</param>

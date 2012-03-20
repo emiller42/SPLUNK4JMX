@@ -28,6 +28,7 @@
 
 			<module name="SearchSelectLister" layoutPanel="panel_row1_col1">
 				<param name="settingToCreate">host</param>
+				<param name="applyOuterIntentionsToInternalSearch">True</param>
 				<param name="search">index=jmx sourcetype=jmx| dedup host | sort host</param>
 				<param name="label">Host</param>
 				<param name="searchWhenChanged">True</param>
@@ -53,6 +54,7 @@
 					</param>
                                   <module name="SearchSelectLister" layoutPanel="panel_row1_col1">
 				<param name="settingToCreate">jvmDescription</param>
+				<param name="applyOuterIntentionsToInternalSearch">True</param>
 				<param name="search">index=jmx sourcetype=jmx| dedup jvmDescription | sort jvmDescription</param>
 				<param name="label">JVM</param>
 				<param name="searchWhenChanged">True</param>
