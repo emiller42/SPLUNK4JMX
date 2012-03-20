@@ -28,7 +28,7 @@
 
 			<module name="SearchSelectLister">
 				<param name="settingToCreate">host</param>
-				<param name="search">index=cassandra sourcetype="jmx_cassandra"| dedup host | sort host</param>
+				<param name="search">index=jmx sourcetype=jmx| dedup host | sort host</param>
 				<param name="label">Host</param>
 				<param name="searchWhenChanged">True</param>
 				<param name="staticFieldsToDisplay">
@@ -53,7 +53,7 @@
 					</param>
                                   <module name="SearchSelectLister">
 				<param name="settingToCreate">jvmDescription</param>
-				<param name="search">index=cassandra sourcetype="jmx_cassandra"| dedup jvmDescription | sort jvmDescription</param>
+				<param name="search">index=jmx sourcetype=jmx| dedup jvmDescription | sort jvmDescription</param>
 				<param name="label">JVM</param>
 				<param name="searchWhenChanged">True</param>
 				<param name="staticFieldsToDisplay">
@@ -87,7 +87,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="Compilation" | chart first(time) as "Compilation Time" by host,jvmDescription</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="Compilation" | chart first(time) as "Compilation Time" by host,jvmDescription</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>

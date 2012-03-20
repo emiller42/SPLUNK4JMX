@@ -28,7 +28,7 @@
 
 			<module name="SearchSelectLister">
 				<param name="settingToCreate">host</param>
-				<param name="search">index=cassandra sourcetype="jmx_cassandra"| dedup host | sort host</param>
+				<param name="search">index=jmx sourcetype=jmx| dedup host | sort host</param>
 				<param name="label">Host</param>
 				<param name="searchWhenChanged">True</param>
 				<param name="staticFieldsToDisplay">
@@ -53,7 +53,7 @@
 					</param>
                                   <module name="SearchSelectLister">
 				<param name="settingToCreate">jvmDescription</param>
-				<param name="search">index=cassandra sourcetype="jmx_cassandra"| dedup jvmDescription | sort jvmDescription</param>
+				<param name="search">index=jmx sourcetype=jmx| dedup jvmDescription | sort jvmDescription</param>
 				<param name="label">JVM</param>
 				<param name="searchWhenChanged">True</param>
 				<param name="staticFieldsToDisplay">
@@ -86,7 +86,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="MemoryPool" |stats first(memoryType) as "Type" first(memManagerNames) as "Memory Managers" first(usageMax) as "Max (Bytes)" first(usageInit) as "Init (Bytes)" first(usageCommitted) as "Committed (Bytes)" by host jvmDescription name | sort jvmDescription</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="MemoryPool" |stats first(memoryType) as "Type" first(memManagerNames) as "Memory Managers" first(usageMax) as "Max (Bytes)" first(usageInit) as "Init (Bytes)" first(usageCommitted) as "Committed (Bytes)" by host jvmDescription name | sort jvmDescription</param>
 <module name="Paginator" layoutPanel="panel_row2_col1">
   <param name="entityName">events</param>
 											<module name="SimpleResultsTable" layoutPanel="panel_row2_col1">
@@ -98,7 +98,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="MemoryPool" | eval jvmpool=jvmDescription+"_"+name | timechart span=1m max(usageUsed) as "Memory Used" by jvmpool</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="MemoryPool" | eval jvmpool=jvmDescription+"_"+name | timechart span=1m max(usageUsed) as "Memory Used" by jvmpool</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>

@@ -1,70 +1,180 @@
-<form>
-<label>JMX Connectivity Errors</label>
+<view autoCancelInterval="90" isVisible="true" onunloadCancelJobs="true" template="dashboard.html">
+	<label>JMX Connectivity Errors</label>
+	<module name="AccountBar" layoutPanel="appHeader" />
+	<module name="AppBar" layoutPanel="navigationHeader" />
+	<module name="Message" layoutPanel="messaging">
+		<param name="filter">*</param>
+		<param name="clearOnJobDispatch">False</param>
+		<param name="maxSize">1</param>
+	</module>
+	<module name="Message" layoutPanel="messaging">
+		<param name="filter">splunk.search.job</param>
+		<param name="clearOnJobDispatch">True</param>
+		<param name="maxSize">1</param>
+	</module>
+	<module name="TitleBar" layoutPanel="viewHeader" />
 
-<fieldset autoRun="true">
+	
+	<module name="TimeRangePicker" layoutPanel="panel_row1_col1"
+		autoRun="true">
+		<param name="label">Time Window</param>
+		<param name="default">Last 60 minutes</param>
 
-<input type="time" searchWhenChanged="true">
-  <default>Last 15 minutes</default>  
-</input>
-      
-</fieldset>
+		<param name="searchWhenChanged">True</param>
+                  
+          
+                  <module name="HiddenSearch" layoutPanel="panel_row1_col1"
+			autoRun="True" group="Search Fields">
 
-<row>
+			<module name="SearchSelectLister">
+				<param name="settingToCreate">error_host</param>
+				<param name="search">index=jmx sourcetype=jmx_errors| dedup error_host | sort error_host</param>
+				<param name="label">Error Host</param>
+				<param name="searchWhenChanged">True</param>
+				<param name="staticFieldsToDisplay">
+					<list>
+						<param name="label">All</param>
+						<param name="value">*</param>
+					</list>
+				</param>
+				<param name="searchFieldsToDisplay">
+					<list>
+						<param name="label">error_host</param>
+						<param name="value">error_host</param>
+					</list>
+				</param>
+				<module name="ConvertToIntention">
+					<param name="settingToConvert">error_host</param>
+					<param name="intention">
+						<param name="name">addterm</param>
+						<param name="arg">
+							<param name="error_host">$target$</param>
+						</param>
+					</param>
+                                  <module name="SearchSelectLister">
+				<param name="settingToCreate">jvmDescription</param>
+				<param name="search">index=jmx sourcetype=jmx_errors| dedup jvmDescription | sort jvmDescription</param>
+				<param name="label">JVM</param>
+				<param name="searchWhenChanged">True</param>
+				<param name="staticFieldsToDisplay">
+					<list>
+						<param name="label">All</param>
+						<param name="value">*</param>
+					</list>
+				</param>
+				<param name="searchFieldsToDisplay">
+					<list>
+						<param name="label">jvmDescription</param>
+						<param name="value">jvmDescription</param>
+					</list>
+				</param>
+				<module name="ConvertToIntention">
+					<param name="settingToConvert">jvmDescription</param>
+					<param name="intention">
+						<param name="name">addterm</param>
+						<param name="arg">
+							<param name="jvmDescription">$target$</param>
+						</param>
+					</param>
+                                  
+                                  
+                                  <module name="SubmitButton" layoutPanel="panel_row1_col1">
+										<param name="label">Search</param>
+                                                                          <param name="allowSoftSubmit">true</param>
+                                    <module name="HiddenSearch" layoutPanel="panel_row2_col1"
+											autoRun="true" group="Errors">
 
-<table>
-<title>Errors</title>
-<searchString>index=jmx sourcetype=jmx_errors | stats count as "jmx connection error count" by error_host jmxport jvmDescription</searchString>
-<option name="count">20</option>
-<option name="displayRowNumbers">true</option>
-<option name="showPager">true</option>
+											
 
-</table>
+                                            <param name="search">index=jmx sourcetype=jmx_errors | stats count as "jmx connection error count" by error_host jmxport jvmDescription</param>
+<module name="Paginator" layoutPanel="panel_row2_col1">
+  <param name="entityName">events</param>
+											<module name="SimpleResultsTable" layoutPanel="panel_row2_col1">
+  </module></module></module>
+                                    
+                                    <module name="HiddenSearch" layoutPanel="panel_row3_col1"
+											autoRun="true" group="Error Messages">
 
-</row>
+											
 
-<row>
+                                            <param name="search">index=jmx  sourcetype=jmx_errors | stats count by systemErrorMessage error_host jvmDescription</param>
+<module name="Paginator" layoutPanel="panel_row3_col1">
+  <param name="entityName">events</param>
+											<module name="SimpleResultsTable" layoutPanel="panel_row3_col1">
+  </module></module></module>
+									
+												
 
-<table>
-<title>Error Messages</title>
-<searchString>index=jmx  sourcetype=jmx_errors | stats count by systemErrorMessage error_host jvmDescription</searchString>
-<option name="count">20</option>
-<option name="displayRowNumbers">true</option>
-<option name="showPager">true</option>
+										<module name="HiddenSearch" layoutPanel="panel_row4_col1"
+											autoRun="true" group="Errors by Host">
 
-</table>
+											
 
-</row>
+                                            <param name="search">index=jmx sourcetype=jmx_errors | stats count by error_host</param>
+                     
+                                                                                          <module name="HiddenChartFormatter">
+            <param name="charting.legend.placement">right</param>
+            
+            <param name="charting.chart">pie</param>
+                                  <module name="JSChart" layoutPanel="panel_row4_col1">
+												
+												
 
-<row>
-<chart>
-<title>Errors by Host</title>
-<searchTemplate>index=jmx sourcetype=jmx_errors | stats count by error_host</searchTemplate>
-<option name="charting.chart">pie</option>
+											</module>
+												
+											</module>
+                                  
+                                  </module>
+                                    <module name="HiddenSearch" layoutPanel="panel_row4_col2"
+											autoRun="true" group="Errors by JVM">
 
-<option name="charting.axisTitleY.text">Connection Error Count</option> 
+											
 
+                                            <param name="search">index=jmx sourcetype=jmx_errors | stats count by jvmDescription</param>
+                     
+                                                                                          <module name="HiddenChartFormatter">
+            <param name="charting.legend.placement">right</param>
+            
+            <param name="charting.chart">pie</param>
+                                  <module name="JSChart" layoutPanel="panel_row4_col2">
+												
+												
 
-</chart>
-<chart>
-<title>Errors by JVM</title>
-<searchTemplate>index=jmx sourcetype=jmx_errors | stats count by jvmDescription</searchTemplate>
-<option name="charting.chart">pie</option>
+											</module>
+												
+											</module>
+                                  
+                                  </module>
+                                    <module name="HiddenSearch" layoutPanel="panel_row4_col3"
+											autoRun="true" group="Errors by Message">
 
-<option name="charting.axisTitleY.text">Connection  Error Count</option> 
+											
 
+                                            <param name="search">index=jmx sourcetype=jmx_errors | stats count by systemErrorMessage</param>
+                     
+                                                                                          <module name="HiddenChartFormatter">
+            <param name="charting.legend.placement">right</param>
+            
+            <param name="charting.chart">pie</param>
+                                  <module name="JSChart" layoutPanel="panel_row4_col3">
+												
+												
 
-</chart>
+											</module>
+												
+											</module>
+                                  
+                                  </module>
+                                  </module>
+                                  
+                                    </module>
+                                  </module>
+                                  
+                                  
+                          </module>
+                          </module>
+                  </module>
+                  </module>
+  
 
-<chart>
-<title>Errors by Message</title>
-<searchTemplate>index=jmx sourcetype=jmx_errors | stats count by systemErrorMessage</searchTemplate>
-<option name="charting.chart">pie</option>
-
-<option name="charting.axisTitleY.text">Connection  Error Count</option> 
-
-
-</chart>
-
-</row>
-
-</form>
+</view>

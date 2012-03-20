@@ -28,7 +28,7 @@
 
 			<module name="SearchSelectLister">
 				<param name="settingToCreate">host</param>
-				<param name="search">index=cassandra sourcetype="jmx_cassandra"| dedup host | sort host</param>
+				<param name="search">index=jmx sourcetype=jmx| dedup host | sort host</param>
 				<param name="label">Host</param>
 				<param name="searchWhenChanged">True</param>
 				<param name="staticFieldsToDisplay">
@@ -53,7 +53,7 @@
 					</param>
                                   <module name="SearchSelectLister">
 				<param name="settingToCreate">jvmDescription</param>
-				<param name="search">index=cassandra sourcetype="jmx_cassandra"| dedup jvmDescription | sort jvmDescription</param>
+				<param name="search">index=jmx sourcetype=jmx| dedup jvmDescription | sort jvmDescription</param>
 				<param name="label">JVM</param>
 				<param name="searchWhenChanged">True</param>
 				<param name="staticFieldsToDisplay">
@@ -86,7 +86,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" |stats first(colTime) as "Collection Time (Millis)" first(colCount) as "Collection Count" first(memPools) as "Memory Pools" by host jvmDescription gcName | sort jvmDescription</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="GarbageCollector" |stats first(colTime) as "Collection Time (Millis)" first(colCount) as "Collection Count" first(memPools) as "Memory Pools" by host jvmDescription gcName | sort jvmDescription</param>
 <module name="Paginator" layoutPanel="panel_row2_col1">
   <param name="entityName">events</param>
 											<module name="SimpleResultsTable" layoutPanel="panel_row2_col1">
@@ -98,7 +98,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | eval duration=gCEnd-gCStart | timechart span=1m max(duration) by jvmgc</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | eval duration=gCEnd-gCStart | timechart span=1m max(duration) by jvmgc</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
@@ -119,7 +119,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName |timechart span=1m max(gCThreadCount) by jvmgc</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName |timechart span=1m max(gCThreadCount) by jvmgc</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
@@ -140,7 +140,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | streamstats current=f global=f window=1 first(gCStart) as next_gCStart by jvmgc | eval d_gCStart=gCStart-next_gCStart | eval gcFreq=(abs(d_gCStart)/1000/60)| timechart span=1m max(gcFreq) by jvmgc</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | streamstats current=f global=f window=1 first(gCStart) as next_gCStart by jvmgc | eval d_gCStart=gCStart-next_gCStart | eval gcFreq=(abs(d_gCStart)/1000/60)| timechart span=1m max(gcFreq) by jvmgc</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
@@ -161,7 +161,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | chart first(colTime) by jvmgc</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | chart first(colTime) by jvmgc</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">top</param>
@@ -182,7 +182,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | chart first(colCount) by jvmgc</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | chart first(colCount) by jvmgc</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">top</param>

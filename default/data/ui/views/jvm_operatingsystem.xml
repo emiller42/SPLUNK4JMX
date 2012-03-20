@@ -28,7 +28,7 @@
 
 			<module name="SearchSelectLister">
 				<param name="settingToCreate">host</param>
-				<param name="search">index=cassandra sourcetype="jmx_cassandra"| dedup host | sort host</param>
+				<param name="search">index=jmx sourcetype=jmx| dedup host | sort host</param>
 				<param name="label">Host</param>
 				<param name="searchWhenChanged">True</param>
 				<param name="staticFieldsToDisplay">
@@ -53,7 +53,7 @@
 					</param>
                                   <module name="SearchSelectLister">
 				<param name="settingToCreate">jvmDescription</param>
-				<param name="search">index=cassandra sourcetype="jmx_cassandra"| dedup jvmDescription | sort jvmDescription</param>
+				<param name="search">index=jmx sourcetype=jmx| dedup jvmDescription | sort jvmDescription</param>
 				<param name="label">JVM</param>
 				<param name="searchWhenChanged">True</param>
 				<param name="staticFieldsToDisplay">
@@ -86,7 +86,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="OperatingSystem" | stats first(name) as OS first(version) as Version first(arch) as Architecture by host jvmDescription | sort jvmDescription</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" | stats first(name) as OS first(version) as Version first(arch) as Architecture by host jvmDescription | sort jvmDescription</param>
 <module name="Paginator" layoutPanel="panel_row2_col1">
   <param name="entityName">events</param>
 											<module name="SimpleResultsTable" layoutPanel="panel_row2_col1">
@@ -98,7 +98,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="OperatingSystem" OR "Runtime" | stats max(jvmUptime) as uptime max(cpuTime) as cputime max(processors) as cpus by jvmDescription,_time | streamstats current=f global=f window=1 first(uptime) as next_uptime first(cputime) as next_cputime by jvmDescription | eval d_uptime=uptime-next_uptime | eval d_cputime=cputime-next_cputime | eval cpu=(d_cputime/(d_uptime*10000*cpus)) | chart max(cpu) by _time,jvmDescription</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" OR "Runtime" | stats max(jvmUptime) as uptime max(cpuTime) as cputime max(processors) as cpus by jvmDescription,_time | streamstats current=f global=f window=1 first(uptime) as next_uptime first(cputime) as next_cputime by jvmDescription | eval d_uptime=uptime-next_uptime | eval d_cputime=cputime-next_cputime | eval cpu=(d_cputime/(d_uptime*10000*cpus)) | chart max(cpu) by _time,jvmDescription</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
@@ -119,7 +119,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="OperatingSystem" | timechart span=1m avg(sysLoad) by host</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" | timechart span=1m avg(sysLoad) by host</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
@@ -140,7 +140,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="OperatingSystem" |timechart span=1m max(openFD) as "Open File Descriptors" ,max(maxFD) as "Max File Descriptors" by host</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" |timechart span=1m max(openFD) as "Open File Descriptors" ,max(maxFD) as "Max File Descriptors" by host</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
@@ -161,7 +161,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="OperatingSystem" |eval memoryUsed=(physMem-freePhysMem) | timechart span=5m max(physMem) as "Total Memory" ,max(memoryUsed) as "Used Memory" by host</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" |eval memoryUsed=(physMem-freePhysMem) | timechart span=5m max(physMem) as "Total Memory" ,max(memoryUsed) as "Used Memory" by host</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
@@ -183,7 +183,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="OperatingSystem" |eval swapUsed=(swapSpace-freeSwap) | timechart span=5m max(swapSpace) as "Total Swap" ,max(swapUsed) as "Used Swap" by host</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" |eval swapUsed=(swapSpace-freeSwap) | timechart span=5m max(swapSpace) as "Total Swap" ,max(swapUsed) as "Used Swap" by host</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
@@ -204,7 +204,7 @@
 
 											
 
-                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="OperatingSystem" | timechart span=1m avg(committed) by host</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" | timechart span=1m avg(committed) by host</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
