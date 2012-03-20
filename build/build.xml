@@ -12,7 +12,7 @@
 	<property name="docs" value="docs" />
 	<property name="bin" value="bin" />
 	<property name="config" value="config" />
-	<property name="temp_build" value="temp_build" />
+	<property name="temp_build" value="SPLUNK4JMX" />
 	<property name="main_jar" value="jmxpoller.jar" />
 	<property name="appConf" value="default/app.conf" />
 	<property name="suffix" value=".tar.gz" />
@@ -78,6 +78,8 @@
 			<fileset file="${bin}/linux/poll_mx4j_jmx.sh" />
 			<fileset file="${bin}/win/poll_mx4j_jmx.bat" />
 		</copy>
+	
+		<chmod dir="${temp_build}/${bin}" perm="744" includes="*.sh,*.bat"/>
 		
 		<copy todir="${temp_build}/appserver">
 			<fileset dir="appserver" />
@@ -111,9 +113,19 @@
 
 		<delete dir="${temp_build}/${classes}" />
 	
+	<!--
 		<tar destfile="${release}/${id}-${version}${suffix}"
 		     compression="${compressionType}">
-			<zipfileset dir="${temp_build}" prefix="${id}" fileMode="744"/></tar>
+			<zipfileset dir="${temp_build}" prefix="${id}"/></tar>
+		-->
+		
+		<exec executable="tar" output="/dev/null" os="Linux">
+		        <arg value="-czf"/>
+		        <arg value="${release}/${id}-${version}${suffix}"/>
+		        <arg value="${temp_build}"/>
+		    </exec>
+
+			
 
 		<delete dir="${temp_build}" />
 
