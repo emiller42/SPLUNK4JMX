@@ -22,8 +22,7 @@ splunk application artifacts
 ----------------------------
 
 * generic mbean search page, dynamic chart on attribute values
-* change to token/quote strip formatter for demo and update searches in demo views
-* convert to advanced xml views
+
 
 standalone
 ----------
