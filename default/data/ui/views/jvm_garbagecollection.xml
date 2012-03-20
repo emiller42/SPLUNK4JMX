@@ -1,0 +1,213 @@
+<view autoCancelInterval="90" isVisible="true" onunloadCancelJobs="true" template="dashboard.html">
+	<label>Garbage Collection</label>
+	<module name="AccountBar" layoutPanel="appHeader" />
+	<module name="AppBar" layoutPanel="navigationHeader" />
+	<module name="Message" layoutPanel="messaging">
+		<param name="filter">*</param>
+		<param name="clearOnJobDispatch">False</param>
+		<param name="maxSize">1</param>
+	</module>
+	<module name="Message" layoutPanel="messaging">
+		<param name="filter">splunk.search.job</param>
+		<param name="clearOnJobDispatch">True</param>
+		<param name="maxSize">1</param>
+	</module>
+	<module name="TitleBar" layoutPanel="viewHeader" />
+
+	
+	<module name="TimeRangePicker" layoutPanel="panel_row1_col1"
+		autoRun="true">
+		<param name="label">Time Window</param>
+		<param name="default">Last 60 minutes</param>
+
+		<param name="searchWhenChanged">True</param>
+                  
+          
+                  <module name="HiddenSearch" layoutPanel="panel_row1_col1"
+			autoRun="True" group="Search Fields">
+
+			<module name="SearchSelectLister">
+				<param name="settingToCreate">host</param>
+				<param name="search">index=cassandra sourcetype="jmx_cassandra"| dedup host | sort host</param>
+				<param name="label">Host</param>
+				<param name="searchWhenChanged">True</param>
+				<param name="staticFieldsToDisplay">
+					<list>
+						<param name="label">All</param>
+						<param name="value">*</param>
+					</list>
+				</param>
+				<param name="searchFieldsToDisplay">
+					<list>
+						<param name="label">host</param>
+						<param name="value">host</param>
+					</list>
+				</param>
+				<module name="ConvertToIntention">
+					<param name="settingToConvert">host</param>
+					<param name="intention">
+						<param name="name">addterm</param>
+						<param name="arg">
+							<param name="host">$target$</param>
+						</param>
+					</param>
+                                  <module name="SearchSelectLister">
+				<param name="settingToCreate">jvmDescription</param>
+				<param name="search">index=cassandra sourcetype="jmx_cassandra"| dedup jvmDescription | sort jvmDescription</param>
+				<param name="label">JVM</param>
+				<param name="searchWhenChanged">True</param>
+				<param name="staticFieldsToDisplay">
+					<list>
+						<param name="label">All</param>
+						<param name="value">*</param>
+					</list>
+				</param>
+				<param name="searchFieldsToDisplay">
+					<list>
+						<param name="label">jvmDescription</param>
+						<param name="value">jvmDescription</param>
+					</list>
+				</param>
+				<module name="ConvertToIntention">
+					<param name="settingToConvert">jvmDescription</param>
+					<param name="intention">
+						<param name="name">addterm</param>
+						<param name="arg">
+							<param name="jvmDescription">$target$</param>
+						</param>
+					</param>
+                                  
+                                  
+                                  <module name="SubmitButton" layoutPanel="panel_row1_col1">
+										<param name="label">Search</param>
+                                                                          <param name="allowSoftSubmit">true</param>
+                                    <module name="HiddenSearch" layoutPanel="panel_row2_col1"
+											autoRun="true" group="Garbage Collection Overview">
+
+											
+
+                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" |stats first(colTime) as "Collection Time (Millis)" first(colCount) as "Collection Count" first(memPools) as "Memory Pools" by host jvmDescription gcName | sort jvmDescription</param>
+<module name="Paginator" layoutPanel="panel_row2_col1">
+  <param name="entityName">events</param>
+											<module name="SimpleResultsTable" layoutPanel="panel_row2_col1">
+  </module></module></module>
+												
+
+										<module name="HiddenSearch" layoutPanel="panel_row3_col1"
+											autoRun="true" group="Last Collection Time">
+
+											
+
+                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | eval duration=gCEnd-gCStart | timechart span=1m max(duration) by jvmgc</param>
+                     
+                                                                                          <module name="HiddenChartFormatter">
+            <param name="charting.legend.placement">right</param>
+            <param name="charting.primaryAxisTitle.text">Time</param>
+            <param name="charting.secondaryAxisTitle.text">Collection Time(millis)</param>
+            <param name="charting.chart">line</param>
+                                  <module name="JSChart" layoutPanel="panel_row3_col1">
+												
+												
+
+											</module>
+												
+											</module>
+                                  
+                                  </module>
+                                    <module name="HiddenSearch" layoutPanel="panel_row4_col1"
+											autoRun="true" group="GC Thread Count">
+
+											
+
+                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName |timechart span=1m max(gCThreadCount) by jvmgc</param>
+                     
+                                                                                          <module name="HiddenChartFormatter">
+            <param name="charting.legend.placement">right</param>
+            <param name="charting.primaryAxisTitle.text">Time</param>
+            <param name="charting.secondaryAxisTitle.text">Thread Count</param>
+            <param name="charting.chart">line</param>
+                                  <module name="JSChart" layoutPanel="panel_row4_col1">
+												
+												
+
+											</module>
+												
+											</module>
+                                  
+                                  </module>
+                                    <module name="HiddenSearch" layoutPanel="panel_row5_col1"
+											autoRun="true" group="Frequency of Collections">
+
+											
+
+                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | streamstats current=f global=f window=1 first(gCStart) as next_gCStart by jvmgc | eval d_gCStart=gCStart-next_gCStart | eval gcFreq=(abs(d_gCStart)/1000/60)| timechart span=1m max(gcFreq) by jvmgc</param>
+                     
+                                                                                          <module name="HiddenChartFormatter">
+            <param name="charting.legend.placement">right</param>
+            <param name="charting.primaryAxisTitle.text">Time</param>
+            <param name="charting.secondaryAxisTitle.text">Collection Frequency(minutes)</param>
+            <param name="charting.chart">area</param>
+                                  <module name="JSChart" layoutPanel="panel_row5_col1">
+												
+												
+
+											</module>
+												
+											</module>
+                                  
+                                  </module>
+                                    <module name="HiddenSearch" layoutPanel="panel_row6_col1"
+											autoRun="true" group="Cumulative Collection Time">
+
+											
+
+                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | chart first(colTime) by jvmgc</param>
+                     
+                                                                                          <module name="HiddenChartFormatter">
+            <param name="charting.legend.placement">top</param>
+            
+            <param name="charting.chart">pie</param>
+                                  <module name="JSChart" layoutPanel="panel_row6_col1">
+												
+												
+
+											</module>
+												
+											</module>
+                                  
+                                  </module>
+                                    
+                                    <module name="HiddenSearch" layoutPanel="panel_row6_col2"
+											autoRun="true" group="Cumulative Collection Count">
+
+											
+
+                                            <param name="search">index=cassandra sourcetype=jmx_cassandra mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | chart first(colCount) by jvmgc</param>
+                     
+                                                                                          <module name="HiddenChartFormatter">
+            <param name="charting.legend.placement">top</param>
+            
+            <param name="charting.chart">pie</param>
+                                  <module name="JSChart" layoutPanel="panel_row6_col2">
+												
+												
+
+											</module>
+												
+											</module>
+                                  
+                                  </module>
+                                    
+                                  </module>
+                                  
+                                    </module>
+                                  </module>
+                                  
+                                  
+                          </module>
+                          </module>
+                  </module>
+                  </module>
+  
+
+</view>
