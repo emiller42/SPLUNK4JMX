@@ -2,23 +2,22 @@
 
 <view name="about_dashboard" default="true"/>
 
-<collection label="Demo MBean Dashboards">
+<collection label="JVM Metrics">
 
-<collection label="Domain : java.lang">
- <view name="demo_java_lang_threading"/>
- <view name="demo_java_lang_runtime" />
- <view name="demo_java_lang_operatingsystem" />
- <view name="demo_java_lang_compilation"/>
- <view name="demo_java_lang_classloading"/>
- <view name="demo_java_lang_memory"/>
- <view name="demo_java_lang_memorypools"/>
- <view name="demo_java_lang_garbagecollection"/>
-</collection>
+<view name="jvm_threading" />
+<view name="jvm_runtime" />
+<view name="jvm_operatingsystem" />
+<view name="jvm_compilation" />
+<view name="jvm_classloading" />
+<view name="jvm_memory" />
+<view name="jvm_memorypools" />
+<view name="jvm_garbagecollection" />
 
 </collection>
+
 
 <collection label="JMX Connectivity Status"> 
-  <view name="demo_jmx_connectivity_errors" />
+  <view name="jmx_connectivity_errors" />
 </collection>
 
 <collection label="Documentation"> 
