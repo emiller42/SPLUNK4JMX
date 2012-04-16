@@ -38,6 +38,8 @@ dateformat : specify a date format as per http://docs.oracle.com/javase/6/docs/a
              yyyy-MM-dd HH:mm:ss:SSSZ is the default.
 quotevalues : if true the put quotes around values.true is the default.
 quotechar : the quote character to use. A doublequote is the default.
+stripPattern.n : a numbered list of regex patterns that can be declared to strip the matching pattern from MBean attribute and operation values.
+
 -->
 
 <!--
@@ -48,13 +50,14 @@ quotechar : the quote character to use. A doublequote is the default.
   <param name="dateformat" value="yyyy-MM-dd HH:mm:ss:SSSZ" />
   <param name="quotevalues" value="true"/>
   <param name="quotechar" value='"'/>
+  <param name="stripPattern.0" value="^.+ = "/> 
+  <param name="stripPattern.1" value="a*b"/>
 </formatter>
 
 <formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameFormatter" > 
 </formatter>
 -->
 <formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameQuotesStrippedFormatter" />
- 
 
 
 
