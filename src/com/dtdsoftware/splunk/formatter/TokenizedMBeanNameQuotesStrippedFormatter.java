@@ -56,8 +56,10 @@ public class TokenizedMBeanNameQuotesStrippedFormatter extends SplunkFormatter
 		Set<String> keys = attributes.keySet();
 		for (String key : keys) {
 
-			output.append(buildPair(key, FormatterUtils
-					.stripNewlines(attributes.get(key))));
+			String value = attributes.get(key);
+			value = FormatterUtils.stripNewlines(value);
+			value= stripPatterns(value);
+			output.append(buildPair(key, value));
 		}
 
 		String result = output.toString();

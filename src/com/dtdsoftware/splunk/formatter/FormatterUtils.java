@@ -1,5 +1,8 @@
 package com.dtdsoftware.splunk.formatter;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * <pre>
  * Utility methods for formatting
@@ -46,6 +49,22 @@ public abstract class FormatterUtils {
 		}
 
 		return quotedString;
+	}
+	
+	/**
+	 * Remove matching pattern text from a raw JMX attribute/operation value
+	 * 
+	 * @param the raw JMX attribute/operation value
+	 * @return the JMX attribute/operation value with any matching patterns stripped out
+	 */
+	public static String stripPattern(Pattern pattern, String rawValue) {
+
+		try{
+		  Matcher m = pattern.matcher(rawValue);
+		  return m.replaceAll("");
+		}
+		catch(Exception e){}
+		return rawValue;
 	}
 
 }
