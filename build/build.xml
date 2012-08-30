@@ -119,7 +119,7 @@
 			<zipfileset dir="${temp_build}" prefix="${id}"/></tar>
 		-->
 		
-		<exec executable="tar" output="/dev/null" os="Linux">
+		<exec executable="tar" output="/dev/null">
 		        <arg value="-czf"/>
 		        <arg value="${release}/${id}-${version}${suffix}"/>
 		        <arg value="${temp_build}"/>

@@ -119,16 +119,16 @@
                                   
                                   </module>
                                     <module name="HiddenSearch" layoutPanel="panel_row4_col1"
-											autoRun="true" group="Percentage of Heap Memory used">
+											autoRun="true" group="JVM Memory Committed">
 
 											
 
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="Memory" | eval memoryPercentUsed=round(((heapUsed/heapMax) * 100),2) | timechart max(memoryPercentUsed) by jvmDescription</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="Memory" |timechart max(heapCommitted) as "Heap Committed" ,max(nonHeapCommitted) as "Non Heap Committed" by jvmDescription</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
             <param name="charting.primaryAxisTitle.text">Time</param>
-            <param name="charting.secondaryAxisTitle.text">Percentage of Heap Used</param>
+            <param name="charting.secondaryAxisTitle.text">Committed Memory(Bytes)</param>
             <param name="charting.chart">line</param>
                                   <module name="JSChart" layoutPanel="panel_row4_col1">
 												
@@ -140,16 +140,16 @@
                                   
                                   </module>
                                     <module name="HiddenSearch" layoutPanel="panel_row5_col1"
-											autoRun="true" group="JVM Non Heap Memory">
+											autoRun="true" group="Percentage of Heap Memory used">
 
 											
 
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="Memory" |timechart max(nonHeapMax) as "Non Heap Maximum" ,max(nonHeapUsed) as "Non Heap Used" by jvmDescription</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="Memory" | eval memoryPercentUsed=round(((heapUsed/heapMax) * 100),2) | timechart max(memoryPercentUsed) by jvmDescription</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
             <param name="charting.primaryAxisTitle.text">Time</param>
-            <param name="charting.secondaryAxisTitle.text">Non Heap Memory(Bytes)</param>
+            <param name="charting.secondaryAxisTitle.text">Percentage of Heap Used</param>
             <param name="charting.chart">line</param>
                                   <module name="JSChart" layoutPanel="panel_row5_col1">
 												
@@ -161,6 +161,27 @@
                                   
                                   </module>
                                     <module name="HiddenSearch" layoutPanel="panel_row6_col1"
+											autoRun="true" group="JVM Non Heap Memory">
+
+											
+
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="Memory" |timechart max(nonHeapMax) as "Non Heap Maximum" ,max(nonHeapUsed) as "Non Heap Used" by jvmDescription</param>
+                     
+                                                                                          <module name="HiddenChartFormatter">
+            <param name="charting.legend.placement">right</param>
+            <param name="charting.primaryAxisTitle.text">Time</param>
+            <param name="charting.secondaryAxisTitle.text">Non Heap Memory(Bytes)</param>
+            <param name="charting.chart">line</param>
+                                  <module name="JSChart" layoutPanel="panel_row6_col1">
+												
+												
+
+											</module>
+												
+											</module>
+                                  
+                                  </module>
+                                    <module name="HiddenSearch" layoutPanel="panel_row7_col1"
 											autoRun="true" group="Percentage of Non Heap Memory used">
 
 											
@@ -172,7 +193,7 @@
             <param name="charting.primaryAxisTitle.text">Time</param>
             <param name="charting.secondaryAxisTitle.text">Percentage of Non Heap Used</param>
             <param name="charting.chart">line</param>
-                                  <module name="JSChart" layoutPanel="panel_row6_col1">
+                                  <module name="JSChart" layoutPanel="panel_row7_col1">
 												
 												
 
