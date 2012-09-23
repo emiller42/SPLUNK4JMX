@@ -27,7 +27,21 @@ public class JMXPoller {
 	}
 
 	public List<JMXServer> getServers() {
-		return servers;
+
+		List<JMXServer> expandedList = new ArrayList<JMXServer>();
+
+		// look for objects with multiple PIDS from the command output, and clone new JMXServer objects
+		for (JMXServer server : servers) {
+			expandedList.add(server);
+			List<Integer> pidList = server.getAdditionalPIDsFromCommand();
+			if (pidList != null) {
+				for (Integer pid : pidList) {
+					expandedList.add(server.cloneForAdditionalPID(pid));
+				}
+
+			}
+		}
+		return expandedList;
 	}
 
 	public void setServers(List<JMXServer> servers) {

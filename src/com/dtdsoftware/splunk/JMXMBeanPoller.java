@@ -31,7 +31,8 @@ import com.dtdsoftware.splunk.config.Transport;
  */
 public class JMXMBeanPoller {
 
-	private static Logger logger = LoggerFactory.getLogger(JMXMBeanPoller.class);
+	private static Logger logger = LoggerFactory
+			.getLogger(JMXMBeanPoller.class);
 
 	/**
 	 * Application entry point Usage : java
@@ -65,16 +66,16 @@ public class JMXMBeanPoller {
 				if (servers != null) {
 
 					for (JMXServer server : servers) {
-						new ProcessServerThread(server, formatter
-								.getFormatterInstance(), transport
-								.getTransportInstance()).start();
+						new ProcessServerThread(server,
+								formatter.getFormatterInstance(),
+								transport.getTransportInstance()).start();
 					}
 				} else {
 					logger.error("No JMX servers have been specified");
 				}
-			} else
-				logger
-						.error("The root config object(JMXPoller) failed to initialize");
+			} else{
+				logger.error("The root config object(JMXPoller) failed to initialize");
+			}
 		} catch (Exception e) {
 
 			logger.error("Error : " + e.getMessage());

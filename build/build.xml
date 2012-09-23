@@ -1,134 +1,188 @@
-<project name="SPLUNK4JMX BUILD" default="build_release" basedir="..">
-	<description>
+<project
+    name="SPLUNK4JMX BUILD"
+    basedir=".."
+    default="build_release" >
+
+    <description>
 		SPLUNK4JMX Build Script
     </description>
 
-	<!-- set global properties for this build -->
-	<property name="src" value="src" />
-	<property name="classes" value="classes" />
-	<property name="release" value="releases" />
-	<property name="lib" value="lib" />
-	<property name="examples" value="examples" />
-	<property name="docs" value="docs" />
-	<property name="bin" value="bin" />
-	<property name="config" value="config" />
-	<property name="temp_build" value="SPLUNK4JMX" />
-	<property name="main_jar" value="jmxpoller.jar" />
-	<property name="appConf" value="default/app.conf" />
-	<property name="suffix" value=".tar.gz" />
-	<property name="compressionType" value="gzip" />
+    <property file="build/build.properties" />
 
-	<target name="init">
-		<delete dir="${temp_build}" />
-		<mkdir dir="${temp_build}" />
-		
-		<loadproperties srcFile="${appConf}"/>
-	</target>
+    <target name="init" >
 
-	<path id="project.class.path">
+        <delete dir="${temp_build}" />
 
-		<fileset dir="${lib}">
-			<include name="**/*.jar" />
-		</fileset>
+        <mkdir dir="${temp_build}" />
 
-	</path>
+        <loadproperties srcFile="${appConf}" />
+    </target>
 
+    <path id="project.class.path" >
 
-	<target name="compile" depends="init" description="compile the source ">
-		<!-- Compile the java code from ${src} into ${build} -->
+        <fileset dir="${lib}" >
 
-		<mkdir dir="${temp_build}/${classes}" />
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
 
-		<javac srcdir="${src}"  destdir="${temp_build}/${classes}">
-			<classpath refid="project.class.path" />
-		</javac>
+    <target
+        name="compile"
+        depends="init"
+        description="compile the source " >
 
-	</target>
+        <!-- Compile the java code from ${src} into ${build} -->
 
-	<!--standalone builds , 2 tarballs , collector app & splunk app artifacts -->
-	<target name="build_standalone_win32" depends="compile" description="generate a standalone distribution for win32 systems"/>
-	<target name="build_standalone_win64" depends="compile" description="generate a standalone distribution for win64 systems"/>
-	<target name="build_standalone_lin32" depends="compile" description="generate a standalone distribution for lin32 systems"/>
-	<target name="build_standalone_lin64" depends="compile" description="generate a standalone distribution for lin64 systems"/>
-	
-	<target name="build_release" depends="compile" description="generate a distribution">
-		<!-- Create the distribution directory -->
+        <mkdir dir="${temp_build}/${classes}" />
 
+        <javac
+            destdir="${temp_build}/${classes}"
+            srcdir="${src}"
+            target="${javaClassTarget}" >
 
-		<mkdir dir="${temp_build}/logs" />
-		<mkdir dir="${temp_build}/local" />
-			<mkdir dir="${temp_build}/metadata" />
-		
-		<copy todir="${temp_build}/${bin}/${lib}">
-			<fileset dir="${lib}" />
-			
-		</copy>
-		
-		<copy todir="${temp_build}/${bin}/${config}">
-			<fileset file="${config}/config.xml" />
-				</copy>
+            <classpath refid="project.class.path" />
+        </javac>
+    </target>
 
-		<copy todir="${temp_build}/${bin}/${config}/${examples}">					
-			<fileset dir="${config}/${examples}" />
-		</copy>
-		
-		<copy todir="${temp_build}/${bin}">
-			<fileset file="${bin}/linux/poll_jmx.sh" />
-			<fileset file="${bin}/win/poll_jmx.bat" />
-			<fileset file="${bin}/linux/poll_mx4j_jmx.sh" />
-			<fileset file="${bin}/win/poll_mx4j_jmx.bat" />
-		</copy>
-	
-		<chmod dir="${temp_build}/${bin}" perm="744" includes="*.sh,*.bat"/>
-		
-		<copy todir="${temp_build}/appserver">
-			<fileset dir="appserver" />
+    <!-- standalone builds , 2 tarballs , collector app & splunk app artifacts -->
+
+    <target
+        name="build_standalone_win32"
+        depends="compile"
+        description="generate a standalone distribution for win32 systems" />
+
+    <target
+        name="build_standalone_win64"
+        depends="compile"
+        description="generate a standalone distribution for win64 systems" />
+
+    <target
+        name="build_standalone_lin32"
+        depends="compile"
+        description="generate a standalone distribution for lin32 systems" />
+
+    <target
+        name="build_standalone_lin64"
+        depends="compile"
+        description="generate a standalone distribution for lin64 systems" />
+
+    <target
+        name="build_release"
+        depends="compile"
+        description="generate a distribution" >
+
+        <!-- Create the distribution directory -->
+
+        <mkdir dir="${temp_build}/logs" />
+
+        <mkdir dir="${temp_build}/local" />
+
+        <mkdir dir="${temp_build}/metadata" />
+
+        <copy todir="${temp_build}/${bin}/${lib}" >
+
+            <fileset dir="${lib}" />
         </copy>
-		
-		<copy todir="${temp_build}/3rdparty_licenses">
-					<fileset dir="3rdparty_licenses" />
-		</copy>
-	
-			
-		<copy todir="${temp_build}/default">
-					<fileset dir="default" />
-		        </copy>
 
-		
-		<copy todir="${temp_build}">					
-		<fileset file="LICENSE" />	
-			<fileset file="README" />
-		</copy>
+        <copy todir="${temp_build}/${bin}/${config}" >
 
-		
-		<jar jarfile="${temp_build}/${bin}/${lib}/${main_jar}">
-			<fileset dir="${temp_build}/${classes}"
-				includes="com/dtdsoftware/splunk/**"
-			    />
-			<fileset file="${config}/log4j.xml"/>
-			<fileset file="${config}/mapping.xml"/>
-			<fileset file="${config}/config.xsd"/>
+            <fileset file="${config}/config.xml" />
+        </copy>
 
-		</jar>
+        <copy todir="${temp_build}/${bin}/${config}/${examples}" >
 
-		<delete dir="${temp_build}/${classes}" />
-	
-	<!--
+            <fileset dir="${config}/${examples}" />
+        </copy>
+
+        <condition
+            property="binpath"
+            value="bin/java5" >
+
+            <equals
+                arg1="${javaClassTarget}"
+                arg2="1.5" />
+        </condition>
+
+        <condition
+            property="binpath"
+            value="bin" >
+
+            <equals
+                arg1="${javaClassTarget}"
+                arg2="1.6" />
+        </condition>
+
+        <copy todir="${temp_build}/${bin}" >
+
+            <fileset file="${binpath}/linux/poll_jmx.sh" />
+
+            <fileset file="${binpath}/win/poll_jmx.bat" />
+
+            <fileset file="${binpath}/linux/poll_mx4j_jmx.sh" />
+
+            <fileset file="${binpath}/win/poll_mx4j_jmx.bat" />
+        </copy>
+
+        <chmod
+            dir="${temp_build}/${bin}"
+            includes="*.sh,*.bat"
+            perm="744" />
+
+        <copy todir="${temp_build}/appserver" >
+
+            <fileset dir="appserver" />
+        </copy>
+
+        <copy todir="${temp_build}/3rdparty_licenses" >
+
+            <fileset dir="3rdparty_licenses" />
+        </copy>
+
+        <copy todir="${temp_build}/default" >
+
+            <fileset dir="default" />
+        </copy>
+
+        <copy todir="${temp_build}" >
+
+            <fileset file="LICENSE" />
+
+            <fileset file="README" />
+        </copy>
+
+        <jar jarfile="${temp_build}/${bin}/${lib}/${main_jar}" >
+
+            <fileset
+                dir="${temp_build}/${classes}"
+                includes="com/dtdsoftware/splunk/**" />
+
+            <fileset file="${config}/log4j.xml" />
+
+            <fileset file="${config}/mapping.xml" />
+
+            <fileset file="${config}/config.xsd" />
+        </jar>
+
+        <delete dir="${temp_build}/${classes}" />
+
+        <!--
 		<tar destfile="${release}/${id}-${version}${suffix}"
 		     compression="${compressionType}">
 			<zipfileset dir="${temp_build}" prefix="${id}"/></tar>
-		-->
-		
-		<exec executable="tar" output="/dev/null">
-		        <arg value="-czf"/>
-		        <arg value="${release}/${id}-${version}${suffix}"/>
-		        <arg value="${temp_build}"/>
-		    </exec>
+        -->
 
-			
+        <exec
+            executable="tar"
+            output="/dev/null" >
 
-		<delete dir="${temp_build}" />
+            <arg value="-czf" />
 
-	</target>
+            <arg value="${release}/${id}-${version}${suffix}" />
+
+            <arg value="${temp_build}" />
+        </exec>
+
+        <delete dir="${temp_build}" />
+    </target>
 
 </project>

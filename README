@@ -1,4 +1,4 @@
-'''Welcome to SPLUNK 4 JMX v1.5.6'''
+'''Welcome to SPLUNK 4 JMX v1.5.7'''
 by Damien T. Dallimore
 September 2012
 ddallimore@splunk.com
@@ -42,7 +42,7 @@ Also refer to the application's "docs" directory for :
 
 * set the JAVA_HOME environment variable to the location of your JRE install location(version 1.6 +)
 * set the SPLUNK_HOME environment variable to the install root of SPLUNK
-* uncompress SPLUNK4JMX-1.5.6.tar.gz to SPLUNK_HOME/etc/apps
+* uncompress SPLUNK4JMX-1.5.7.tar.gz to SPLUNK_HOME/etc/apps
 * restart SPLUNK
 
 
@@ -120,6 +120,9 @@ This command might be a custom script that looks for the JVM process and extract
 On Linux you could do this with a simple script that uses ps, grep and awk.
 
 Example : ps -eafH | grep "java" | grep -v "grep" | awk '{print $2}'
+
+If the pidCommand outputs multiple PIDs on multiple lines , then Splunk for JMX will handle this by spawning additional JMXServer elements 
+internally in memory.
 
 Look at the example xml config file in the bin/config directory for usage examples.
 

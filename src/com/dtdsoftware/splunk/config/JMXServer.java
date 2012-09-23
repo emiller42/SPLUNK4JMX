@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -27,6 +28,9 @@ public class JMXServer {
 
 	// PID Command to obtain PID of locally running JVM
 	public String pidCommand;
+
+	// Where a command returns multiple PIDs,store the additional PIDs in a List
+	public List<Integer> additionalPIDsFromCommand;
 
 	// JMX hostname, dns alias, ip address
 	public String host = "";
@@ -210,13 +214,19 @@ public class JMXServer {
 		try {
 
 			Process process = Runtime.getRuntime().exec(pidCommand);
-			input = new BufferedReader(new InputStreamReader(process
-					.getInputStream()));
+			input = new BufferedReader(new InputStreamReader(
+					process.getInputStream()));
 			String line;
 			if ((line = input.readLine()) != null) {
 				setProcessID(Integer.parseInt(line.trim()));
 			} else {
 				throw new Exception("No command output");
+			}
+			// check for any additional PIDs in the command output
+			while ((line = input.readLine()) != null) {
+				if (additionalPIDsFromCommand == null)
+					additionalPIDsFromCommand = new ArrayList<Integer>();
+				additionalPIDsFromCommand.add(Integer.parseInt(line.trim()));
 			}
 
 		} catch (Exception e) {
@@ -229,6 +239,29 @@ public class JMXServer {
 					logger.error("Error closing process output stream");
 				}
 		}
+	}
+
+	/**
+	 * Where a command returns multiple PIDs,store the additional PIDs in a List
+	 * @return
+	 */
+	public List<Integer> getAdditionalPIDsFromCommand() {
+		return additionalPIDsFromCommand;
+	}
+
+	/**
+	 * Where a command returns multiple PIDs, we can clone other JMXServer objects from this one
+	 * @param pid
+	 * @return
+	 */
+	public JMXServer cloneForAdditionalPID(int pid) {
+
+		JMXServer clone = new JMXServer();
+		clone.setProcessID(pid);
+		clone.setHost(this.getHost());
+		clone.setJvmDescription(this.getJvmDescription());
+		clone.setMbeans(this.getMbeans());
+		return clone;
 	}
 
 	@Override

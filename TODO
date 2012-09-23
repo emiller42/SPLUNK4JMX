@@ -12,12 +12,20 @@ docs
 
 * weblogic/was/jboss HOWTO guides
 
+features
+--------
+* tokenized config file , lookups
+
 misc
 ----
 
 * interactive config file editor/creator/generator
 * enhanced setup screen (setup config file, setup inputs)
 * change email address in docs
+
+embedded
+--------
+* library version of the app
 
 standalone
 ----------
@@ -34,6 +42,11 @@ standalone
 
 updates
 -------
-* readme
 * readme.md for github
-* pdf guide
+* pdf guide, readme, javadocs
+
+github
+------
+* remove release builds
+* lib dependency management . maven/gradle
+* tagging
