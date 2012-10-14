@@ -62,7 +62,7 @@ public class JMXMBeanPoller {
 			}
 			if (config != null) {
 				// get list of JMX Servers and process in their own thread.
-				List<JMXServer> servers = config.getServers();
+				List<JMXServer> servers = config.normalizeMultiPIDs();
 				if (servers != null) {
 
 					for (JMXServer server : servers) {

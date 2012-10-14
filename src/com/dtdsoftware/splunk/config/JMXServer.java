@@ -256,6 +256,7 @@ public class JMXServer {
 	 */
 	public JMXServer cloneForAdditionalPID(int pid) {
 
+		
 		JMXServer clone = new JMXServer();
 		clone.setProcessID(pid);
 		clone.setHost(this.getHost());
