@@ -1,52 +1,19 @@
 TODO Items
 ==========
 
-examples
---------
-
-* sample config files for 3 jvms(java.lang->hotspot/jrockit/j9) and various other jvm apps
-(tanuki,xscale,was,weblogic,mule,tomcat,jboss,jetty,resin,solr,glassfish,hadoop,cassandra)
-
-docs
-----
-
-* weblogic/was/jboss HOWTO guides
-
 features
 --------
-* tokenized config file , lookups
-
-misc
-----
-
+* tokenized config file
+* lookups/properties in config file
+* update docs , architectural deployment examples,change email address
 * interactive config file editor/creator/generator
 * enhanced setup screen (setup config file, setup inputs)
-* change email address in docs
-
-embedded
---------
-* library version of the app
-
-standalone
-----------
-* jmx notifications
-* tanuki scripts, w/ mx4j options commented out,set JAVA_HOME,SPLUNK4JMX_HOME
-* build xml, build.properties
-* seperate logback file /logging statements , dynamic reload
-* connection and mbean polling timeout handler
-* scheduler(quartz)
-* pickup and run all files in config directory, dynamically
-* forward internal logs to Splunk ?, another TCP appender.
-* log4j config to logback config
-
-
-updates
--------
-* readme.md for github
-* pdf guide, readme, javadocs
+* embedded version of the app
+* notifications
+* java bridge integration ?
 
 github
 ------
 * remove release builds
-* lib dependency management . maven/gradle
+* lib dependency management , gradle
 * tagging
