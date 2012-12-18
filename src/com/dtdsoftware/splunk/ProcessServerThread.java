@@ -135,9 +135,10 @@ public class ProcessServerThread extends Thread {
 											.getOutputname();
 									if (outputname != null
 											&& !outputname.isEmpty())
-										mBeanAttributes.put(operation
-												.getOutputname(),
-												resolveObjectToString(result));
+										//mBeanAttributes.put(operation
+												//.getOutputname(),
+												//resolveObjectToString(result));
+										extractAttributeValue(result,mBeanAttributes,operation.getOutputname());
 								} catch (Exception e) {
 
 									logger.error("Error : " + e.getMessage());

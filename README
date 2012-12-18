@@ -1,6 +1,6 @@
-'''Welcome to SPLUNK 4 JMX v1.5.7'''
+'''Welcome to SPLUNK 4 JMX v1.6'''
 by Damien T. Dallimore
-September 2012
+October 2012
 ddallimore@splunk.com
 ----
 
@@ -28,8 +28,7 @@ Currently supports the following  JMX Connectors :
 * hessian (MX4J only)
 * burlap (MX4J only)
 
-This app is basically a custom scripted input comprising of a bash/bat script and a Java program.  I have bundled it up as an app for convenience  
-and included some demo dashboards that graph up a selection of MBean attributes from the java.lang domain
+This app is basically a custom scripted input comprising of a bash/bat script and a Java program.  I have bundled it up as an app for convenience and included some demo dashboards that graph up a selection of MBean attributes from the java.lang domain
 
 Also refer to the application's "docs" directory for :
 
@@ -40,9 +39,9 @@ Also refer to the application's "docs" directory for :
 
 '''INSTALLATION'''
 
-* set the JAVA_HOME environment variable to the location of your JRE install location(version 1.6 +)
+* set the JAVA_HOME environment variable to the location of your JRE install location(Java 6+ , Java 5 is not supported)
 * set the SPLUNK_HOME environment variable to the install root of SPLUNK
-* uncompress SPLUNK4JMX-1.5.7.tar.gz to SPLUNK_HOME/etc/apps
+* uncompress SPLUNK4JMX-1.6.tar.gz to SPLUNK_HOME/etc/apps
 * restart SPLUNK
 
 
@@ -81,8 +80,7 @@ This is a Java implementation of the "com.dtdsoftware.splunk.transport.Transport
 The transport class must be placed on the java classpath.
 If the optional transport declaration is omitted, then the default transport(STD out) will be used.
 
-Refer to the javadoc API in the docs directory for viewing bundled Formatter and Transport implementations or the signature 
-of the interfaces for creating your own custom implementations.
+Refer to the javadoc API in the docs directory for viewing bundled Formatter and Transport implementations or the signature of the interfaces for creating your own custom implementations.
 
 1 or more "jmxserver" elements can be included in this XML defintion ie:  if you need to accesss multiple different jmx sources within the same scheduled execution
 Each "jmxserver" element you declare will be run in parallel.
@@ -121,14 +119,11 @@ On Linux you could do this with a simple script that uses ps, grep and awk.
 
 Example : ps -eafH | grep "java" | grep -v "grep" | awk '{print $2}'
 
-If the pidCommand outputs multiple PIDs on multiple lines , then Splunk for JMX will handle this by spawning additional JMXServer elements 
-internally in memory.
+If the pidCommand outputs multiple PIDs on multiple lines , then Splunk for JMX will handle this by spawning additional JMXServer elements internally in memory.
 
 Look at the example xml config file in the bin/config directory for usage examples.
 
-Groups of jmxserver's that share that same mbeans can be grouped together in a cluster element,
-so that you only have to declare the MBeans/MBean attributes/operations once ie: a cluster of JEE appservers, a cluster 
-of Hadoop or Cassandra nodes etc...This will be useful for enterprises with very large scale JVM deployments.
+Groups of jmxserver's that share that same mbeans can be grouped together in a cluster element, so that you only have to declare the MBeans/MBean attributes/operations once ie: a cluster of JEE appservers, a cluster of Hadoop or Cassandra nodes etc...This will be useful for enterprises with very large scale JVM deployments.
 MBean inheritance is supported, so you can have mbeans defined that are common to the cluster, and mbeans that are
 specific to a cluster member.
 
@@ -147,8 +142,7 @@ If no values are specified for the "domain" and "properties" attributes , the va
 
 The MBean's canonical objectname will be written out to SPLUNK.
 
-If you would like the components of the MBean canonical objectname broken out into individual fields, then there is a custom formatter available
-which you can declare in your config XML file to achieve this :
+If you would like the components of the MBean canonical objectname broken out into individual fields, then there is a custom formatter available which you can declare in your config XML file to achieve this :
 
 ''<formatter className="com.dtdsoftware.splunk.formatter.TokenizedMBeanNameFormatter" />''
 
@@ -213,12 +207,11 @@ When connecting directly to local JVM using a process ID, native librarys are us
 Windows : JRE_HOME/bin/attach.dll
 Linux : JDK_HOME/jre/lib/i386/libattach.so
 
-NOTE : For some reason the Linux "attach" library is only packaged in the JRE that is part of a JDK install. Weird.
+NOTE : For some reason the Linux "attach" library is only packaged in the JRE that is part of a JDK install. Weird. So if you don't have libattach.so , you can get it from the JDK and copy it into the jre lib directory.
 
 '''CREATING ADDITIONAL CONFIGURATION FILES'''
 
-If required, you can easily create more config files to run at different schedules by "cloning"
-the script input in Splunk Manager and specifying the name of the new config file as an argument to the poll_jmx script.
+If required, you can easily create more config files to run at different schedules by "cloning" the script input in Splunk Manager and specifying the name of the new config file as an argument to the poll_jmx script.
 The config file should reside in SPLUNK_HOME/etc/apps/SPLUNK4JMX/bin/config
 
 '''JMX SERVERS'''
@@ -250,8 +243,7 @@ Why would you want to do this ? Well perhaps you are targeting a JVM with some p
 By default , "error" level log events will be written to SPLUNK_HOME/etc/apps/SPLUNK4JMX/logs
 The log file has a max size of 1MB and 1 backup.
 If you need to tweak log settings, then the log4j.xml config file resides in jmxpoller.jar
-The SPLUNK4JMX app will by default monitor it's own log files and present a "JMX Connectivity" view on the navigation
-menu bar showing any errors.
+The SPLUNK4JMX app will by default monitor it's own log files and present a "JMX Connectivity" view on the navigation menu bar showing any errors.
 
 '''TRANSPORTS'''
 
@@ -260,9 +252,8 @@ Bundled with the release are transport implementations for :
 * STD out : this is the default
 * TCP : stream events over a TCP socket.You will also need to setup a TCP input in SPLUNK
 
-These 3 transports also use appenders/loggers in log4j.xml to facilitate their functionality 
-So if using one of these transports, you'll need to uncomment and configure the relevant appender/logger
-definition in log4j.xml that resides in jmxpoller.jar
+These 3 transports also use appenders/loggers in log4j.xml to facilitate their functionality.
+So if using one of these transports, you'll need to uncomment and configure the relevant appender/logger definition in log4j.xml that resides in jmxpoller.jar
 
 * Syslog : send events over SYSLOG UDP.You will also need to setup a UDP input in SPLUNK
 * Splunk REST endpoint : stream events over HTTP/REST to Splunk.

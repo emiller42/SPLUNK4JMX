@@ -144,13 +144,14 @@
 
 											
 
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | streamstats current=f global=f window=1 first(gCStart) as next_gCStart by jvmgc | eval d_gCStart=gCStart-next_gCStart | eval gcFreq=(abs(d_gCStart)/1000/60)| timechart span=1m max(gcFreq) by jvmgc</param>
+                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="GarbageCollector" | eval jvmgc=jvmDescription+"_"+gcName | streamstats current=f global=f window=1 first(gCStart) as next_gCStart by jvmgc | eval d_gCStart=gCStart-next_gCStart | eval gcFreq=(abs(d_gCStart)/1000/60)| where gcFreq > 0 |timechart span=1m  max(gcFreq) by jvmgc</param>
                      
                                                                                           <module name="HiddenChartFormatter">
             <param name="charting.legend.placement">right</param>
             <param name="charting.primaryAxisTitle.text">Time</param>
             <param name="charting.secondaryAxisTitle.text">Collection Frequency(minutes)</param>
-            <param name="charting.chart">area</param>
+            <param name="charting.chart.nullValueMode">connect</param>
+            <param name="charting.chart">line</param>
                                   <module name="JSChart" layoutPanel="panel_row5_col1">
 												
 												

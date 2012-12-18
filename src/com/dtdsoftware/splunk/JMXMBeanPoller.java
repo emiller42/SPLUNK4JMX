@@ -92,6 +92,7 @@ public class JMXMBeanPoller {
 	 */
 	private static JMXPoller loadConfig(String configFileName) throws Exception {
 
+		
 		File file = new File(configFileName);
 		if (file.isDirectory()) {
 			throw new Exception(
@@ -119,6 +120,7 @@ public class JMXMBeanPoller {
 
 		JMXPoller poller = (JMXPoller) unmar.unmarshal(inputSource);
 
+		
 		return poller;
 
 	}

@@ -1,19 +1,11 @@
-TODO Items
-==========
-
 features
 --------
-* tokenized config file
-* lookups/properties in config file
-* update docs , architectural deployment examples,change email address
-* interactive config file editor/creator/generator
-* enhanced setup screen (setup config file, setup inputs)
-* embedded version of the app
-* notifications
-* java bridge integration ?
+tokenized config file
+lookups/properties in config file
+updated docs
 
 github
 ------
-* remove release builds
-* lib dependency management , gradle
-* tagging
+maven/gradle (jar dependencys)
+version tagging
+migrate project to Splunk ownership
