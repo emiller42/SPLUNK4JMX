@@ -1,239 +1,110 @@
-<view autoCancelInterval="90" isVisible="true" onunloadCancelJobs="true" template="dashboard.html">
-	<label>Operating System</label>
-	<module name="AccountBar" layoutPanel="appHeader" />
-	<module name="AppBar" layoutPanel="navigationHeader" />
-	<module name="Message" layoutPanel="messaging">
-		<param name="filter">*</param>
-		<param name="clearOnJobDispatch">False</param>
-		<param name="maxSize">1</param>
-	</module>
-	<module name="Message" layoutPanel="messaging">
-		<param name="filter">splunk.search.job</param>
-		<param name="clearOnJobDispatch">True</param>
-		<param name="maxSize">1</param>
-	</module>
-	<module name="TitleBar" layoutPanel="viewHeader" />
-
-	
-	<module name="TimeRangePicker" layoutPanel="panel_row1_col1"
-		autoRun="true">
-		<param name="label">Time Window</param>
-		<param name="default">Last 60 minutes</param>
-
-		<param name="searchWhenChanged">True</param>
-                  
-          
-                  <module name="HiddenSearch" layoutPanel="panel_row1_col1"
-			autoRun="True" group="Search Fields">
-
-			<module name="SearchSelectLister">
-				<param name="settingToCreate">host</param>
-				<param name="applyOuterIntentionsToInternalSearch">True</param>
-				<param name="applyOuterTimeRangeToInternalSearch">True</param>
-				<param name="search">index=jmx sourcetype=jmx| dedup host | sort host</param>
-				<param name="label">Host</param>
-				<param name="searchWhenChanged">True</param>
-				<param name="staticFieldsToDisplay">
-					<list>
-						<param name="label">All</param>
-						<param name="value">*</param>
-					</list>
-				</param>
-				<param name="searchFieldsToDisplay">
-					<list>
-						<param name="label">host</param>
-						<param name="value">host</param>
-					</list>
-				</param>
-				<module name="ConvertToIntention">
-					<param name="settingToConvert">host</param>
-					<param name="intention">
-						<param name="name">addterm</param>
-						<param name="arg">
-							<param name="host">$target$</param>
-						</param>
-					</param>
-                                  <module name="SearchSelectLister">
-				<param name="settingToCreate">jvmDescription</param>
-				<param name="applyOuterIntentionsToInternalSearch">True</param>
-				<param name="applyOuterTimeRangeToInternalSearch">True</param>
-				<param name="search">index=jmx sourcetype=jmx| dedup jvmDescription | sort jvmDescription</param>
-				<param name="label">JVM</param>
-				<param name="searchWhenChanged">True</param>
-				<param name="staticFieldsToDisplay">
-					<list>
-						<param name="label">All</param>
-						<param name="value">*</param>
-					</list>
-				</param>
-				<param name="searchFieldsToDisplay">
-					<list>
-						<param name="label">jvmDescription</param>
-						<param name="value">jvmDescription</param>
-					</list>
-				</param>
-				<module name="ConvertToIntention">
-					<param name="settingToConvert">jvmDescription</param>
-					<param name="intention">
-						<param name="name">addterm</param>
-						<param name="arg">
-							<param name="jvmDescription">$target$</param>
-						</param>
-					</param>
-                                  
-                                  
-                                  <module name="SubmitButton" layoutPanel="panel_row1_col1">
-										<param name="label">Search</param>
-                                                                          <param name="allowSoftSubmit">true</param>
-                                    <module name="HiddenSearch" layoutPanel="panel_row2_col1"
-											autoRun="true" group="Operating System Overview">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" | stats first(name) as OS first(version) as Version first(arch) as Architecture by host jvmDescription | sort jvmDescription</param>
-<module name="Paginator" layoutPanel="panel_row2_col1">
-  <param name="entityName">events</param>
-											<module name="SimpleResultsTable" layoutPanel="panel_row2_col1">
-  </module></module></module>
-												
-
-										<module name="HiddenSearch" layoutPanel="panel_row3_col1"
-											autoRun="true" group="CPU Usage">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" OR "Runtime" | stats max(jvmUptime) as uptime max(cpuTime) as cputime max(processors) as cpus by jvmDescription,_time | streamstats current=f global=f window=1 first(uptime) as next_uptime first(cputime) as next_cputime by jvmDescription | eval d_uptime=uptime-next_uptime | eval d_cputime=cputime-next_cputime | eval cpu=(d_cputime/(d_uptime*10000*cpus)) | chart max(cpu) by _time,jvmDescription</param>
-                     
-                                                                                          <module name="HiddenChartFormatter">
-            <param name="charting.legend.placement">right</param>
-            <param name="charting.primaryAxisTitle.text">Time</param>
-            <param name="charting.secondaryAxisTitle.text">CPU %</param>
-            <param name="charting.chart">line</param>
-                                  <module name="JSChart" layoutPanel="panel_row3_col1">
-												
-												
-
-											</module>
-												
-											</module>
-                                  
-                                  </module>
-                                    <module name="HiddenSearch" layoutPanel="panel_row4_col1"
-											autoRun="true" group="System Load">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" | timechart span=1m avg(sysLoad) by host</param>
-                     
-                                                                                          <module name="HiddenChartFormatter">
-            <param name="charting.legend.placement">right</param>
-            <param name="charting.primaryAxisTitle.text">Time</param>
-            <param name="charting.secondaryAxisTitle.text">Load Factor</param>
-            <param name="charting.chart">line</param>
-                                  <module name="JSChart" layoutPanel="panel_row4_col1">
-												
-												
-
-											</module>
-												
-											</module>
-                                  
-                                  </module>
-                                    <module name="HiddenSearch" layoutPanel="panel_row5_col1"
-											autoRun="true" group="File Descriptors(*Nix Hosts only)">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" |timechart span=1m max(openFD) as "Open File Descriptors" ,max(maxFD) as "Max File Descriptors" by host</param>
-                     
-                                                                                          <module name="HiddenChartFormatter">
-            <param name="charting.legend.placement">right</param>
-            <param name="charting.primaryAxisTitle.text">Time</param>
-            <param name="charting.secondaryAxisTitle.text">Count</param>
-            <param name="charting.chart">line</param>
-                                  <module name="JSChart" layoutPanel="panel_row5_col1">
-												
-												
-
-											</module>
-												
-											</module>
-                                  
-                                  </module>
-                                    <module name="HiddenSearch" layoutPanel="panel_row6_col1"
-											autoRun="true" group="Physical Memory">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" |eval memoryUsed=(physMem-freePhysMem) | timechart span=5m max(physMem) as "Total Memory" ,max(memoryUsed) as "Used Memory" by host</param>
-                     
-                                                                                          <module name="HiddenChartFormatter">
-            <param name="charting.legend.placement">right</param>
-            <param name="charting.primaryAxisTitle.text">Time</param>
-            <param name="charting.secondaryAxisTitle.text">Memory(Bytes)</param>
-            <param name="charting.chart">line</param>
-                                  <module name="JSChart" layoutPanel="panel_row6_col1">
-												
-												
-
-											</module>
-												
-											</module>
-                                  
-                                  </module>
-                                    
-                                    <module name="HiddenSearch" layoutPanel="panel_row7_col1"
-											autoRun="true" group="Swap Space">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" |eval swapUsed=(swapSpace-freeSwap) | timechart span=5m max(swapSpace) as "Total Swap" ,max(swapUsed) as "Used Swap" by host</param>
-                     
-                                                                                          <module name="HiddenChartFormatter">
-            <param name="charting.legend.placement">right</param>
-            <param name="charting.primaryAxisTitle.text">Time</param>
-            <param name="charting.secondaryAxisTitle.text">Swap(Bytes)</param>
-            <param name="charting.chart">line</param>
-                                  <module name="JSChart" layoutPanel="panel_row7_col1">
-												
-												
-
-											</module>
-												
-											</module>
-                                  
-                                  </module>
-                                    <module name="HiddenSearch" layoutPanel="panel_row8_col1"
-											autoRun="true" group="Committed Virtual Memory">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="OperatingSystem" | timechart span=1m avg(committed) by host</param>
-                     
-                                                                                          <module name="HiddenChartFormatter">
-            <param name="charting.legend.placement">right</param>
-            <param name="charting.primaryAxisTitle.text">Time</param>
-            <param name="charting.secondaryAxisTitle.text">Committed(Bytes)</param>
-            <param name="charting.chart">line</param>
-                                  <module name="JSChart" layoutPanel="panel_row8_col1">
-												
-												
-
-											</module>
-												
-											</module>
-                                  
-                                  </module>
-                                  </module>
-                                  
-                                    </module>
-                                  </module>
-                                  
-                                  
-                          </module>
-                          </module>
-                  </module>
-                  </module>
-  
-
-</view>
+<?xml version="1.0"?>
+<form>
+    <label>Operating System</label>
+    <fieldset autoRun="true">
+        <input type="dropdown" token="host">
+            <label>Choose host</label>
+            <prefix>host="</prefix>
+            <suffix>"</suffix>
+            <choice value="*">All</choice>
+            <default>*</default>
+            <populatingSearch fieldForValue="host" fieldForLabel="host" earliest="-1d@d" latest="now"><![CDATA[| metadata type=hosts index=jmx | dedup host | table host]]></populatingSearch>
+        </input>
+        <input type="dropdown" token="jvmDescription">
+            <label>Choose JVM Description</label>
+            <prefix>jvmDescription="</prefix>
+            <suffix>"</suffix>
+            <choice value="*">All</choice>
+            <default>*</default>
+            <populatingSearch fieldForValue="jvmDescription" fieldForLabel="jvmDescription" earliest="-1d@d" latest="now"><![CDATA[index=jmx sourcetype=jmx $host$ | dedup jvmDescription | table jvmDescription]]></populatingSearch>
+        </input>
+        <input type="time">
+            <default>Last 4 hours</default>
+        </input>
+    </fieldset>
+    <searchTemplate><![CDATA[
+        index=jmx sourcetype=jmx $host$ $jvmDescription$ mbean_domain="java.lang" mbean_property_type="OperatingSystem" OR "Runtime"
+        | eval swapUsed=swapSpace-freeSwap
+        | eval memoryUsed=physMem-freePhysMem 
+        | bucket _time span=1m 
+        | stats first(name) as name first(version) as version first(arch) as arch first(jvmUptime) as jvmUptime first(cpuTime) as cpuTime first(processors) as cpus first(sysLoad) as sysLoad first(openFD) as openFD first(maxFD) as maxFD first(physMem) as physMem first(memoryUsed) as memoryUsed first(swapSpace) as swapSpace first(swapUsed) as swapUsed first(committed) as committed by _time host jvmDescription
+    ]]></searchTemplate>
+    <row>
+        <table>
+            <title>Operating System Overview</title>
+            <searchPostProcess><![CDATA[
+                | stats first(name) as OS first(version) as Version first(arch) as Architecture by host jvmDescription | sort jvmDescription
+            ]]></searchPostProcess>
+        </table>
+    </row>
+    <row>
+        <chart>
+            <title>CPU Usage</title>
+            <searchPostProcess><![CDATA[
+                | streamstats current=f global=f window=1 first(jvmUptime) as next_uptime first(cpuTime) as next_cputime by jvmDescription 
+                | eval d_uptime=jvmUptime-next_uptime 
+                | eval d_cputime=cpuTime-next_cputime 
+                | eval cpu=(d_cputime/(d_uptime*10000*cpus)) 
+                | timechart max(cpu) by jvmDescription
+            ]]></searchPostProcess>
+            <option name="charting.chart">line</option>
+            <option name="charting.axisTitleX.text">Time</option>
+            <option name="charting.axisTitleY.text">CPU %</option>
+        </chart>
+    </row>
+    <row>
+        <chart>
+            <title>System Load</title>
+            <searchPostProcess><![CDATA[
+                | timechart avg(sysLoad) as "Load Factor" by host
+            ]]></searchPostProcess>
+            <option name="charting.chart">line</option>
+            <option name="charting.axisTitleX.text">Time</option>
+            <option name="charting.axisTitleY.text">Load Factor</option>
+        </chart>
+    </row>
+    <row>
+        <chart>
+            <title>File Descriptors(*Nix Hosts only)</title>
+            <searchPostProcess><![CDATA[
+                | timechart max(openFD) as "Open File Descriptors" max(maxFD) as "Max File Descriptors" by host
+            ]]></searchPostProcess>
+            <option name="charting.chart">line</option>
+            <option name="charting.axisTitleX.text">Time</option>
+            <option name="charting.axisTitleY.text">Count</option>
+        </chart>
+    </row>
+    <row>
+        <chart>
+            <title>Physical Memory</title>
+            <searchPostProcess><![CDATA[
+                | timechart max(physMem) as "Total Memory" max(memoryUsed) as "Used Memory" by host
+            ]]></searchPostProcess>
+            <option name="charting.chart">line</option>
+            <option name="charting.axisTitleX.text">Time</option>
+            <option name="charting.axisTitleY.text">Memory (Bytes)</option>
+        </chart>
+    </row>
+    <row>
+        <chart>
+            <title>Swap Space</title>
+            <searchPostProcess><![CDATA[
+                | timechart span=5m max(swapSpace) as "Total Swap" max(swapUsed) as "Used Swap" by host
+            ]]></searchPostProcess>
+            <option name="charting.chart">line</option>
+            <option name="charting.axisTitleX.text">Time</option>
+            <option name="charting.axisTitleY.text">Swap (Bytes)</option>
+        </chart>
+    </row>
+    <row>
+        <chart>
+            <title>Committed Virtual Memory</title>
+            <searchPostProcess><![CDATA[
+                | timechart avg(committed) as "Committed Virtual Memory" by host
+            ]]></searchPostProcess>
+            <option name="charting.chart">line</option>
+            <option name="charting.axisTitleX.text">Time</option>
+            <option name="charting.axisTitleY.text">Committed (Bytes)</option>
+        </chart>
+    </row>
+</form>

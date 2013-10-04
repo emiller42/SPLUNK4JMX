@@ -1,184 +1,80 @@
-<view autoCancelInterval="90" isVisible="true" onunloadCancelJobs="true" template="dashboard.html">
-	<label>JMX Connectivity Errors</label>
-	<module name="AccountBar" layoutPanel="appHeader" />
-	<module name="AppBar" layoutPanel="navigationHeader" />
-	<module name="Message" layoutPanel="messaging">
-		<param name="filter">*</param>
-		<param name="clearOnJobDispatch">False</param>
-		<param name="maxSize">1</param>
-	</module>
-	<module name="Message" layoutPanel="messaging">
-		<param name="filter">splunk.search.job</param>
-		<param name="clearOnJobDispatch">True</param>
-		<param name="maxSize">1</param>
-	</module>
-	<module name="TitleBar" layoutPanel="viewHeader" />
-
-	
-	<module name="TimeRangePicker" layoutPanel="panel_row1_col1"
-		autoRun="true">
-		<param name="label">Time Window</param>
-		<param name="default">Last 60 minutes</param>
-
-		<param name="searchWhenChanged">True</param>
-                  
-          
-                  <module name="HiddenSearch" layoutPanel="panel_row1_col1"
-			autoRun="True" group="Search Fields">
-
-			<module name="SearchSelectLister">
-				<param name="settingToCreate">error_host</param>
-				<param name="applyOuterIntentionsToInternalSearch">True</param>
-				<param name="applyOuterTimeRangeToInternalSearch">True</param>
-				<param name="search">index=jmx sourcetype=jmx_errors| dedup error_host | sort error_host</param>
-				<param name="label">Error Host</param>
-				<param name="searchWhenChanged">True</param>
-				<param name="staticFieldsToDisplay">
-					<list>
-						<param name="label">All</param>
-						<param name="value">*</param>
-					</list>
-				</param>
-				<param name="searchFieldsToDisplay">
-					<list>
-						<param name="label">error_host</param>
-						<param name="value">error_host</param>
-					</list>
-				</param>
-				<module name="ConvertToIntention">
-					<param name="settingToConvert">error_host</param>
-					<param name="intention">
-						<param name="name">addterm</param>
-						<param name="arg">
-							<param name="error_host">$target$</param>
-						</param>
-					</param>
-                                  <module name="SearchSelectLister">
-				<param name="settingToCreate">jvmDescription</param>
-				<param name="applyOuterIntentionsToInternalSearch">True</param>
-				<param name="applyOuterTimeRangeToInternalSearch">True</param>
-				<param name="search">index=jmx sourcetype=jmx_errors| dedup jvmDescription | sort jvmDescription</param>
-				<param name="label">JVM</param>
-				<param name="searchWhenChanged">True</param>
-				<param name="staticFieldsToDisplay">
-					<list>
-						<param name="label">All</param>
-						<param name="value">*</param>
-					</list>
-				</param>
-				<param name="searchFieldsToDisplay">
-					<list>
-						<param name="label">jvmDescription</param>
-						<param name="value">jvmDescription</param>
-					</list>
-				</param>
-				<module name="ConvertToIntention">
-					<param name="settingToConvert">jvmDescription</param>
-					<param name="intention">
-						<param name="name">addterm</param>
-						<param name="arg">
-							<param name="jvmDescription">$target$</param>
-						</param>
-					</param>
-                                  
-                                  
-                                  <module name="SubmitButton" layoutPanel="panel_row1_col1">
-										<param name="label">Search</param>
-                                                                          <param name="allowSoftSubmit">true</param>
-                                    <module name="HiddenSearch" layoutPanel="panel_row2_col1"
-											autoRun="true" group="Errors">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx_errors | stats count as "jmx connection error count" by error_host jmxport jvmDescription</param>
-<module name="Paginator" layoutPanel="panel_row2_col1">
-  <param name="entityName">events</param>
-											<module name="SimpleResultsTable" layoutPanel="panel_row2_col1">
-  </module></module></module>
-                                    
-                                    <module name="HiddenSearch" layoutPanel="panel_row3_col1"
-											autoRun="true" group="Error Messages">
-
-											
-
-                                            <param name="search">index=jmx  sourcetype=jmx_errors | stats count by systemErrorMessage error_host jvmDescription</param>
-<module name="Paginator" layoutPanel="panel_row3_col1">
-  <param name="entityName">events</param>
-											<module name="SimpleResultsTable" layoutPanel="panel_row3_col1">
-  </module></module></module>
-									
-												
-
-										<module name="HiddenSearch" layoutPanel="panel_row4_col1"
-											autoRun="true" group="Errors by Host">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx_errors | stats count by error_host</param>
-                     
-                                                                                          <module name="HiddenChartFormatter">
-            <param name="charting.legend.placement">right</param>
-            
-            <param name="charting.chart">pie</param>
-                                  <module name="JSChart" layoutPanel="panel_row4_col1">
-												
-												
-
-											</module>
-												
-											</module>
-                                  
-                                  </module>
-                                    <module name="HiddenSearch" layoutPanel="panel_row4_col2"
-											autoRun="true" group="Errors by JVM">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx_errors | stats count by jvmDescription</param>
-                     
-                                                                                          <module name="HiddenChartFormatter">
-            <param name="charting.legend.placement">right</param>
-            
-            <param name="charting.chart">pie</param>
-                                  <module name="JSChart" layoutPanel="panel_row4_col2">
-												
-												
-
-											</module>
-												
-											</module>
-                                  
-                                  </module>
-                                    <module name="HiddenSearch" layoutPanel="panel_row4_col3"
-											autoRun="true" group="Errors by Message">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx_errors | stats count by systemErrorMessage</param>
-                     
-                                                                                          <module name="HiddenChartFormatter">
-            <param name="charting.legend.placement">right</param>
-            
-            <param name="charting.chart">pie</param>
-                                  <module name="JSChart" layoutPanel="panel_row4_col3">
-												
-												
-
-											</module>
-												
-											</module>
-                                  
-                                  </module>
-                                  </module>
-                                  
-                                    </module>
-                                  </module>
-                                  
-                                  
-                          </module>
-                          </module>
-                  </module>
-                  </module>
-  
-
-</view>
+<?xml version="1.0"?>
+<form>
+    <label>JMX Connectivity Errors</label>
+    <fieldset autoRun="true">
+        <input type="dropdown" token="host">
+            <label>Choose host</label>
+            <prefix>host="</prefix>
+            <suffix>"</suffix>
+            <choice value="*">All</choice>
+            <default>*</default>
+            <populatingSearch fieldForValue="host" fieldForLabel="host" earliest="-1d@d" latest="now"><![CDATA[| metadata type=hosts index=jmx | dedup host | table host]]></populatingSearch>
+        </input>
+        <input type="dropdown" token="jvmDescription">
+            <label>Choose JVM Description</label>
+            <prefix>jvmDescription="</prefix>
+            <suffix>"</suffix>
+            <choice value="*">All</choice>
+            <default>*</default>
+            <populatingSearch fieldForValue="jvmDescription" fieldForLabel="jvmDescription" earliest="-1d@d" latest="now"><![CDATA[index=jmx sourcetype=jmx $host$ | dedup jvmDescription | table jvmDescription]]></populatingSearch>
+        </input>
+        <input type="time">
+            <default>Last 4 hours</default>
+        </input>
+    </fieldset>
+    <searchTemplate>
+        <![CDATA[
+           index=jmx sourcetype=jmx_errors $host$ $jvmDescription$
+            | stats count by systemErrorMessage host jmxport jvmDescription 
+        ]]>
+    </searchTemplate>
+    <row>
+        <table>
+            <title>Errors</title>
+            <searchPostProcess>
+                <![CDATA[
+                    | stats sum(count) as "JMX Connection Error Count" by host jmxport jvmDescription
+                ]]>
+            </searchPostProcess>
+        </table>
+    </row>
+    <row>
+        <table>
+            <title>Error Messages</title>
+            <searchPostProcess>
+                <![CDATA[
+                    | stats sum(count) as "Count" by systemErrorMessage host jvmDescription
+                ]]>
+            </searchPostProcess>
+        </table>
+    </row>
+    <row>
+        <chart>
+            <title>Errors by Host</title>
+            <searchPostProcess>
+                <![CDATA[
+                    | stats sum(count) as "Count" by host
+                ]]> 
+            </searchPostProcess>
+            <option name="charting.chart">pie</option>
+        </chart>
+        <chart>
+            <title>Errors by JVM</title>
+            <searchPostProcess>
+                <![CDATA[
+                    | stats sum(count) as "Count" by jvmDescription
+                ]]> 
+            </searchPostProcess>
+            <option name="charting.chart">pie</option>
+        </chart>
+        <chart>
+            <title>Errors by Message</title>
+            <searchPostProcess>
+                <![CDATA[
+                    | stats sum(count) as "Count" by systemErrorMessage
+                ]]> 
+            </searchPostProcess>
+            <option name="charting.chart">pie</option>
+        </chart>
+    </row>
+</form>
