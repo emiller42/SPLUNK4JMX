@@ -1,133 +1,48 @@
-<view autoCancelInterval="90" isVisible="true" onunloadCancelJobs="true" template="dashboard.html">
-	<label>Runtime</label>
-	<module name="AccountBar" layoutPanel="appHeader" />
-	<module name="AppBar" layoutPanel="navigationHeader" />
-	<module name="Message" layoutPanel="messaging">
-		<param name="filter">*</param>
-		<param name="clearOnJobDispatch">False</param>
-		<param name="maxSize">1</param>
-	</module>
-	<module name="Message" layoutPanel="messaging">
-		<param name="filter">splunk.search.job</param>
-		<param name="clearOnJobDispatch">True</param>
-		<param name="maxSize">1</param>
-	</module>
-	<module name="TitleBar" layoutPanel="viewHeader" />
-
-	
-	<module name="TimeRangePicker" layoutPanel="panel_row1_col1"
-		autoRun="true">
-		<param name="label">Time Window</param>
-		<param name="default">Last 60 minutes</param>
-
-		<param name="searchWhenChanged">True</param>
-                  
-          
-                  <module name="HiddenSearch" layoutPanel="panel_row1_col1"
-			autoRun="True" group="Search Fields">
-
-			<module name="SearchSelectLister">
-				<param name="settingToCreate">host</param>
-				<param name="applyOuterIntentionsToInternalSearch">True</param>
-				<param name="applyOuterTimeRangeToInternalSearch">True</param>
-				<param name="search">index=jmx sourcetype=jmx| dedup host | sort host</param>
-				<param name="label">Host</param>
-				<param name="searchWhenChanged">True</param>
-				<param name="staticFieldsToDisplay">
-					<list>
-						<param name="label">All</param>
-						<param name="value">*</param>
-					</list>
-				</param>
-				<param name="searchFieldsToDisplay">
-					<list>
-						<param name="label">host</param>
-						<param name="value">host</param>
-					</list>
-				</param>
-				<module name="ConvertToIntention">
-					<param name="settingToConvert">host</param>
-					<param name="intention">
-						<param name="name">addterm</param>
-						<param name="arg">
-							<param name="host">$target$</param>
-						</param>
-					</param>
-                                  <module name="SearchSelectLister">
-				<param name="settingToCreate">jvmDescription</param>
-				<param name="applyOuterIntentionsToInternalSearch">True</param>
-				<param name="applyOuterTimeRangeToInternalSearch">True</param>
-				<param name="search">index=jmx sourcetype=jmx| dedup jvmDescription | sort jvmDescription</param>
-				<param name="label">JVM</param>
-				<param name="searchWhenChanged">True</param>
-				<param name="staticFieldsToDisplay">
-					<list>
-						<param name="label">All</param>
-						<param name="value">*</param>
-					</list>
-				</param>
-				<param name="searchFieldsToDisplay">
-					<list>
-						<param name="label">jvmDescription</param>
-						<param name="value">jvmDescription</param>
-					</list>
-				</param>
-				<module name="ConvertToIntention">
-					<param name="settingToConvert">jvmDescription</param>
-					<param name="intention">
-						<param name="name">addterm</param>
-						<param name="arg">
-							<param name="jvmDescription">$target$</param>
-						</param>
-					</param>
-                                  
-                                  
-                                  <module name="SubmitButton" layoutPanel="panel_row1_col1">
-										<param name="label">Search</param>
-                                                                          <param name="allowSoftSubmit">true</param>
-                                    <module name="HiddenSearch" layoutPanel="panel_row2_col1"
-											autoRun="true" group="JVM Overview">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="Runtime" |eval startedAt_secs=floor(startedAt/1000) | eval formattedJVMStartTime=strftime(startedAt_secs,"%H:%M:%S %d %B %Y") |stats first(jvmName) as "JVM Name" first(jvmVersion) as "JVM Version" first(jvmVendor) as "JVM Vendor" first(jvmProcessName) as "JVM Process" first(formattedJVMStartTime) as "JVM Start Time" by host jvmDescription | sort jvmDescription</param>
-<module name="Paginator" layoutPanel="panel_row2_col1">
-  <param name="entityName">events</param>
-											<module name="SimpleResultsTable" layoutPanel="panel_row2_col1">
-  </module></module></module>
-												
-
-										<module name="HiddenSearch" layoutPanel="panel_row3_col1"
-											autoRun="true" group="JVM Uptime">
-
-											
-
-                                            <param name="search">index=jmx sourcetype=jmx mbean_domain="java.lang" mbean_property_type="Runtime" | chart max(eval(jvmUptime/1000/60)) as "Uptime in Minutes" by host,jvmDescription</param>
-                     
-                                                                                          <module name="HiddenChartFormatter">
-            <param name="charting.legend.placement">right</param>
-            <param name="charting.primaryAxisTitle.text">Host</param>
-            <param name="charting.secondaryAxisTitle.text">Time (Minutes)</param>
-            <param name="charting.chart">bar</param>
-                                  <module name="JSChart" layoutPanel="panel_row3_col1">
-												
-												
-
-											</module>
-												
-											</module>
-                                  
-                                  </module>
-                                  </module>
-                                  
-                                    </module>
-                                  </module>
-                                  
-                                  
-                          </module>
-                          </module>
-                  </module>
-                  </module>
-  
-
-</view>
+<?xml version="1.0"?>
+<form>
+    <label>Runtime</label>
+    <fieldset autoRun="true">
+        <input type="dropdown" token="host">
+            <label>Choose host</label>
+            <prefix>host="</prefix>
+            <suffix>"</suffix>
+            <choice value="*">All</choice>
+            <default>*</default>
+            <populatingSearch fieldForValue="host" fieldForLabel="host" earliest="-1d@d" latest="now"><![CDATA[| metadata type=hosts index=jmx | dedup host | table host]]></populatingSearch>
+        </input>
+        <input type="dropdown" token="jvmDescription">
+            <label>Choose JVM Description</label>
+            <prefix>jvmDescription="</prefix>
+            <suffix>"</suffix>
+            <choice value="*">All</choice>
+            <default>*</default>
+            <populatingSearch fieldForValue="jvmDescription" fieldForLabel="jvmDescription" earliest="-1d@d" latest="now"><![CDATA[index=jmx sourcetype=jmx $host$ | dedup jvmDescription | table jvmDescription]]></populatingSearch>
+        </input>
+        <input type="time">
+            <default>Last 4 hours</default>
+        </input>
+    </fieldset>
+    <searchTemplate><![CDATA[
+        index=jmx sourcetype=jmx $host$ $jvmDescription$ mbean_domain="java.lang" mbean_property_type="Runtime" |eval startedAt_secs=floor(startedAt/1000) 
+        | eval formattedJVMStartTime=strftime(startedAt_secs,"%H:%M:%S %d %B %Y") 
+        | stats first(jvmName) as jvmName first(jvmVersion) as jvmVersion first(jvmVendor) as jvmVendor first(jvmProcessName) as jvmProcessName first(formattedJVMStartTime) as formattedJVMStartTime max(eval(jvmUptime/1000/60)) as jvmUptimeMinutes by host jvmDescription 
+    ]]></searchTemplate>
+    <row>
+        <table>
+            <title>JVM Overview</title>
+            <searchPostProcess><![CDATA[
+                | table host jvmDescription jvmName as "JVM Name" jvmVersion as "JVM Version" jvmVendor as "JVM Vendor" jvmProcessName as "JVM Process" formattedJVMStartTime as "JVM Start Time" | sort jvmDescription 
+            ]]></searchPostProcess>
+        </table>
+    </row>
+    <row>
+        <chart>
+            <title>JVM Uptime</title>
+            <searchPostProcess><![CDATA[
+                | chart max(jvmUptimeMinutes) as "Uptime in Minutes" by host jvmDescription
+            ]]></searchPostProcess>
+            <option name="charting.chart">bar</option>
+            <option name="charting.axisTitleY.text">Time (Minutes)</option>
+        </chart>
+    </row>
+</form>
