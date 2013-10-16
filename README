@@ -1,6 +1,6 @@
-'''Welcome to SPLUNK 4 JMX v1.6'''
+'''Welcome to SPLUNK 4 JMX v1.7'''
 by Damien T. Dallimore
-October 2012
+October 2013
 ddallimore@splunk.com
 ----
 
@@ -41,7 +41,7 @@ Also refer to the application's "docs" directory for :
 
 * set the JAVA_HOME environment variable to the location of your JRE install location(Java 6+ , Java 5 is not supported)
 * set the SPLUNK_HOME environment variable to the install root of SPLUNK
-* uncompress SPLUNK4JMX-1.6.tar.gz to SPLUNK_HOME/etc/apps
+* uncompress SPLUNK4JMX-1.7.tar.gz to SPLUNK_HOME/etc/apps
 * restart SPLUNK
 
 

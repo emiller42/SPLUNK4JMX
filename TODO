@@ -1,23 +1,18 @@
-features
+v 2.0 release
 --------
 rename "Monitoring of Java Virtual Machines with JMX"
-tokenized config file
-lookups/properties in config file
-
-v 2.0 release
-  mod input w/notifications , move scripts to .py , built in scheduler, single instance mode
-  updated all docs
-  new application.css
-  make x axis and time picker on charts work better ie: choose 3 days , show 3 days
-  simple config file examples for jboss/tomcat etc... , docs/guides for various setups
-  bundle jars into 1 jar ?
-  include latest splunk java sdk
-  3rd party directory for external jar drop ins
-
-Convert to Modular Input 
-
+tokenized config file , lookups/properties in config file
+Convert Scripted Inputs to Modular Input
+    notifications , scheduling , single instance mode
+update all docs
+ 
 General
 -------
 gradle (jar dependencys)
 version tagging
 change license to Apache 2.0
+
+
+
+
+ 
